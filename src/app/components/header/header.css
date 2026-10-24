@@ -1,0 +1,20 @@
+header{
+    background-color: wheat;
+}
+
+img{
+    width: 3%;
+    height: 3%;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100;
+    padding: 1% 2%;
+}
+
+p, img{
+    cursor: pointer;
+}
