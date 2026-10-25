@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-import { Home } from './features/public/home/home';
 import { Login } from './features/auth/login/login';
-import { Information } from './features/public/information/information';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 
@@ -31,10 +29,16 @@ export const routes: Routes = [
                 .then(m=>m.Dashboard)
             },
             {
-                path:'usuarios', 
+                path:'users', 
                 loadComponent: () => 
                     import('./features/admin/usuarios/usuarios')
                 .then(m=>m.Usuarios)
+            },
+            {
+                path:'configuration',
+                loadComponent: ()=>
+                    import('./features/admin/configuracion/configuracion')
+                .then(m=>m.Configuracion)
             }
         ]
     },

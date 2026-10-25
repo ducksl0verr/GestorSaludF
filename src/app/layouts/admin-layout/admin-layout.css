@@ -1,0 +1,43 @@
+.adminLayout{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
+
+.body{
+    display: flex;
+    flex: 1;
+}
+
+aside{
+    width:30%;
+    padding: 3%;
+    background-color: aqua;
+}
+
+aside, nav{
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+}
+
+aside, p{
+    padding: 2%;
+}
+
+#admin{
+    padding: 5%;
+}
+
+nav{
+    cursor:pointer
+}
+
+
