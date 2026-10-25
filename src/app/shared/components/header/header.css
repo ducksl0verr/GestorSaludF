@@ -18,3 +18,7 @@ nav{
 p, img{
     cursor: pointer;
 }
+
+#nombre{
+    font-size: 2rem;
+}
