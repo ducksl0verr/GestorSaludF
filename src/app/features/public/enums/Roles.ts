@@ -1,0 +1,5 @@
+export enum Roles{
+    ROLE_ADMINISTRADOR,
+    ROLE_ADMINISTRATIVO,
+    ROLE_PROFESIONAL
+}

@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
+import { Panel } from './features/auth/panel/panel';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -19,6 +21,11 @@ export const routes: Routes = [
     {
         path:'login', component: Login
     },
+    {
+        path:'panel',
+        component: Panel,
+        canActivate:[authGuard]
+    }
     {
         path: 'admin', component: AdminLayout,
         children:[ //declaramos que componentes serán hijos del layout
