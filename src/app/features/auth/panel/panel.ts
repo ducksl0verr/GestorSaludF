@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { RepsuestaRegistro } from '../../../core/models/RepuestaRegistro';
+import { RespuestaRegistro } from '../../../core/models/RespuestaRegistro';
 import { RepsuestaProtegida } from '../models/RespuestaProtegida';
 
 @Component({

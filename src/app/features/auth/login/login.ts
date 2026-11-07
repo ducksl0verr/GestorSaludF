@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth-service';
+import { AuthPedido } from '../../../core/models/AuthPedido';
 
 @Component({
   imports: [FormsModule],
@@ -11,29 +12,28 @@ import { AuthService } from '../../../core/services/auth-service';
 export class Login {
   private auth= inject(AuthService);
 
-  email = signal('');
-  password = signal('');
-  mensaje=signal('');
+  username=signal('');
+  password=signal('');
+
   cargando= signal(false);
+  error=signal('');
 
   iniciarSesion(){
-    this.mensaje.set('');
-    this.cargando.set(true);
 
-    this.auth.login(this.email(), this.password())
-    .subscribe({
-      next: (respuesta)=>{
-        localStorage.setItem('token', respuesta.token);
-        this.mensaje.set('Login exitoso. El token se ha recibido.');
-        this.cargando.set(false);
+    const credenciales: AuthPedido = {
+      username: 'usuario',
+      password: '12345'
+    }
+
+    this.auth.login(credenciales).subscribe({
+      next: (respuesta) => {
+        console.log('Login exitoso', respuesta);
+
+        localStorage.setItem('accessToken', respuesta.accessToken);
+        localStorage.setItem('refreshToken', respuesta.refreshToken);
       },
-      error:(error)=>{
-        this.mensaje.set(
-        error.status === 401
-        ? 'Email o contraseña incorrectos.'
-        : 'Error al conectar con el servidor.'
-      );
-      this.cargando.set(false);
+      error: (error) => {
+        console.log('Error al iniciar sesión ', error);
       }
     });
   }

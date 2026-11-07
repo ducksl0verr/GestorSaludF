@@ -25,7 +25,7 @@ export const routes: Routes = [
         path:'panel',
         component: Panel,
         canActivate:[authGuard]
-    }
+    },
     {
         path: 'admin', component: AdminLayout,
         children:[ //declaramos que componentes serán hijos del layout

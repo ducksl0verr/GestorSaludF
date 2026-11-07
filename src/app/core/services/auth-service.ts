@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { RepuestaLogin } from '../models/RepuestaLogin';
-import { RepsuestaRegistro } from '../models/RepuestaRegistro';
+import { RespuestaRegistro } from '../models/RespuestaRegistro';
 import { Usuario } from '../models/usuario';
+import { RefreshTokenPedido } from '../models/RefreshTokenPedido';
+import { AuthRespuesta } from '../models/AuthRespuesta';
+import { AuthPedido } from '../models/AuthPedido';
 
 @Service()
 export class AuthService {
@@ -10,15 +12,15 @@ export class AuthService {
     private http = inject(HttpClient);
     private API_URL="http://localhost:8080/api/auth";
 
-    login(username:string, password: string){
-        return this.http.post<RepuestaLogin>(
+    login(pedido: AuthPedido){
+        return this.http.post<AuthRespuesta>(
         `${this.API_URL}/iniciar`,
-        {username, password}
+        pedido
         );
     }
 
     registrar(usuario: Usuario){
-        return this.http.post<RepsuestaRegistro>(
+        return this.http.post<RespuestaRegistro>(
             `${this.API_URL}/registrar`,
         {usuario}
     );
@@ -28,10 +30,10 @@ export class AuthService {
         return this.http.get('http://localhost:8080/api/protegido')
     }
 
-    refreshToken(refreshToken: string){
-        return this.http.post(`${this.API_URL}/refresh`,{
-            r
-        })
+    refreshToken(pedido: RefreshTokenPedido){
+        return this.http.post<AuthRespuesta>(`${this.API_URL}/refresh`,
+                pedido
+        );
     }
 
 }
