@@ -21,7 +21,6 @@ export class AuthService {
         return this.http.post<RepsuestaRegistro>(
             `${this.API_URL}/registrar`,
         {usuario}
-        console.log("hola");
     );
     }
 
