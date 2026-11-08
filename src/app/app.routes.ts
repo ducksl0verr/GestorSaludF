@@ -40,7 +40,29 @@ export const routes: Routes = [
             roles: [Roles.ROLE_ADMINISTRADOR]
         },
         children: [
-            { path: 'registrar', component: Registrar },
+            {
+                path: '', redirectTo: 'dashboard', pathMatch: 'full'
+            },
+            {
+                path: 'dashboard',
+                loadComponent: () => import('./features/admin/dashboard/dashboard')
+                        .then((m)=> m.Dashboard),
+            },
+            {
+                path: 'usuarios',
+                loadComponent: ()=> import('./features/admin/usuarios/usuarios')
+                .then((m) => m.Usuarios),
+            },
+            {
+                path: 'usuarios/nuevo',
+                loadComponent: ()=> import('./features/auth/registrar/registrar')
+                .then((m) => m.Registrar),
+            },
+            {
+                path: 'configuracion',
+                loadComponent: ()=> import('./features/admin/configuracion/configuracion')
+                .then((m) => m.Configuracion),
+            }
         ],
     },
     {
