@@ -45,7 +45,7 @@ export class Login {
     this.auth.iniciarSesion(this.inicioModel()).subscribe({
       next: () => {
         console.log('Login exitoso');
-        this.router.navigate(['/']);
+        this.router.navigateByUrl(this.auth.rutaInicio()) //nos debe llevar al layour especifico según el usuario ingresado
       },
       error: (e: HttpErrorResponse) => {
         console.log('Error al iniciar sesión ', e);

@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
-import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { Panel } from './features/auth/panel/panel';
 import { authGuard } from './core/guards/auth-guard';
 import { Registrar } from './features/auth/registrar/registrar';
+import { publicoGuard } from './core/guards/publico-guard';
+import { roleGuard } from './core/guards/role-guard';
+import { Roles } from './features/public/enums/Roles';
 
 export const routes: Routes = [
     {
@@ -20,7 +22,7 @@ export const routes: Routes = [
         ]
     },
     {
-        path:'login', component: Login
+        path:'login', component: Login, canActivate: [publicoGuard]
     },
     {
         path:'registrar', component: Registrar
@@ -31,27 +33,15 @@ export const routes: Routes = [
         canActivate:[authGuard]
     },
     {
-        path: 'admin', component: AdminLayout,
-        children:[ //declaramos que componentes serán hijos del layout
-            {
-                path:'dashboard', 
-                loadComponent: () => //carga perezosa
-                    import('./features/admin/dashboard/dashboard')
-                .then(m=>m.Dashboard)
-            },
-            {
-                path:'users', 
-                loadComponent: () => 
-                    import('./features/admin/usuarios/usuarios')
-                .then(m=>m.Usuarios)
-            },
-            {
-                path:'configuration',
-                loadComponent: ()=>
-                    import('./features/admin/configuracion/configuracion')
-                .then(m=>m.Configuracion)
-            }
-        ]
+        path: 'admin', 
+        loadComponent: ()=> import('./layouts/admin-layout/admin-layout').then((m)=> m.AdminLayout),
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: [Roles.ROLE_ADMINISTRADOR]
+        },
+        children: [
+            { path: 'registrar', component: Registrar },
+        ],
     },
     {
         path: '**',
