@@ -1,4 +1,4 @@
 export interface AuthPedido{
-    username: string,
+    username: string;
     password: string;
 }

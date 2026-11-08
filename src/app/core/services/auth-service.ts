@@ -1,39 +1,66 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RespuestaRegistro } from '../models/RespuestaRegistro';
-import { Usuario } from '../models/usuario';
 import { RefreshTokenPedido } from '../models/RefreshTokenPedido';
 import { AuthRespuesta } from '../models/AuthRespuesta';
 import { AuthPedido } from '../models/AuthPedido';
+import { CuentaNueva, CuentaNuevaPedido } from '../models/CuentaNueva';
+import { Observable, tap } from 'rxjs';
 
-@Service()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthService {
 
     private http = inject(HttpClient);
-    private API_URL="http://localhost:8080/api/auth";
+    private readonly API_URL="/api/auth";
 
-    login(pedido: AuthPedido){
+    private readonly ACCESS_KEY = 'access_token';
+    private readonly REFRESH_KEY = 'refresh_token';
+
+    iniciarSesion(pedido: AuthPedido){
         return this.http.post<AuthRespuesta>(
         `${this.API_URL}/iniciar`,
         pedido
-        );
+        )
+        .pipe(tap(res=> this.guardarTokens(res)));
     }
 
-    registrar(usuario: Usuario){
+    registrar(cuenta: CuentaNuevaPedido){
+        console.log('Usuario que se envía: ', cuenta);
+
         return this.http.post<RespuestaRegistro>(
             `${this.API_URL}/registrar`,
-        {usuario}
-    );
+        cuenta );
     }
 
-    validarToken(){
-        return this.http.get('http://localhost:8080/api/protegido')
+    refrescarToken(): Observable<AuthRespuesta> {
+        const cuerpo: RefreshTokenPedido = { refreshToken: this.getRefreshToken() ?? '' };
+        return this.http
+        .post<AuthRespuesta>(`${this.API_URL}/refresh`, cuerpo)
+        .pipe(tap(res=> this.guardarTokens(res)));
     }
 
-    refreshToken(pedido: RefreshTokenPedido){
-        return this.http.post<AuthRespuesta>(`${this.API_URL}/refresh`,
-                pedido
-        );
+    cerrarSesion() {
+        localStorage.removeItem(this.ACCESS_KEY);
+        localStorage.removeItem(this.REFRESH_KEY);
+    }
+
+    getAccessToken(): string | null{
+        return localStorage.getItem(this.ACCESS_KEY);
+    }
+
+    getRefreshToken(): string | null {
+        return localStorage.getItem(this.REFRESH_KEY);
+    }
+
+    estaAutenticado() {
+        return !!this.getAccessToken();
+    }
+
+    private guardarTokens (res: AuthRespuesta){
+        localStorage.setItem(this.ACCESS_KEY, res.accessToken);
+        localStorage.setItem(this.REFRESH_KEY, res.refreshToken);
     }
 
 }

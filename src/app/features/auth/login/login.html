@@ -1,18 +1,21 @@
 
 <h1>Iniciar sesión</h1>
 
-<form (ngSubmit)="iniciarSesion()">
+<form (submit)="iniciarSesion($event)">
 
   <div class="form-group">
     <label for="usuario">Nombre de usuario:</label>
     <input
       id="usuario"
       type="text"
-      name="username"
-      [ngModel]="username()"
-      (ngModelChange)="username.set($event)"
-      required
+      autocomplete="username"
+      [formField]="inicioForm.username"
     />
+    @if (inicioForm.username().touched() && inicioForm.username().invalid()) {
+      @for (e of inicioForm.username().errors(); track e) {
+        <small>{{ e.message }}</small>
+      }
+    }
   </div>
 
   <div classs="form-group">
@@ -20,12 +23,16 @@
     <input
       id="password"
       type="password"
-      name="password"
+      autocomplete="password"
       placeholder="Ingrese su contraseña..."
-      [ngModel]="password()"
-      (ngModelChange)="password.set($event)"
-      required
+      [formField]="inicioForm.password"
     />
+    @if (inicioForm.password().touched() && inicioForm.password().invalid()) {
+      @for (e of inicioForm.password().errors(); track e) {
+        <small>{{ e.message }}</small>
+      }
+    }
+  </div>
 
     @if (error()){
       <div class="errorMessage">
@@ -40,6 +47,5 @@
         Iniciar sesión.
       }
     </button>
-  </div>
   
 </form>

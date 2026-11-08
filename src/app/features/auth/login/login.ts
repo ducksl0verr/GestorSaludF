@@ -2,39 +2,62 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth-service';
 import { AuthPedido } from '../../../core/models/AuthPedido';
+import { CommonModule } from '@angular/common';
+import { form, FormField, required } from '@angular/forms/signals';
+import { Router, RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormField, CommonModule, RouterLink],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login {
   private auth= inject(AuthService);
+  private router = inject(Router);
 
-  username=signal('');
-  password=signal('');
+  inicioModel = signal<AuthPedido>(
+    { username: '',
+      password:''
+    });
+
+  inicioForm = form(this.inicioModel, (campo)=>{
+    required(campo.username, { message: 'Ingresá tu usuario.'});
+    required(campo.password, { message: 'Ingresá tu contraseña.'});
+  });
 
   cargando= signal(false);
   error=signal('');
 
-  iniciarSesion(){
+  iniciarSesion(event: Event){
 
-    const credenciales: AuthPedido = {
-      username: 'usuario',
-      password: '12345'
+    event.preventDefault();
+
+    if(this.inicioForm().invalid()){
+      this.inicioForm().markAsTouched();
+      return;
     }
 
-    this.auth.login(credenciales).subscribe({
-      next: (respuesta) => {
-        console.log('Login exitoso', respuesta);
+    this.cargando.set(true);
+    this.error.set('');
 
-        localStorage.setItem('accessToken', respuesta.accessToken);
-        localStorage.setItem('refreshToken', respuesta.refreshToken);
+    this.auth.iniciarSesion(this.inicioModel()).subscribe({
+      next: () => {
+        console.log('Login exitoso');
+        this.router.navigate(['/']);
       },
-      error: (error) => {
-        console.log('Error al iniciar sesión ', error);
+      error: (e: HttpErrorResponse) => {
+        console.log('Error al iniciar sesión ', e);
+        this.cargando.set(false);
+        this.error.set(this.mensajeDeError(e));
       }
     });
+  }
+
+  private mensajeDeError(e: HttpErrorResponse){
+    if(e.status === 0) return 'No se pudo conectar con el servidor.';
+    if(e.status===401 || e.status === 403) return 'Usuario o contraseña invalidos.';
+    return 'Ocurrió un error inesperado. Intente de nuevo.';
   }
 }

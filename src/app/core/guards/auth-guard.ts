@@ -1,24 +1,13 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
-import { catchError, map, of } from 'rxjs';
 
+//Ya nose llama al back para validar, solo necesitamos chequear q
+// se haya iniciado sesión y si el token vencio. Si lo hizo, el intenceptor lo va a refrescar
+//con el primer request.
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
   const authS = inject(AuthService);
 
-  const token = localStorage.getItem('token');
-
-  if(!token){
-    return router.createUrlTree(['/login']);
-  }
-
-  return authS.validarToken().pipe(
-    map(()=>true),
-    catchError(()=>{
-      localStorage.removeItem('token');
-      return of(router.createUrlTree(['/login']));
-    })
-  );
-
+  return authS.estaAutenticado() ? true : router.createUrlTree(['/login']);
 };

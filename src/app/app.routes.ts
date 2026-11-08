@@ -4,6 +4,7 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { Panel } from './features/auth/panel/panel';
 import { authGuard } from './core/guards/auth-guard';
+import { Registrar } from './features/auth/registrar/registrar';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,9 @@ export const routes: Routes = [
     },
     {
         path:'login', component: Login
+    },
+    {
+        path:'registrar', component: Registrar
     },
     {
         path:'panel',
