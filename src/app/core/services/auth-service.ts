@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { RespuestaRegistro } from '../models/RespuestaRegistro';
 import { RefreshTokenPedido } from '../models/RefreshTokenPedido';
 import { AuthRespuesta } from '../models/AuthRespuesta';
@@ -7,6 +7,7 @@ import { AuthPedido } from '../models/AuthPedido';
 import { CuentaNueva, CuentaNuevaPedido } from '../models/CuentaNueva';
 import { Observable, tap } from 'rxjs';
 import { Roles } from '../../features/public/enums/Roles';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,8 @@ export class AuthService {
         [Roles.ROLE_ADMINISTRATIVO]: '/administrativo',
         [Roles.ROLE_PROFESIONAL]: '/profesional',
     };
+
+    private platformId= inject(PLATFORM_ID);
 
     iniciarSesion(pedido: AuthPedido){
         return this.http.post<AuthRespuesta>(
@@ -50,16 +53,16 @@ export class AuthService {
     }
 
     cerrarSesion() {
-        localStorage.removeItem(this.ACCESS_KEY);
-        localStorage.removeItem(this.REFRESH_KEY);
+        this.storage?.removeItem(this.ACCESS_KEY);
+        this.storage?.removeItem(this.REFRESH_KEY);
     }
 
     getAccessToken(): string | null{
-        return localStorage.getItem(this.ACCESS_KEY);
+        return this.storage?.getItem(this.ACCESS_KEY) ?? null;
     }
 
     getRefreshToken(): string | null {
-        return localStorage.getItem(this.REFRESH_KEY);
+        return this.storage?.getItem(this.REFRESH_KEY) ?? null;
     }
 
     estaAutenticado() {
@@ -103,8 +106,12 @@ export class AuthService {
         return rol ? this.RUTA_INICIO[rol] : '/login';
     }
 
+    private get storage(): Storage | null {
+        return isPlatformBrowser(this.platformId) ? localStorage: null;
+    }
+
     private guardarTokens (res: AuthRespuesta){
-        localStorage.setItem(this.ACCESS_KEY, res.accessToken);
-        localStorage.setItem(this.REFRESH_KEY, res.refreshToken);
+        this.storage?.setItem(this.ACCESS_KEY, res.accessToken);
+        this.storage?.setItem(this.REFRESH_KEY, res.refreshToken);
     }
 }
