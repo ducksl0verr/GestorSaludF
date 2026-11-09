@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { PublicLayout } from './layouts/public-layout/public-layout';
-import { AdministrativeLayout } from './layouts/administrative-layout/administrative-layout';
 import { Panel } from './features/auth/panel/panel';
 import { authGuard } from './core/guards/auth-guard';
 import { Registrar } from './features/auth/registrar/registrar';
@@ -68,34 +67,44 @@ export const routes: Routes = [
     },
 
     {
-        path: 'administrative', component: AdministrativeLayout,
+        path: 'administrativo',
+        loadComponent: ()=> import('./layouts/administrativo-layout/administrativo-layout').then((m)=> m.AdministrativoLayout),
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: [Roles.ROLE_ADMINISTRATIVO]
+        },
+
         children: [
             {
-                path: 'consulting-rooms',
+                path: 'consultorios',
                 loadComponent: () =>
-                    import('./features/administrative/consulting-rooms/consulting-rooms')
-                .then(m=>m.ConsultingRooms)
+                    import('./features/administrativo/consultorios/consultorios')
+                .then(m=>m.Consultorios)
             },
             {
-                path: 'patient',
-                loadComponent: () =>
-                    import('./features/administrative/patient/patient')
-                .then(m=>m.Patient)
+                path: '', redirectTo: 'consultorios', pathMatch: 'full'
             },
             {
-                path: 'room',
+                path: 'paciente',
                 loadComponent: () =>
-                    import('./features/administrative/room/room')
-                .then(m=>m.Room)
+                    import('./features/administrativo/paciente/paciente')
+                .then(m=>m.Paciente)
             },
             {
-                path: 'shifts',
+                path: 'sala',
                 loadComponent: () =>
-                    import('./features/administrative/shifts/shifts')
-                .then(m=>m.Shifts)
+                    import('./features/administrativo/sala/sala')
+                .then(m=>m.Sala)
+            },
+            {
+                path: 'turno',
+                loadComponent: () =>
+                    import('./features/administrativo/turno/turno')
+                .then(m=>m.Turno)
             }
+            
         ]
-    },
+    }, 
     {
         path: '**',
         redirectTo:''

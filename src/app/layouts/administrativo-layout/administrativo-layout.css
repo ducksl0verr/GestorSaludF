@@ -1,4 +1,4 @@
-#administrativeLayout{
+#administrativoLayout{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,7 @@ aside, p{
     padding: 2%;
 }
 
-#administrative{
+#administrativo{
     padding: 5%;
 }
 
