@@ -1,0 +1,28 @@
+<div id="administrativoLayout">
+
+    <header>
+        <h2>
+            Panel de gestión administrativa.
+        </h2>
+    </header>
+
+    <div id="body">
+
+        <aside>
+            <nav>
+                <p routerLink ="/administrativo/consultorios">Consultorios</p>
+                <p routerLink="/administrativo/paciente">Pacientes</p>
+                <p routerLink="/administrativo/sala">Salas</p>
+                <p routerLink="/administrativo/turno">Turnos</p>
+            </nav>
+        </aside>
+
+        <main id="administrativo">
+            <router-outlet></router-outlet>
+        </main>
+
+
+    </div>
+
+
+</div>

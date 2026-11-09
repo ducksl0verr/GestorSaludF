@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Shifts } from './shifts';
+import { Turno } from './turno';
 
-describe('Shifts', () => {
-  let component: Shifts;
-  let fixture: ComponentFixture<Shifts>;
+describe('Turno', () => {
+  let component: Turno;
+  let fixture: ComponentFixture<Turno>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Shifts],
+      imports: [Turno],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Shifts);
+    fixture = TestBed.createComponent(Turno);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
