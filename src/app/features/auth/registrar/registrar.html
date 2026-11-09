@@ -1,0 +1,158 @@
+<div class="registro-contenedor">
+
+    <div class="registro">
+        <h1>Crear Usuario</h1>
+        <p>Completé los datos para registraer un nuevo usuario.</p>
+
+        <form (submit)="onSubmit($event)" novalidate>
+            <div class="formulario">
+                <label for="nombre">Nombre</label>
+                <input 
+                id="nombre"
+                type="text" 
+                [formField]="usuarioForm.nombre"
+                placeholder="Pepé..."/>
+                @if (usuarioForm.nombre().touched() && usuarioForm.nombre().invalid()){
+                    @for (e of usuarioForm.nombre().errors(); track e) {
+                        <small>{{ e.message }}</small>
+                    }
+                }
+            </div>
+
+            <div class="formulario">
+                <label for="apellido">Apellido</label>
+                <input
+                id="apellido"
+                type="text"
+                [formField]="usuarioForm.apellido"
+                placeholder="Perez..."
+                />
+                @if (usuarioForm.apellido().touched() && usuarioForm.apellido().invalid()) {
+                    @for (e of usuarioForm.apellido().errors(); track e) {
+                        <small>{{ e.message }}</small>
+                    }
+                }
+            </div>
+
+            <div class="formulario">
+                <label for="dni">DNI</label>
+                <input
+                id="dni"
+                type="text"
+                inputmode="numeric"
+                [formField]="usuarioForm.dni"
+                placeholder="11222333"
+                />
+                @if (usuarioForm.dni().touched() && usuarioForm.dni().invalid()) {
+                    @for (e of usuarioForm.dni().errors(); track e) {
+                        <small>{{ e.message }}</small>
+                    }
+                }
+            </div>
+
+            <div class="formulario">
+                <label for="matricula">Matrícula (opcional)</label>
+                <input
+                id="matricula"
+                type="text"
+                [formField]="usuarioForm.matricula"
+                placeholder="12345"
+                />
+            </div>
+
+            <fieldset>
+                <legend>Contacto</legend>
+                <div class="formulario">
+                    <label for="email">Email</label>
+                    <input
+                    id="email"
+                    type="email"
+                    [formField]="usuarioForm.contacto.email"
+                    placeholder="ejemplo@correo.com"
+                    />
+                    @if (usuarioForm.contacto.email().touched() && usuarioForm.contacto.email().invalid()) {
+                        @for (e of usuarioForm.contacto.email().errors(); track e) {
+                            <small>{{ e.message }}</small>
+                        }
+                    }
+                </div>
+
+                <div class="formulario">
+                    <label for="telefono">Teléfono</label>
+                    <input
+                    id="telefono"
+                    type="tel"
+                    [formField]="usuarioForm.contacto.telefono"
+                    placeholder="1112223333"
+                    />
+                    @if (usuarioForm.contacto.telefono().touched() && usuarioForm.contacto.telefono().invalid()) {
+                        @for (e of usuarioForm.contacto.telefono().errors(); track e) {
+                            <small>{{ e.message }}</small>
+                        }
+                    }
+                </div>
+            </fieldset>
+            
+            
+            <div class="formulario">
+                <label for="username">Nombre de usuario</label>
+                <input
+                id="username"
+                type="text"
+                autocomplete="username"
+                [formField]="usuarioForm.username"
+                placeholder="superPepe12"
+                />
+                @if (usuarioForm.username().touched() && usuarioForm.username().invalid()) {
+                    @for (e of usuarioForm.username().errors(); track e) {
+                        <small>{{ e.message }}</small>
+                    }
+                }
+            </div>
+
+            <div class="formulario">
+                <label for="contra">Contraseña</label>
+                <input
+                id="contra"
+                type="password"
+                autocomplete="new-password"
+                [formField]="usuarioForm.password"
+                placeholder="Contraseña"
+                />
+                @if (usuarioForm.password().touched() && usuarioForm.password().invalid()) {
+                    @for (e of usuarioForm.password().errors(); track e) {
+                        <small>{{ e.message }}</small>
+                    }
+                }
+            </div>
+
+            <div class="formulario">
+                <label for="role">Rol</label>
+                <select id="role" [formField]="usuarioForm.role">
+                @for (r of roles; track r) {
+                    <option [value]="r">{{ r }}</option>
+                }
+                </select>
+            </div>
+
+            @if (error()) {
+                <div class="error-message">
+                {{ error() }}
+                </div>
+            }
+
+            <button
+                type="submit"
+                [disabled]="cargando() || usuarioForm().invalid()"
+            >
+                @if (cargando()) {
+                Registrando...
+                } @else {
+                Crear usuario
+                }
+            </button>
+            <p>¿Ya tenés una cuenta? <a routerLink="/login">Iniciá sesión.</a></p>
+        </form>
+    </div>
+
+</div>
