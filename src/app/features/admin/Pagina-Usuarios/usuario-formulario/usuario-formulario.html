@@ -1,0 +1,65 @@
+
+<div id="contenedor">
+
+    <p id="titulo">
+        @if(esEdicion) {
+            {{ esProfesional ? 'Editar profesional' : 'Editar usuario' }}
+        } @else {
+            {{ esProfesional ? 'Registrar profesional' : 'Registrar usuario' }}
+        }
+    </p>
+
+    <form (submit)="onSubmit(); $event.preventDefault()">
+
+        <label>Nombre:</label>
+        <input type="text" [formField]="usuarioForm.nombre">
+
+        <label>Apellido:</label>
+        <input type="text" [formField]="usuarioForm.apellido">
+
+        <label>DNI:</label>
+        <input type="text" [formField]="usuarioForm.dni">
+
+        @if(esProfesional) {
+            <label>Matrícula:</label>
+            <input type="text" [formField]="usuarioForm.matricula">
+        }
+
+        <label>Teléfono:</label>
+        <input type="text" [formField]="usuarioForm.telefono">
+
+        <label>Email:</label>
+        <input type="email" [formField]="usuarioForm.email">
+
+        @if(!esEdicion || !esProfesional) {
+            <label>Nombre de usuario:</label>
+            <input type="text" [formField]="usuarioForm.username">
+
+            <label>Contraseña:</label>
+            <input type="password" [formField]="usuarioForm.password">
+        }
+
+        <label>Rol:</label>
+        <select [formField]="usuarioForm.role">
+            <option value="">Seleccionar rol</option>
+
+            @for(rol of rolesDisponibles; track rol) {
+                <option [value]="rol">{{ rol }}</option>
+            }
+        </select>
+
+        <button type="submit">
+            {{ esEdicion ? 'Guardar cambios' : 'Crear' }}
+        </button>
+
+        <button
+            type="button"
+            [routerLink]="esProfesional
+                ? '/admin/profesionales'
+                : '/admin/usuarios'">
+            Cancelar
+        </button>
+
+    </form>
+
+</div>

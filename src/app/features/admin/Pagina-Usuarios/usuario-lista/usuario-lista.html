@@ -1,0 +1,61 @@
+
+<div id="contenedor">
+
+    <p id="titulo">
+        {{ esProfesional ? 'Listado de profesionales' : 'Listado de usuarios' }}
+    </p>
+
+    <button
+        [routerLink]="esProfesional
+            ? ['/admin/profesionales/nuevo']
+            : ['/admin/usuarios/nuevo']">
+        Nuevo {{ esProfesional ? 'profesional' : 'usuario' }}
+    </button>
+
+    <ul>
+        @for(usuario of usuarios(); track usuario.id) {
+            <li>
+                <p>
+                    {{ usuario.id }} - {{ usuario.nombre }} {{ usuario.apellido }}
+                </p>
+
+                <p>DNI: {{ usuario.dni }}</p>
+
+                @if(esProfesional) {
+                    <p>Matrícula: {{ $any(usuario).matricula }}</p>
+                }
+
+                <p>Teléfono: {{ usuario.contacto.telefono }}</p>
+                <p>Email: {{ usuario.contacto.email }}</p>
+
+                <button
+                    [routerLink]="[
+                        '/admin',
+                        esProfesional ? 'profesionales' : 'usuarios',
+                        'editar',
+                        usuario.id
+                    ]">
+                    Editar
+                </button>
+
+                <button
+                    [routerLink]="[
+                        '/admin',
+                        esProfesional ? 'profesionales' : 'usuarios',
+                        usuario.id
+                    ]">
+                    Ver detalles
+                </button>
+
+                @if(!esProfesional) {
+                    <button (click)="borrarUsuario(usuario.id)">
+                        Eliminar
+                    </button>
+                }
+            </li>
+        } @empty {
+            <li>No hay registros para mostrar.</li>
+        }
+    </ul>
+
+</div>
