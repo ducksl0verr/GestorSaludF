@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { Usuario, UsuarioDTO } from '../models/Usuario';
 import { CuentaNuevaPedido } from '../../../../core/models/CuentaNueva';
 import { Profesional, ProfesionalDTO } from '../models/Profesional';
+import { forkJoin, map, of, switchMap } from 'rxjs';
+import { Roles } from '../../../public/enums/Roles';
 
 
 @Injectable({
@@ -52,6 +54,27 @@ export class UsuarioService {
         return this.http.put<Profesional>(
             `${this.API_URL}/profesionales/${id}`,
             profesional
+        );
+    }
+
+    obtenerTodos(){
+        return forkJoin({
+            usuarios: this.getUsuarios(),
+            profesionales: this.getProfesionales(),
+        }).pipe(
+            map(({ usuarios, profesionales })=>{
+                const porId = new Map<number, Usuario | Profesional>();
+                usuarios.forEach((u) => porId.set(u.id, u));
+                profesionales.forEach((p)=> porId.set(p.id, p));
+                return [...porId.values()];
+            })
+        )
+    }
+
+    obtener(id: number){
+        return this.getUsuario(id).pipe(
+            switchMap((u) =>
+            u.role === Roles.ROLE_PROFESIONAL ? this.getProfesional(id) : of (u)),
         );
     }
 

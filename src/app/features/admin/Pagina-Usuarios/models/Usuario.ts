@@ -2,7 +2,7 @@ import { Contacto } from "../../../public/contacto/models/Contacto";
 import { Roles } from "../../../public/enums/Roles";
 
 export interface Usuario {
-    id?: number;
+    id: number;
     nombre: string;
     apellido: string;
     dni: string;
@@ -15,7 +15,5 @@ export interface UsuarioDTO {
     apellido: string;
     dni: string;
     contacto: Contacto;
-    username: string;
-    password: string;
     role: Roles;
 }

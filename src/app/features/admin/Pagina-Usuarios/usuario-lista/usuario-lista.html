@@ -19,14 +19,9 @@
                     {{ usuario.id }} - {{ usuario.nombre }} {{ usuario.apellido }}
                 </p>
 
-                <p>DNI: {{ usuario.dni }}</p>
-
                 @if(esProfesional) {
                     <p>Matrícula: {{ $any(usuario).matricula }}</p>
                 }
-
-                <p>Teléfono: {{ usuario.contacto.telefono }}</p>
-                <p>Email: {{ usuario.contacto.email }}</p>
 
                 <button
                     [routerLink]="[
@@ -47,11 +42,9 @@
                     Ver detalles
                 </button>
 
-                @if(!esProfesional) {
-                    <button (click)="borrarUsuario(usuario.id)">
-                        Eliminar
-                    </button>
-                }
+                <button (click)="borrarUsuario(usuario.id)">
+                    Eliminar
+                </button>
             </li>
         } @empty {
             <li>No hay registros para mostrar.</li>

@@ -1,21 +1,14 @@
 import { Contacto } from "../../../public/contacto/models/Contacto";
 import { Roles } from "../../../public/enums/Roles";
+import { Usuario, UsuarioDTO } from "./Usuario";
 
-export interface Profesional {
-    id: number;
-    nombre: string;
-    apellido: string;
-    dni: string;
+export interface Profesional extends Usuario{
     matricula: string;
-    contacto: Contacto;
-    role: Roles;
 }
 
-export interface ProfesionalDTO {
-    nombre: string;
-    apellido: string;
-    dni: string;
+export interface ProfesionalDTO extends UsuarioDTO{
     matricula: string;
-    contacto: Contacto;
-    role: Roles;
 }
+
+//Esta constante es para decidir qué mostrar según el rol
+export const esProfesional = (u: Usuario): u is Profesional => u.role === Roles.ROLE_PROFESIONAL;
