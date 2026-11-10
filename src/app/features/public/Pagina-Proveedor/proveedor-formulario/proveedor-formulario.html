@@ -1,9 +1,10 @@
-
 <form (submit)="onSubmit($event)" novalidate>
-
+ 
   <h2>Datos del proveedor</h2>
-
-  <!-- Nombre -->
+ 
+  @if (error()) {
+    <p>{{ error() }}</p>
+  }
   <div>
     <label>Nombre</label>
     <input
@@ -11,7 +12,7 @@
       [formField]="proveedorForm.nombre"
       placeholder="Nombre del proveedor"
     />
-
+ 
     @if (proveedorForm.nombre().touched() &&
          proveedorForm.nombre().invalid()) {
       @for (error of proveedorForm.nombre().errors(); track error) {
@@ -19,16 +20,14 @@
       }
     }
   </div>
-
-  <!-- CUIL -->
   <div>
     <label>CUIL</label>
     <input
       type="text"
       [formField]="proveedorForm.cuil"
-      placeholder="XX-XXXXXXXX-X"
+      placeholder="11 dígitos, sin guiones"
     />
-
+ 
     @if (proveedorForm.cuil().touched() &&
          proveedorForm.cuil().invalid()) {
       @for (error of proveedorForm.cuil().errors(); track error) {
@@ -36,23 +35,18 @@
       }
     }
   </div>
-
-  <!-- Tipo -->
   <div>
     <label>Tipo de proveedor</label>
     <select [formField]="proveedorForm.tipo">
-      <option value="">Seleccione un tipo</option>
       <option [value]="TipoProveedor.MEDICAMENTOS">Medicamentos</option>
       <option [value]="TipoProveedor.EQUIPAMIENTO_TECNOLOGICO">Equipamiento Tecnológico</option>
-      <option [value]="TipoProveedor.MATERIAL_QUIRURGICO">Material Quirurgico</option>
+      <option [value]="TipoProveedor.MATERIAL_QUIRURGICO">Material Quirúrgico</option>
     </select>
   </div>
-
+ 
   <hr>
-
+ 
   <h3>Datos de contacto</h3>
-
-  <!-- Email -->
   <div>
     <label>Email</label>
     <input
@@ -60,7 +54,7 @@
       [formField]="proveedorForm.contacto.email"
       placeholder="correo@ejemplo.com"
     />
-
+ 
     @if (proveedorForm.contacto.email().touched() &&
          proveedorForm.contacto.email().invalid()) {
       @for (error of proveedorForm.contacto.email().errors(); track error) {
@@ -68,8 +62,6 @@
       }
     }
   </div>
-
-  <!-- Teléfono -->
   <div>
     <label>Teléfono</label>
     <input
@@ -77,7 +69,7 @@
       [formField]="proveedorForm.contacto.telefono"
       placeholder="Teléfono de contacto"
     />
-
+ 
     @if (proveedorForm.contacto.telefono().touched() &&
          proveedorForm.contacto.telefono().invalid()) {
       @for (error of proveedorForm.contacto.telefono().errors(); track error) {
@@ -85,68 +77,80 @@
       }
     }
   </div>
-
+ 
   <hr>
-
+ 
   <h3>Domicilios</h3>
-
+ 
   @for (domicilio of proveedorForm.direccion; track $index; let i = $index) {
-
+ 
     <fieldset>
       <legend>Domicilio {{ i + 1 }}</legend>
-
-      <!-- Calle -->
       <div>
         <label>Calle</label>
         <input
           type="text"
           [formField]="domicilio.calle"
         />
-
+ 
         @if (domicilio.calle().touched() && domicilio.calle().invalid()) {
           @for (error of domicilio.calle().errors(); track error) {
             <small>{{ error.message }}</small>
           }
         }
       </div>
-
-      <!-- Número -->
       <div>
         <label>Número</label>
         <input
           type="text"
           [formField]="domicilio.numero"
         />
+ 
+        @if (domicilio.numero().touched() && domicilio.numero().invalid()) {
+          @for (error of domicilio.numero().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
       </div>
-
-      <!-- Código postal -->
       <div>
         <label>Código postal</label>
         <input
           type="text"
           [formField]="domicilio.codigo_postal"
         />
+ 
+        @if (domicilio.codigo_postal().touched() && domicilio.codigo_postal().invalid()) {
+          @for (error of domicilio.codigo_postal().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
       </div>
-
-      <!-- Provincia -->
       <div>
         <label>Provincia</label>
         <input
           type="text"
           [formField]="domicilio.provincia"
         />
+ 
+        @if (domicilio.provincia().touched() && domicilio.provincia().invalid()) {
+          @for (error of domicilio.provincia().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
       </div>
-
-      <!-- Localidad -->
       <div>
         <label>Localidad</label>
         <input
           type="text"
           [formField]="domicilio.localidad"
         />
+ 
+        @if (domicilio.localidad().touched() && domicilio.localidad().invalid()) {
+          @for (error of domicilio.localidad().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
       </div>
-
-      <!-- Piso -->
       <div>
         <label>Piso (opcional)</label>
         <input
@@ -154,45 +158,50 @@
           [formField]="domicilio.piso"
         />
       </div>
-
-      <!-- Departamento -->
       <div>
         <label>Departamento (opcional)</label>
         <input
           type="text"
           [formField]="domicilio.depto"
         />
+ 
+        @if (domicilio.depto().touched() && domicilio.depto().invalid()) {
+          @for (error of domicilio.depto().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
       </div>
-
+ 
       <button
         type="button"
         (click)="eliminarDomicilio(i)"
       >
         Eliminar domicilio
       </button>
-
+ 
     </fieldset>
-
+ 
   }
-
+ 
   @if (proveedorForm.direccion().touched() &&
        proveedorForm.direccion().invalid()) {
     @for (error of proveedorForm.direccion().errors(); track error) {
       <small>{{ error.message }}</small>
     }
   }
-
+ 
   <button
     type="button"
     (click)="agregarDomicilio()"
   >
     Agregar domicilio
   </button>
-
+ 
   <hr>
-
-  <button type="submit">
-    Guardar proveedor
+ 
+  <button type="submit" [disabled]="cargando()">
+    {{ cargando() ? 'Guardando...' : 'Guardar' }}
   </button>
-
+ 
 </form>
+

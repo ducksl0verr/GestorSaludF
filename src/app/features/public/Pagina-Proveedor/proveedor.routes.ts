@@ -17,5 +17,11 @@ export const PROVEEDOR_ROUTES: Routes = [
     loadComponent: () =>
       import('./proveedor-formulario/proveedor-formulario')
         .then(m => m.ProveedorFormulario)
+    },
+    {
+        path: ':id',
+        loadComponent: ()=>
+            import('./proveedor-detalle/proveedor-detalle')
+                .then(m=>m.ProveedorDetalle)
     }
 ];

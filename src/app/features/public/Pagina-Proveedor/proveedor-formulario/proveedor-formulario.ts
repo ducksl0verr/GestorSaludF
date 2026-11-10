@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { applyEach, email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Proveedor, ProveedorNuevo } from '../model/Proveedor';
@@ -14,8 +14,11 @@ import { ProveedorService } from '../Service/proveedor-service';
   templateUrl: './proveedor-formulario.html',
 })
 export class ProveedorFormulario {
-  proveedorId!: number;
+  proveedorId?: number;
   readonly TipoProveedor = TipoProveedor;
+  private route= inject(ActivatedRoute);
+  
+  private base = this.route.snapshot.data['baseProveedores'];
 
   proveedorModel= signal<ProveedorNuevo>({
     nombre: '',
@@ -102,16 +105,18 @@ export class ProveedorFormulario {
 
   constructor(
     private pService: ProveedorService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ){}
 
   ngOnInit(): void {
-    this.proveedorId= this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
 
-    if(this.proveedorId){
+    if(id){
+      this.proveedorId = Number(id);
+
       this.pService.getProveedor(this.proveedorId)
-        .subscribe(data=>{
+        .subscribe({
+          next: (data)=>{
           this.proveedorModel.set({
           nombre: data.nombre,
           contacto: {
@@ -122,8 +127,11 @@ export class ProveedorFormulario {
             ...dom
           })),
           tipo: data.tipo
-        })
-      });
+        });
+      },
+      error: (e)=>{
+        this.error.set(e.error?.message || 'No se pudo cargar el proveedor.')
+      }});
     }
   }
   
@@ -131,35 +139,34 @@ export class ProveedorFormulario {
     event.preventDefault();
 
     if(this.proveedorForm().invalid()){
+      this.proveedorForm().markAsTouched();
       return;
     }
 
     const proveedorData = this.proveedorModel();
+    
 
     this.cargando.set(true);
     this.error.set('');
 
     if(this.proveedorId){
-      const proveedor={
-        ...proveedorData
-      };
-
-      this.pService.actualizarProveedor(this.proveedorId, proveedor).subscribe({
+      this.pService.actualizarProveedor(this.proveedorId, proveedorData).subscribe({
         next: ()=>{
-          alert('Proovedor actualizado correctamente.');
+          alert('Proveedor actualizado correctamente.');
+          this.router.navigate([this.base]);
         },
         error: (e)=> {
-          this.error.set(e.error?.message || 'No se pudo guardar el usuario.');
+          this.error.set(e.error?.message || 'No se pudo guardar el proveedor.');
           this.cargando.set(false);
         }
       });
-    } else {
+    } else{
       this.pService.guardarProveedor(proveedorData).subscribe({
         next: ()=>{
-          alert("Proveedor añadido correctamente.");
-          this.router.navigate(['/proveedores']);
+          alert('Proovedor actualizado correctamente.');
+          this.router.navigate([this.base]);
         },
-        error: (e) => {
+        error: (e)=> {
           this.error.set(e.error?.message || 'No se pudo guardar el usuario.');
           this.cargando.set(false);
         }

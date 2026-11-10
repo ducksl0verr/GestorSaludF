@@ -65,6 +65,7 @@ export const routes: Routes = [
             },
             {
                 path: 'proveedores',
+                data:{ baseProveedores: '/admin/proveedores'},
                 children: PROVEEDOR_ROUTES
             }
         ],
