@@ -1,0 +1,15 @@
+<div id="contenedor">
+    <p id="titulo">Proveedores</p>
+    <button [routerLink]="['/proveedores/nuevo']">Nuevo Proveedor</button>
+    <ul>
+        @for(pr of proveedores(); track $index){
+            <li>
+                <p>
+                    {{ pr.id }} - {{ pr.nombre }}
+                </p>
+                <button [routerLink]="['/proveedores/', pr.id]">Editar</button>
+                <button [routerLink]="['/proveedores/', pr.id]">Ver detalles</button>
+            </li>
+        }
+    </ul>
+</div>

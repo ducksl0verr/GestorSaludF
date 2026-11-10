@@ -8,6 +8,7 @@ import { publicoGuard } from './core/guards/publico-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
+import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 
 export const routes: Routes = [
     {
@@ -63,6 +64,13 @@ export const routes: Routes = [
                 .then((m) => m.Configuracion),
             }
         ],
+    },
+    
+    {
+        path: 'proveedores',
+        loadChildren: ()=>
+            import('./features/public/Pagina-Proveedor/proveedor.routes')
+                .then(m=> m.PROVEEDOR_ROUTES)
     },
     {
         path: '**',

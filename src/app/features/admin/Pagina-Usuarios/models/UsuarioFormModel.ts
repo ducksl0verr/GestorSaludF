@@ -1,7 +1,7 @@
 import { Roles } from "../../../public/enums/Roles";
 
 export interface UsuarioFormModel {
-nombre: string;
+  nombre: string;
   apellido: string;
   dni: string;
   matricula: string;
