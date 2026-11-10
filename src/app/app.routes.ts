@@ -7,6 +7,7 @@ import { Registrar } from './features/auth/registrar/registrar';
 import { publicoGuard } from './core/guards/publico-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
+import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 
 export const routes: Routes = [
     {
@@ -50,13 +51,11 @@ export const routes: Routes = [
             },
             {
                 path: 'usuarios',
-                loadComponent: ()=> import('./features/admin/usuarios/usuarios')
-                .then((m) => m.Usuarios),
+                children: USUARIO_ROUTES
             },
             {
-                path: 'usuarios/nuevo',
-                loadComponent: ()=> import('./features/auth/registrar/registrar')
-                .then((m) => m.Registrar),
+                path: 'profesionales',
+                children: PROFESIONAL_ROUTES
             },
             {
                 path: 'configuracion',

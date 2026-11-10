@@ -10,7 +10,7 @@ const nuevoToken$ = new BehaviorSubject<string | null>(null);
 const esRutaAuth = (url: string) => url.includes('/api/auth');
 
 const conToken = (req: HttpRequest<unknown>, token: string | null)=>
-  token ? req.clone({ setHeaders: { Authorization: 'Bearer ${token}'}}) : req;
+  token ? req.clone({ setHeaders: { Authorization: `Bearer ${token}`}}) : req;
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);

@@ -1,0 +1,90 @@
+<h2>{{ esEdicion ? 'Editar usuario' : 'Nuevo usuario' }}</h2>
+
+<form (submit)="onSubmit($event)" novalidate>
+  <div>
+    <label for="nombre">Nombre</label>
+    <input id="nombre" type="text" [formField]="usuarioForm.nombre" />
+    @if (usuarioForm.nombre().touched() && usuarioForm.nombre().invalid()) {
+      @for (e of usuarioForm.nombre().errors(); track e) { <small>{{ e.message }}</small> }
+    }
+  </div>
+
+  <div>
+    <label for="apellido">Apellido</label>
+    <input id="apellido" type="text" [formField]="usuarioForm.apellido" />
+    @if (usuarioForm.apellido().touched() && usuarioForm.apellido().invalid()) {
+      @for (e of usuarioForm.apellido().errors(); track e) { <small>{{ e.message }}</small> }
+    }
+  </div>
+
+  <div>
+    <label for="dni">DNI</label>
+    <input id="dni" type="text" inputmode="numeric" [formField]="usuarioForm.dni" />
+    @if (usuarioForm.dni().touched() && usuarioForm.dni().invalid()) {
+      @for (e of usuarioForm.dni().errors(); track e) { <small>{{ e.message }}</small> }
+    }
+  </div>
+
+  @if (esEdicion) {
+    <p><strong>Rol:</strong> {{ model().role }}</p>
+  } @else {
+    <div>
+      <label for="role">Rol</label>
+      <select id="role" [formField]="usuarioForm.role">
+        @for (r of roles; track r) { <option [value]="r">{{ r }}</option> }
+      </select>
+    </div>
+  }
+
+  @if (model().role === Roles.ROLE_PROFESIONAL) {
+    <div>
+      <label for="matricula">Matrícula</label>
+      <input id="matricula" type="text" [formField]="usuarioForm.matricula" />
+    </div>
+  }
+
+  <fieldset>
+    <legend>Contacto</legend>
+
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="email" [formField]="usuarioForm.contacto.email" />
+      @if (usuarioForm.contacto.email().touched() && usuarioForm.contacto.email().invalid()) {
+        @for (e of usuarioForm.contacto.email().errors(); track e) { <small>{{ e.message }}</small> }
+      }
+    </div>
+
+    <div>
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" type="tel" [formField]="usuarioForm.contacto.telefono" />
+      @if (usuarioForm.contacto.telefono().touched() && usuarioForm.contacto.telefono().invalid()) {
+        @for (e of usuarioForm.contacto.telefono().errors(); track e) { <small>{{ e.message }}</small> }
+      }
+    </div>
+  </fieldset>
+
+  @if (!esEdicion) {
+    <div>
+      <label for="username">Usuario</label>
+      <input id="username" type="text" autocomplete="off" [formField]="usuarioForm.username" />
+      @if (usuarioForm.username().touched() && usuarioForm.username().invalid()) {
+        @for (e of usuarioForm.username().errors(); track e) { <small>{{ e.message }}</small> }
+      }
+    </div>
+
+    <div>
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" autocomplete="new-password" [formField]="usuarioForm.password" />
+      @if (usuarioForm.password().touched() && usuarioForm.password().invalid()) {
+        @for (e of usuarioForm.password().errors(); track e) { <small>{{ e.message }}</small> }
+      }
+    </div>
+  }
+
+  @if (error()) { <p class="error">{{ error() }}</p> }
+
+  <button type="submit" [disabled]="cargando()">
+    {{ cargando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+  <a routerLink="listaActual">Cancelar</a>
+</form>

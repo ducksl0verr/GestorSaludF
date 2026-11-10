@@ -1,0 +1,31 @@
+<a routerLink="..">← Volver a la lista</a>
+
+@if (cargando()) {
+  <p>Cargando...</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (usuario(); as u) {
+  <h2>{{ u.nombre }} {{ u.apellido }}</h2>
+
+  <dl>
+    <dt>DNI</dt>
+    <dd>{{ u.dni }}</dd>
+
+    <dt>Rol</dt>
+    <dd>{{ u.role }}</dd>
+
+    @if (esProfesional(u)) {
+      <dt>Matrícula</dt>
+      <dd>{{ u.matricula }}</dd>
+    }
+
+    <dt>Email</dt>
+    <dd>{{ u.contacto.email }}</dd>
+
+    <dt>Teléfono</dt>
+    <dd>{{ u.contacto.telefono }}</dd>
+  </dl>
+
+  <a [routerLink]="['/admin/usuarios/editar', u.id]">Editar</a>
+  <button type="button" (click)="eliminar(u)">Eliminar</button>
+}

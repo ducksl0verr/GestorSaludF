@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Roles } from '../../public/enums/Roles';
 import { CommonModule } from '@angular/common';
-import { email, form, FormField, maxLength, minLength, required } from '@angular/forms/signals';
+import { email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 import { AuthService } from '../../../core/services/auth-service';
 import { Router, RouterLink } from '@angular/router';
 import { CuentaNueva, CuentaNuevaPedido } from '../../../core/models/CuentaNueva';
