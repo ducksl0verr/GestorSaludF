@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { Proveedor } from '../model/Proveedor';
 import { ProveedorService } from '../Service/proveedor-service';
 
@@ -13,6 +13,14 @@ import { ProveedorService } from '../Service/proveedor-service';
 export class ProveedorLista {
 
   proveedores = signal<Proveedor[]>([]);
+  private router = inject(Router);
+
+  get rutaProveedores(): string {
+    return this.router.url.startsWith('/admin/')
+      ? '/admin/proveedores'
+      : '/administrativo/proveedores';
+  }
+
   
   constructor(
     private pService: ProveedorService

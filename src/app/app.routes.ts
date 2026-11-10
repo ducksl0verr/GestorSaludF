@@ -62,15 +62,12 @@ export const routes: Routes = [
                 path: 'configuracion',
                 loadComponent: ()=> import('./features/admin/configuracion/configuracion')
                 .then((m) => m.Configuracion),
+            },
+            {
+                path: 'proveedores',
+                children: PROVEEDOR_ROUTES
             }
         ],
-    },
-    
-    {
-        path: 'proveedores',
-        loadChildren: ()=>
-            import('./features/public/Pagina-Proveedor/proveedor.routes')
-                .then(m=> m.PROVEEDOR_ROUTES)
     },
     {
         path: '**',
