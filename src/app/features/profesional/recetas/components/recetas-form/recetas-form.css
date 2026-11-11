@@ -1,0 +1,154 @@
+
+/* CONTENEDOR PRINCIPAL */
+#contenedor-form {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background-color: #f4f7fb;
+  box-sizing: border-box;
+}
+
+/* TARJETA DEL FORMULARIO */
+#cajita {
+  width: 100%;
+  max-width: 650px;
+  padding: 35px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(31, 58, 95, 0.12);
+  box-sizing: border-box;
+}
+
+/* TITULO */
+#titulo {
+  margin: 0 0 30px;
+  color: #1f3a5f;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* FORMULARIO */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ETIQUETAS */
+form label {
+  color: #1f3a5f;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* CAMPO FECHA */
+form input {
+  width: 100%;
+  min-height: 45px;
+  padding: 11px 13px;
+  border: 1px solid #ccd5e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #4776a8;
+  box-shadow: 0 0 0 3px rgba(71, 118, 168, 0.15);
+}
+
+/* MENSAJES DE ERROR */
+.error {
+  margin: 0;
+  color: #c0392b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* BOTONES */
+.botones {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.botones button {
+  flex: 1;
+  min-height: 45px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4776a8;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botones button:hover {
+  background-color: #1f3a5f;
+  transform: translateY(-2px);
+}
+
+/* BOTON CANCELAR */
+.botones button:last-child {
+  background-color: #6c757d;
+}
+
+.botones button:last-child:hover {
+  background-color: #495057;
+}
+
+/* TABLETS */
+@media (max-width: 768px) {
+  #contenedor-form {
+    padding: 30px 15px;
+  }
+
+  #cajita {
+    max-width: 550px;
+    padding: 28px;
+  }
+
+  #titulo {
+    font-size: 23px;
+  }
+}
+
+/* CELULARES */
+@media (max-width: 480px) {
+  #contenedor-form {
+    padding: 20px 12px;
+  }
+
+  #cajita {
+    padding: 22px 18px;
+    border-radius: 10px;
+  }
+
+  #titulo {
+    font-size: 21px;
+    margin-bottom: 25px;
+  }
+
+  form input {
+    font-size: 14px;
+  }
+
+  .botones {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .botones button {
+    width: 100%;
+  }
+}

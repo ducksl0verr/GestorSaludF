@@ -1,0 +1,192 @@
+
+/* CONTENEDOR PRINCIPAL */
+#contenedor {
+    width: 95%;
+    max-width: 1200px;
+    margin: 35px auto;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+/* TITULO */
+#titulo {
+    color: #1f3a5f;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #4776a8;
+}
+
+/* BOTON NUEVA HISTORIA */
+#btn-nuevo {
+    display: block;
+    margin: 0 0 25px auto;
+    padding: 13px 22px;
+    background-color: #1f3a5f;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn-nuevo:hover {
+    background-color: #4776a8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(31, 58, 95, 0.20);
+}
+
+/* LISTADO */
+#listado {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* TARJETAS */
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #e0e6ed;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow-wrap: anywhere;
+}
+
+/* EFECTO TARJETA */
+.tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 22px rgba(31, 58, 95, 0.15);
+}
+
+/* SUBTITULO */
+.tarjeta h3 {
+    color: #1f3a5f;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #4776a8;
+}
+
+/* TEXTOS */
+.tarjeta p {
+    color: #444444;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* TEXTO DESTACADO */
+.tarjeta strong {
+    color: #1f3a5f;
+}
+
+/* BOTON VER DETALLE */
+.tarjeta button {
+    width: 100%;
+    margin-top: auto;
+    padding: 12px;
+    background-color: #4776a8;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tarjeta button:hover {
+    background-color: #1f3a5f;
+    transform: translateY(-2px);
+}
+
+/* MENSAJE SIN REGISTROS */
+#mensaje-vacio {
+    grid-column: 1 / -1;
+    padding: 30px;
+    text-align: center;
+    color: #666666;
+    font-size: 16px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* TABLETS */
+@media (max-width: 768px) {
+
+    #contenedor {
+        width: 96%;
+        padding: 18px;
+    }
+
+    #titulo {
+        font-size: 24px;
+    }
+
+    #listado {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+    }
+
+    .tarjeta {
+        padding: 20px;
+    }
+
+}
+
+/* CELULARES */
+@media (max-width: 480px) {
+
+    #contenedor {
+        width: 100%;
+        margin: 20px auto;
+        padding: 12px;
+    }
+
+    #titulo {
+        font-size: 21px;
+        margin-bottom: 22px;
+    }
+
+    #btn-nuevo {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #listado {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .tarjeta {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .tarjeta h3 {
+        font-size: 18px;
+    }
+
+    .tarjeta p {
+        font-size: 14px;
+    }
+
+    .tarjeta button {
+        padding: 13px;
+    }
+
+}
