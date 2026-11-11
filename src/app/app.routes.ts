@@ -10,6 +10,7 @@ import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/paciente.routes';
+import { TURNO_ROUTES } from './features/administrativo/Pagina-Turno/turno.routes';
 
 export const routes: Routes = [
     {
@@ -96,9 +97,7 @@ export const routes: Routes = [
             },
             {
                 path: 'turno',
-                loadComponent: () =>
-                    import('./features/administrativo/turno/turno')
-                .then(m=>m.Turno)
+                children: TURNO_ROUTES
             },
             {
                 path: 'sala',

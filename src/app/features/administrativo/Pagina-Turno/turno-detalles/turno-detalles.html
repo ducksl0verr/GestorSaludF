@@ -1,1 +1,57 @@
-<p>turno-detalles works!</p>
+<div class="contenedor">
+
+    <h2>Detalles del turno</h2>
+
+    @if (turno()) {
+
+        <div class="detalle">
+
+            <p><strong>ID:</strong> {{ turno()!.id }}</p>
+
+            <p><strong>Fecha y hora:</strong>
+                {{ turno()!.fechaHora | date:'dd/MM/yyyy HH:mm' }}
+            </p>
+
+            <p><strong>Estado del turno:</strong>
+                {{ turno()!.estadoTurno }}
+            </p>
+
+            <p><strong>Estado de facturación:</strong>
+                {{ turno()!.estadoFacturacionDeTurno }}
+            </p>
+
+            <p><strong>ID del paciente:</strong>
+                {{ turno()!.id_paciente }}
+            </p>
+
+            <p><strong>ID del tratamiento:</strong>
+                {{ turno()!.id_tratamiento }}
+            </p>
+
+            <p><strong>ID del consultorio:</strong>
+                {{ turno()!.id_consultorio }}
+            </p>
+
+            <p><strong>ID del profesional:</strong>
+                {{ turno()!.id_profesional }}
+            </p>
+
+        </div>
+
+        <div class="acciones">
+
+            <button [routerLink]="['/administrativo', 'turnos']">
+                Volver
+            </button>
+
+            <button (click)="eliminar(turno()!)">
+                Eliminar turno
+            </button>
+
+        </div>
+
+    } @else {
+        <p>Cargando detalles del turno...</p>
+    }
+
+</div>
