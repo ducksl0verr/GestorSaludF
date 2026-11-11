@@ -1,0 +1,62 @@
+<form (submit)="onSubmit($event)" novalidate>
+    <h2>Creación de pago</h2>
+
+    @if (error()) {
+        <p>{{ error() }}</p>
+    }
+
+    <div>
+        <label>Monto: </label>
+        <input
+        type="number"
+        [formField]="pagoForm.monto"
+        placeholder="$40000">
+
+        @if(pagoForm.monto().touched() && pagoForm.monto().invalid()){
+            @for (error of pagoForm.monto().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+    </div>
+
+    <div>
+        <label>Fecha: </label>
+        <input
+        type="datetime-local"
+        [formField]="pagoForm.fecha"
+        >
+
+        @if(pagoForm.fecha().touched() && pagoForm.fecha().invalid()){
+            @for (error of pagoForm.fecha().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+    </div>
+
+    <div>
+        <label>Id del paciente: </label>
+        @for (paciente of pacientes(); track paciente.id) {
+            <div>
+                <input
+                    type="checkbox"
+                    [checked]="pagoModel().idsPacientes.includes(paciente.id)"
+                    (change)="agregarPaciente(
+                        paciente.id,
+                        $any($event.target).checked
+                    )">
+
+                <span>{{ paciente.nombre }}</span>
+            </div>
+        }
+        @if(pagoForm.idsPacientes().touched() && pagoForm.idsPacientes().invalid()){
+            @for (error of pagoForm.idsPacientes().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+    </div>
+
+    <button type="submit" [disabled]="cargando()">
+        {{ cargando() ? 'Guardando...' : 'Guardar' }}
+    </button>
+
+</form>

@@ -163,7 +163,7 @@ export class ProveedorFormulario {
     } else{
       this.pService.guardarProveedor(proveedorData).subscribe({
         next: ()=>{
-          alert('Proovedor actualizado correctamente.');
+          alert('Proovedor guardado correctamente.');
           this.router.navigate([this.base]);
         },
         error: (e)=> {

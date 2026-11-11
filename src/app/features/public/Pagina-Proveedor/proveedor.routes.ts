@@ -13,10 +13,10 @@ export const PROVEEDOR_ROUTES: Routes = [
                 .then(m=> m.ProveedorFormulario)
     },
     {
-    path: 'editar/:id',
-    loadComponent: () =>
-      import('./proveedor-formulario/proveedor-formulario')
-        .then(m => m.ProveedorFormulario)
+        path: 'editar/:id',
+        loadComponent: () =>
+            import('./proveedor-formulario/proveedor-formulario')
+                .then(m => m.ProveedorFormulario)
     },
     {
         path: ':id',
