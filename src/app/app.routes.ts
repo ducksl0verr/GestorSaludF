@@ -10,6 +10,7 @@ import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
+import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 
 export const routes: Routes = [
     {
@@ -75,6 +76,13 @@ export const routes: Routes = [
                     baseObras: 'admin/obrasSociales'
                 },
                 children: OBRAS_SOCIALES_ROUTES
+            },
+            {
+                path:'tratamientos',
+                data: {
+                    baseTra: 'admin/tratamientos'
+                },
+                children: TRATAMIENTOS_ROUTES
             }
         ],
     },

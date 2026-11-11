@@ -16,7 +16,12 @@
                   
                   <button [routerLink]="[rutaObras, 'editar', obra.id]">Editar</button>
                   <button [routerLink]="[rutaObras, obra.id]">Ver detalles</button>
+                  <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  
                 </li>
+            }
+            @if (mensajeError()) {
+                <p class="error">{{ mensajeError() }}</p>
             }
         </ul>
     }

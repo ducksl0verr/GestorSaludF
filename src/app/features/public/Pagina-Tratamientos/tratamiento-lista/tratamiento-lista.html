@@ -1,0 +1,21 @@
+<div id="contenedor">
+    <p id="titulo">Tratamientos</p>
+    <button [routerLink]="[rutaTratamientos, 'nuevo']">Nuevo Tratamientor</button>
+    <ul>
+        @for(tr of tratamientos(); track tr.id){
+            <li>
+                <p>
+                    {{ tr.id }} - {{ tr.nombre }}
+                </p>
+                <p>
+                    Descripción: {{ tr.descripcion }}
+                </p>
+                <p>
+                    Precio: {{ tr.precio }}
+                </p>
+                <button [routerLink]="[rutaTratamientos, 'editar', tr.id]">Editar</button>
+                <button (click)="borrarTratamiento(tr.id)">Eliminar</button>
+            </li>
+        }
+    </ul>
+</div>

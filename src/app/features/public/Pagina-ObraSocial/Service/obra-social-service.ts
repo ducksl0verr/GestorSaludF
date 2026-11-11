@@ -26,6 +26,6 @@ export class ObraSocialService {
     }
 
     borrarObraSocial(id: number){
-        return this.http.delete<Obra_Social>(`${this.API_URL}/${id}`);
+        return this.http.delete<void>(`${this.API_URL}/${id}`);
     }
 }

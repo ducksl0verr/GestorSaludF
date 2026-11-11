@@ -37,9 +37,21 @@ export class ObraSocialLista {
     })
   }
 
+
+  protected mensajeError = signal<string | null> (null);
+
   borrarObra(id: number){
-    this.oService.borrarObraSocial(id).subscribe(()=>{
+    this.mensajeError.set(null);
+    this.oService.borrarObraSocial(id).subscribe({
+      next: ()=>{
       this.cargarObras();
+      },
+      error: (e)=>{
+        console.error('Error al eliminar la obra social: ', e);
+        this.mensajeError.set(
+          e.error?.mensaje ?? e.error?.message ?? 'No se pudo eliminar la obra social.'
+        );
+      }
     })
   }
 
