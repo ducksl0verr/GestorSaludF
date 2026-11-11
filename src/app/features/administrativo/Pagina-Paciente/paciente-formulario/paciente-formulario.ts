@@ -35,7 +35,6 @@ export class PacienteFormulario implements OnInit{
       localidad: '',
       provincia: '',
       codigo_postal: '',
-      pais: '',
     },
      id_obraSocial: 0,
         contacto: {
@@ -82,9 +81,6 @@ export class PacienteFormulario implements OnInit{
     required(campo.domicilio.codigo_postal, {message: 'El código postal es obligatorio'});
     minLength(campo.domicilio.codigo_postal, 4, {message: 'El código postal debe tener al menos 4 caracteres'});
 
-    required(campo.domicilio.pais, {message: 'El país es obligatorio'});
-    minLength(campo.domicilio.pais, 3, {message: 'El país debe tener al menos 3 caracteres'});
-
     required(campo.id_obraSocial, {message: 'La obra social es obligatoria'});
 
     required(campo.contacto.telefono, {message: 'El teléfono es obligatorio'});
@@ -121,7 +117,7 @@ export class PacienteFormulario implements OnInit{
                         localidad: data.domicilio.localidad,
                         provincia: data.domicilio.provincia,
                         codigo_postal: data.domicilio.codigo_postal,
-                        pais: '',
+                        
                     },
                     id_obraSocial: data.id_obraSocial,
                     contacto: {

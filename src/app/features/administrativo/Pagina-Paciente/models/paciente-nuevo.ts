@@ -1,28 +1,15 @@
+import { Contacto } from "../../../public/contacto/models/Contacto";
+import { Domicilio } from "../../../public/Pagina-Domicilio/Model/Domicilio";
+
 export interface PacienteNuevo {
     nombre: string;
     apellido: string;
     fecha_nacimiento: string;
     dni: string;
     numeroAfiliado: number;
-    domicilio: DomicilioNuevo;
+    domicilio: Domicilio;
     id_obraSocial: number;
-    contacto: ContactoNuevo;
+    contacto: Contacto;
 }
 
 
-/// hasta que se creen las entidades
-export interface DomicilioNuevo {
-    calle: string;
-    numero: string;
-    piso: string;
-    depto: string;
-    localidad: string;
-    provincia: string;
-    codigo_postal: string;
-    pais: string;
-}
-
-export interface ContactoNuevo {
-    email: string;
-    telefono: string;
-}

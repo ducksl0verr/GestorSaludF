@@ -95,6 +95,12 @@ export const routes: Routes = [
                 children: PACIENTE_ROUTES
             },
             {
+                path: 'turno',
+                loadComponent: () =>
+                    import('./features/administrativo/turno/turno')
+                .then(m=>m.Turno)
+            },
+            {
                 path: 'sala',
                 loadComponent: () =>
                     import('./features/administrativo/sala/sala')
