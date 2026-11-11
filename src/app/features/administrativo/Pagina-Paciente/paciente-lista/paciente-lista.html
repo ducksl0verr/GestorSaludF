@@ -1,1 +1,58 @@
-<p>paciente-lista works!</p>
+<div class="contenedor">
+
+    <h2>Listado de pacientes</h2>
+
+    <div class="encabezado">
+        <p>Administración de pacientes registrados</p>
+
+        <button routerLink="/administrativo/pacientes/nuevo">
+            + Nuevo paciente
+        </button>
+    </div>
+
+    @if (pacientes().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Obra social</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (p of pacientes(); track p.id) {
+                    <tr>
+                        <td>{{ p.id }}</td>
+                        <td>{{ p.nombre }}</td>
+                        <td>{{ p.apellido }}</td>
+                        <td>{{ p.dni }}</td>
+                        <td>{{ p.nombreObraSocial }}</td>
+
+                        <td>
+                            <button (click)="verDetalle(p.id)">
+                                Ver detalle
+                            </button>
+
+                            <button (click)="editarPaciente(p.id)">
+                                Editar
+                            </button>
+
+                            <button (click)="eliminarPaciente(p)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay pacientes registrados.</p>
+    }
+
+</div>
