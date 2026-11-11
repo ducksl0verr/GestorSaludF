@@ -88,20 +88,19 @@ export const routes: Routes = [
 
         children: [
             {
+                path: '', redirectTo: 'consultorios', pathMatch: 'full'
+            },
+            {
                 path: 'consultorios',
                 loadComponent: () =>
                     import('./features/administrativo/consultorios/consultorios')
                 .then(m=>m.Consultorios)
             },
-            {
-                path: '', redirectTo: 'consultorios', pathMatch: 'full'
-            },
-            {
-                path: 'paciente',
-                loadComponent: () =>
-                    import('./features/administrativo/paciente/paciente')
-                .then(m=>m.Paciente)
-            },
+            
+
+
+
+            
             {
                 path: 'sala',
                 loadComponent: () =>
