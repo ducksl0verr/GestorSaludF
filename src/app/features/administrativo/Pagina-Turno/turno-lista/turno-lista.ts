@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Turno } from '../models/turno';
 import { TurnoService } from '../services/turno-service';
-import { Router } from 'express';
+
 
 @Component({
   imports: [CommonModule, RouterModule],
