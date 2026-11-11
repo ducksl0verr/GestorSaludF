@@ -1,0 +1,25 @@
+<a routerLink="..">Volver a la lista.</a>
+
+@if (cargando()){
+    <p>Cargando...</p>
+} @else if (error()){
+    <p class="error">{{ error() }}</p>
+} @else if (obra(); as p){
+    <h2> {{p.nombre}} </h2>
+    <dl>
+    <dt>Cobertura</dt>
+    <dd>{{ p.cobertura }}</dd>
+
+    <dt>Domicilios:</dt>
+    @for(dom of p.domicilios; track $index){
+        <li>
+          {{ dom.calle }} {{ dom.numero }}
+          @if (dom.piso) { | Piso: {{ dom.piso }} }
+          @if (dom.depto) {| Depto: {{ dom.depto }} }
+          <br>
+          {{ dom.localidad }}, {{ dom.provincia }} (CP: {{ dom.codigo_postal }})
+        </li>
+    }
+
+  </dl>
+}
