@@ -12,6 +12,7 @@ import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.r
 
 export const routes: Routes = [
 <<<<<<< HEAD
+<<<<<<< HEAD
     {
         path:'',
         component: PublicLayout,
@@ -76,6 +77,8 @@ export const routes: Routes = [
         redirectTo:''
     }
 =======
+=======
+>>>>>>> 30623b6293cbab0d411683634194f821607d0436
 
   // RUTAS PUBLICAS
   {
@@ -252,5 +255,8 @@ export const routes: Routes = [
     redirectTo: ''
   }
 
+<<<<<<< HEAD
 >>>>>>> 187c698 (creacion de entidades completas. historia clinica, recetas y diagnostico)
+=======
+>>>>>>> 30623b6293cbab0d411683634194f821607d0436
 ];
