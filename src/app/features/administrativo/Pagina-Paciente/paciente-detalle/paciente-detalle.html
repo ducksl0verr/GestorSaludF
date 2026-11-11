@@ -34,11 +34,15 @@
         </section>
 
         <section>
-            <h3>Obra social</h3>
+    <h3>Obra social</h3>
 
-            <p><strong>Nombre:</strong> {{ p.nombreObraSocial }}</p>
-            <p><strong>Cobertura:</strong> {{ p.coberturaObraSocial }}</p>
-        </section>
+    @if (obraSocial(); as obra) {
+        <p><strong>Nombre:</strong> {{ obra.nombre }}</p>
+        <p><strong>Cobertura:</strong> {{ obra.cobertura }}</p>
+    } @else {
+        <p>No se encontró la obra social.</p>
+    }
+</section>
 
         <section>
             <h3>Tratamientos</h3>
