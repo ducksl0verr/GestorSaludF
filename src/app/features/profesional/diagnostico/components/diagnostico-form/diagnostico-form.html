@@ -1,0 +1,69 @@
+
+<main id="contenedor-form">
+
+    <section id="cajita">
+
+        <h2>{{ id ? 'Editar diagnóstico' : 'Crear diagnóstico' }}</h2>
+
+        <form novalidate (submit)="onSubmit($event)">
+
+            <!-- NOMBRE -->
+            <label for="nombre">Nombre:</label>
+
+            <input
+                id="nombre"
+                type="text"
+                [formField]="diagnosticoForm.nombre"
+            >
+
+            @if (diagnosticoForm.nombre().invalid() && diagnosticoForm.nombre().touched()) {
+                @for (error of diagnosticoForm.nombre().errors(); track $index) {
+                    <p class="error">{{ error.message }}</p>
+                }
+            }
+
+            <!-- DESCRIPCION -->
+            <label for="descripcion">Descripción:</label>
+
+            <textarea
+                id="descripcion"
+                rows="4"
+                [formField]="diagnosticoForm.descripcion">
+            </textarea>
+
+            @if (diagnosticoForm.descripcion().invalid() && diagnosticoForm.descripcion().touched()) {
+                @for (error of diagnosticoForm.descripcion().errors(); track $index) {
+                    <p class="error">{{ error.message }}</p>
+                }
+            }
+
+            <!-- FECHA DEL DIAGNOSTICO -->
+            <label for="fechaDiagnostico">Fecha del diagnóstico:</label>
+
+            <input
+                id="fechaDiagnostico"
+                type="date"
+                [formField]="diagnosticoForm.fechaDiagnostico"
+            >
+
+            @if (diagnosticoForm.fechaDiagnostico().invalid() && diagnosticoForm.fechaDiagnostico().touched()) {
+                @for (error of diagnosticoForm.fechaDiagnostico().errors(); track $index) {
+                    <p class="error">{{ error.message }}</p>
+                }
+            }
+
+            <!-- BOTONES -->
+            <button type="submit">
+                {{ id ? 'Actualizar' : 'Crear' }}
+            </button>
+
+            <button type="button" (click)="cancelar()">
+                Cancelar
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+

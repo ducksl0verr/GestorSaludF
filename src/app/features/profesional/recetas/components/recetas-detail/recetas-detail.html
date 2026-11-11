@@ -1,0 +1,31 @@
+
+<div id="cajita">
+
+    <h2 id="titulo">Datos de la receta</h2>
+
+    @if (receta(); as r) {
+
+        <div id="datos">
+
+            <h3>Receta médica</h3>
+
+            <p>Fecha: {{ r.fecha }}</p>
+
+            <button [routerLink]="['/admin/recetas/form', r.id]">
+                Editar
+            </button>
+
+            <button (click)="eliminarReceta(r.id)">
+                Eliminar
+            </button>
+
+        </div>
+
+    } @else {
+
+        <p>Cargando receta...</p>
+
+    }
+
+</div>
+

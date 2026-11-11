@@ -1,0 +1,40 @@
+
+<div id="contenedor">
+
+  <h2 id="titulo">Listado de recetas</h2>
+
+  <button
+    id="btn-nuevo"
+    routerLink="/admin/recetas/form">
+    Nueva receta
+  </button>
+
+  <ul id="listado">
+
+    @for (r of recetas(); track r.id) {
+
+      <li class="tarjeta">
+
+        <h3>Receta médica</h3>
+
+        <p>
+          <strong>Fecha:</strong> {{ r.fecha }}
+        </p>
+
+        <button [routerLink]="['/admin/recetas', r.id]">
+          Ver detalle
+        </button>
+
+      </li>
+
+    } @empty {
+
+      <li id="mensaje-vacio">
+        No hay recetas registradas.
+      </li>
+
+    }
+
+  </ul>
+
+</div>
