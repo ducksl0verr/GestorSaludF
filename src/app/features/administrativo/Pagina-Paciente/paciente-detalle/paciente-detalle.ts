@@ -18,6 +18,7 @@ constructor(private pacienteService: PacienteService, private route: ActivatedRo
 
 ngOnInit(): void {
   const id = Number(this.route.snapshot.paramMap.get('id'));
+
   this.pacienteService.getPaciente(id).subscribe({
     next: (paciente) => this.paciente.set(paciente),
     error: (error) => console.error('Error al obtener el paciente', error)
