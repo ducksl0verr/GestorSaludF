@@ -9,12 +9,12 @@ import { DiagnosticoService } from '../../services/diagnostico';
 @Component({
   selector: 'app-diagnostico-detail',
   imports: [CommonModule, RouterModule],
-  templateUrl: './diagnostico-detail.html',
-  styleUrl: './diagnostico-detail.css'
+  templateUrl: './diagnostico-detalle.html',
+  styleUrl: './diagnostico-detalle.css'
 })
-export class DiagnosticoDetail implements OnInit {
+export class DiagnosticoDetalle implements OnInit {
 
-  diagnostico = signal<Diagnostico | undefined>(undefined);
+  diagnostico = signal<Diagnostico | null>(null);
 
   constructor(
     private diagnosticoService: DiagnosticoService,
