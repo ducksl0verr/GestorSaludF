@@ -106,12 +106,7 @@ export const routes: Routes = [
                     import('./features/administrativo/sala/sala')
                 .then(m=>m.Sala)
             },
-            {
-                path: 'turno',
-                loadComponent: () =>
-                    import('./features/administrativo/turno/turno')
-                .then(m=>m.Turno)
-            }
+            
             
         ]
     }, 
