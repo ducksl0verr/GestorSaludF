@@ -8,6 +8,7 @@ import { publicoGuard } from './core/guards/publico-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
+import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/paciente.routes';
 
 export const routes: Routes = [
     {
@@ -83,11 +84,10 @@ export const routes: Routes = [
                     import('./features/administrativo/consultorios/consultorios')
                 .then(m=>m.Consultorios)
             },
-            
-
-
-
-            
+            {
+                path: 'paciente',
+                children: PACIENTE_ROUTES
+            },
             {
                 path: 'sala',
                 loadComponent: () =>
