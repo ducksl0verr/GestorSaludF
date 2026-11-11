@@ -1,0 +1,162 @@
+<form (submit)="onSubmit($event)" novalidate>
+ 
+  <h2>Datos del proveedor</h2>
+ 
+  @if (error()) {
+    <p>{{ error() }}</p>
+  }
+  <div>
+    <label>Nombre</label>
+    <input
+      type="text"
+      [formField]="obraForm.nombre"
+      placeholder="PAMI"
+    />
+ 
+    @if (obraForm.nombre().touched() &&
+         obraForm.nombre().invalid()) {
+      @for (error of obraForm.nombre().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+  <div>
+    <label>Cobertura</label>
+    <input
+      type="text"
+      [formField]="obraForm.cobertura"
+      placeholder="Total."
+    />
+ 
+    @if (obraForm.cobertura().touched() &&
+         obraForm.cobertura().invalid()) {
+      @for (error of obraForm.cobertura().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+  <h3>Domicilios</h3>
+ 
+  @for (domicilio of obraForm.domicilios; track $index; let i = $index) {
+ 
+    <fieldset>
+      <legend>Domicilio {{ i + 1 }}</legend>
+      <div>
+        <label>Calle</label>
+        <input
+          type="text"
+          [formField]="domicilio.calle"
+        />
+ 
+        @if (domicilio.calle().touched() && domicilio.calle().invalid()) {
+          @for (error of domicilio.calle().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+      <div>
+        <label>Número</label>
+        <input
+          type="text"
+          [formField]="domicilio.numero"
+        />
+ 
+        @if (domicilio.numero().touched() && domicilio.numero().invalid()) {
+          @for (error of domicilio.numero().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+      <div>
+        <label>Código postal</label>
+        <input
+          type="text"
+          [formField]="domicilio.codigo_postal"
+        />
+ 
+        @if (domicilio.codigo_postal().touched() && domicilio.codigo_postal().invalid()) {
+          @for (error of domicilio.codigo_postal().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+      <div>
+        <label>Provincia</label>
+        <input
+          type="text"
+          [formField]="domicilio.provincia"
+        />
+ 
+        @if (domicilio.provincia().touched() && domicilio.provincia().invalid()) {
+          @for (error of domicilio.provincia().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+      <div>
+        <label>Localidad</label>
+        <input
+          type="text"
+          [formField]="domicilio.localidad"
+        />
+ 
+        @if (domicilio.localidad().touched() && domicilio.localidad().invalid()) {
+          @for (error of domicilio.localidad().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+      <div>
+        <label>Piso (opcional)</label>
+        <input
+          type="text"
+          [formField]="domicilio.piso"
+        />
+      </div>
+      <div>
+        <label>Departamento (opcional)</label>
+        <input
+          type="text"
+          [formField]="domicilio.depto"
+        />
+ 
+        @if (domicilio.depto().touched() && domicilio.depto().invalid()) {
+          @for (error of domicilio.depto().errors(); track error) {
+            <small>{{ error.message }}</small>
+          }
+        }
+      </div>
+ 
+      <button
+        type="button"
+        (click)="eliminarDomicilio(i)"
+      >
+        Eliminar domicilio
+      </button>
+ 
+    </fieldset>
+ 
+  }
+ 
+  @if (obraForm.domicilios().touched() &&
+       obraForm.domicilios().invalid()) {
+    @for (error of obraForm.domicilios().errors(); track error) {
+      <small>{{ error.message }}</small>
+    }
+  }
+ 
+  <button
+    type="button"
+    (click)="agregarDomicilio()"
+  >
+    Agregar domicilio
+  </button>
+ 
+  <hr>
+ 
+  <button type="submit" [disabled]="cargando()">
+    {{ cargando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+ 
+</form>
+

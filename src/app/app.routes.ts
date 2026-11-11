@@ -9,6 +9,7 @@ import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
+import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 
 export const routes: Routes = [
     {
@@ -67,6 +68,13 @@ export const routes: Routes = [
                 path: 'proveedores',
                 data:{ baseProveedores: '/admin/proveedores'},
                 children: PROVEEDOR_ROUTES
+            },
+            {
+                path:'obrasSociales',
+                data: {
+                    baseObras: 'admin/obrasSociales'
+                },
+                children: OBRAS_SOCIALES_ROUTES
             }
         ],
     },
