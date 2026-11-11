@@ -8,7 +8,7 @@ import { Diagnostico } from '../model/diagnostico';
 export class DiagnosticoService {
 
 private http = inject(HttpClient);
-  private readonly api_Url = "http://localhost:3000/diagnosticos";
+  private readonly api_Url = "/api/diagnosticos";
 
   getDiagnosticos() {
     return this.http.get<Diagnostico[]>(this.api_Url);
