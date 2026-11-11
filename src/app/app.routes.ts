@@ -12,10 +12,14 @@ import { publicoGuard } from './core/guards/publico-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
+<<<<<<< HEAD
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 =======
 import { AdministrativeLayout } from './layouts/administrative-layout/administrative-layout';
 >>>>>>> 9f81cd7 (implementacion de layout administrativo)
+=======
+import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/paciente.routes';
+>>>>>>> e500b44 (entidad paciente realizada, pendiente la confirmacion de funcionamiento correcto)
 
 export const routes: Routes = [
     {
@@ -96,11 +100,10 @@ export const routes: Routes = [
                     import('./features/administrativo/consultorios/consultorios')
                 .then(m=>m.Consultorios)
             },
-            
-
-
-
-            
+            {
+                path: 'paciente',
+                children: PACIENTE_ROUTES
+            },
             {
                 path: 'sala',
                 loadComponent: () =>
