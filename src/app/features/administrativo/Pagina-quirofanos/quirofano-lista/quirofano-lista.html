@@ -1,0 +1,53 @@
+<div class="contenedor">
+
+    <h2>Listado de quirófanos</h2>
+
+    <a routerLink="nuevo" class="boton-agregar">
+        Registrar quirófano
+    </a>
+
+    @if (quirofanos().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (quirofano of quirofanos(); track quirofano.id) {
+                    <tr>
+                        <td>{{ quirofano.id }}</td>
+                        <td>{{ quirofano.nombre }}</td>
+
+                        <td>
+                            @if (quirofano.disponible) {
+                                <span class="disponible">Disponible</span>
+                            } @else {
+                                <span class="ocupado">Ocupado</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (quirofano.disponible) {
+                                <button
+                                    type="button"
+                                    (click)="ocuparQuirofano(quirofano.id)">
+                                    Ocupar
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay quirófanos registrados.</p>
+    }
+
+</div>

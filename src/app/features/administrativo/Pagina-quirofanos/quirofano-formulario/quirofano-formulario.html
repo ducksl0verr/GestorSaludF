@@ -1,0 +1,47 @@
+<div class="contenedor">
+
+    @if (id === null) {
+        <h2>Registrar quirófano</h2>
+    } @else {
+        <h2>Editar quirófano</h2>
+    }
+
+    <form (submit)="guardar()">
+
+        <div class="campo">
+            <label for="nombre">Nombre:</label>
+            <input
+                id="nombre"
+                type="text"
+                [formField]="quirofanoForm.nombre"
+            >
+
+            @if (quirofanoForm.nombre().invalid() && quirofanoForm.nombre().touched()) {
+                <p class="error">El nombre es obligatorio.</p>
+            }
+        </div>
+
+        @if (id !== null) {
+            <div class="campo">
+            <label for="disponible">Estado:</label>
+
+    <select id="disponible" [value]="quirofanoModel().disponible" (change)="cambiarEstado($event)">
+        <option value="true">Disponible</option>
+        <option value="false">Ocupado</option>
+    </select>
+</div>
+        }
+
+        <button type="submit">
+            Guardar
+        </button>
+
+        <button
+            type="button"
+            routerLink="/administrativo/quirofanos">
+            Cancelar
+        </button>
+
+    </form>
+
+</div>

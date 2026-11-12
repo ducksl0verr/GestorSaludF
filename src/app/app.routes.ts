@@ -115,12 +115,7 @@ export const routes: Routes = [
                 path: 'turno',
                 children: TURNO_ROUTES
             },
-            {
-                path: 'sala',
-                loadComponent: () =>
-                    import('./features/administrativo/sala/sala')
-                .then(m=>m.Sala)
-            },
+            
             
             
         ]
