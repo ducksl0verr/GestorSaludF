@@ -1,0 +1,95 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+
+    <div>
+      <h2>Listado de Recetas</h2>
+      <p>Administración de recetas médicas registradas.</p>
+    </div>
+
+    <button
+      class="btn-nuevo"
+      (click)="nuevaReceta()">
+      + Nueva Receta
+    </button>
+
+  </div>
+
+  @if (cargando()) {
+
+    <p class="mensaje">Cargando recetas...</p>
+
+  } @else if (error()) {
+
+    <p class="mensaje-error">{{ error() }}</p>
+
+  } @else if (recetas().length === 0) {
+
+    <p class="mensaje">No hay recetas registradas.</p>
+
+  } @else {
+
+    <div class="tabla-responsive">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>ID Paciente</th>
+            <th>ID Profesional</th>
+            <th>Medicamentos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (receta of recetas(); track receta.id) {
+
+            <tr>
+
+              <td>{{ receta.id }}</td>
+
+              <td>{{ receta.fecha }}</td>
+
+              <td>{{ receta.id_paciente }}</td>
+
+              <td>{{ receta.id_profesional }}</td>
+
+              <td>
+                <span class="cantidad">
+                  {{ receta.detalles.length }}
+                </span>
+              </td>
+
+              <td class="acciones">
+
+                <button
+                  class="btn-ver"
+                  (click)="verDetalle(receta.id)">
+                  Ver detalle
+                </button>
+
+                <button
+                  class="btn-eliminar"
+                  (click)="eliminar(receta.id)">
+                  Eliminar
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

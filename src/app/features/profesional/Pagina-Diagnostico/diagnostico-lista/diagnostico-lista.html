@@ -1,0 +1,49 @@
+<div id="contenedor">
+
+    <p id="titulo">Diagnósticos</p>
+
+    <button [routerLink]="[rutaDiagnosticos, 'nuevo']">
+        Nuevo Diagnóstico
+    </button>
+
+    <ul>
+
+        @for(d of diagnosticos(); track d.id) {
+
+            <li>
+
+                <p>
+                    {{ d.id }} - {{ d.nombre }}
+                </p>
+
+                <p>
+                    Descripción: {{ d.descripcion }}
+                </p>
+
+                <p>
+                    Fecha: {{ d.fechaDiagnostico }}
+                </p>
+
+                <p>
+                    Historia Clínica: {{ d.idHistoriaClinica }}
+                </p>
+
+                <button [routerLink]="[rutaDiagnosticos, d.id]">
+                    Ver detalles
+                </button>
+
+                <button (click)="borrarDiagnostico(d.id)">
+                    Eliminar
+                </button>
+
+            </li>
+
+        } @empty {
+            <li>No hay diagnósticos registrados.</li>
+        }
+
+    </ul>
+
+</div>
+
+

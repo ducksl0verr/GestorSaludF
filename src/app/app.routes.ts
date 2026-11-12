@@ -9,6 +9,9 @@ import { roleGuard } from './core/guards/role-guard';
 import { Roles } from './features/public/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
+import { DIAGNOSTICO_ROUTES } from './features/profesional/Pagina-Diagnostico/diagnostico.routes';
+import { HISTORIA_CLINICA_ROUTES } from './features/profesional/Pagina-HistoriaClinica/diagnostico.routes';
+import { RECETA_ROUTES } from './features/profesional/Pagina-Receta/receta.routes';
 
 export const routes: Routes = [
     {
@@ -79,96 +82,16 @@ export const routes: Routes = [
           roles: [Roles.ROLE_PROFESIONAL]
         },
         children: [
-      // DIAGNOSTICOS
-            {
-              path: 'diagnosticos',
-              loadComponent: () =>
-                import('./features/profesional/Pagina-Diagnostico/components/diagnostico-lista/diagnostico-list')
-                  .then(m => m.DiagnosticoList)
-            },
+          {
+            path:'diagnosticos', children:DIAGNOSTICO_ROUTES
+          },
 
-            {
-              path: 'diagnosticos/form',
-              loadComponent: () =>
-                import('./features/profesional/Pagina-Diagnostico/components/diagnostico-formulario/diagnostico-form')
-                  .then(m => m.DiagnosticoForm)
-            },
-
-            {
-              path: 'diagnosticos/form/:id',
-              loadComponent: () =>
-                import('./features/profesional/Pagina-Diagnostico/components/diagnostico-formulario/diagnostico-form')
-                  .then(m => m.DiagnosticoForm)
-            },
-
-            {
-              path: 'diagnosticos/:id',
-              loadComponent: () =>
-                import('./features/profesional/Pagina-Diagnostico/components/diagnostico-detalle/diagnostico-detalle')
-                  .then(m => m.DiagnosticoDetalle)
-            },
-
-            // HISTORIA CLINICA
-            {
-              path: 'historia-clinica',
-              loadComponent: () =>
-                import('./features/profesional/historia-clinica/components/historia-clinica-list/historia-clinica-list')
-                  .then(m => m.HistoriaClinicaList)
-            },
-
-            {
-              path: 'historia-clinica/form',
-              loadComponent: () =>
-                import('./features/profesional/historia-clinica/components/historia-clinica-form/historia-clinica-form')
-                  .then(m => m.HistoriaClinicaForm)
-            },
-
-            {
-              path: 'historia-clinica/form/:id',
-              loadComponent: () =>
-                import('./features/profesional/historia-clinica/components/historia-clinica-form/historia-clinica-form')
-                  .then(m => m.HistoriaClinicaForm)
-            },
-
-            {
-              path: 'historia-clinica/:id',
-              loadComponent: () =>
-                import('./features/profesional/historia-clinica/components/historia-clinica-detail/historia-clinica-detail')
-                  .then(m => m.HistoriaClinicaDetail)
-            },
-
-            // RECETAS
-            {
-              path: 'recetas',
-              loadComponent: () =>
-                import('./features/profesional/recetas/components/recetas-list/recetas-list')
-                  .then(m => m.RecetasList)
-            },
-
-            {
-              path: 'recetas/form',
-              loadComponent: () =>
-                import('./features/profesional/recetas/components/recetas-form/recetas-form')
-                  .then(m => m.RecetaForm)
-            },
-
-            {
-              path: 'recetas/form/:id',
-              loadComponent: () =>
-                import('./features/profesional/recetas/components/recetas-form/recetas-form')
-                  .then(m => m.RecetaForm)
-            },
-
-            {
-              path: 'recetas/:id',
-              loadComponent: () =>
-                import('./features/profesional/recetas/components/recetas-detail/recetas-detail')
-                  .then(m => m.RecetaDetail)
-            }
-        ]
-    },
-    {
-        path: '**',
-        redirectTo:''
-    }
-];
+          {
+            path:'historiasclinicas', children:HISTORIA_CLINICA_ROUTES
+          },
+           {
+            path:'recetas', children:RECETA_ROUTES
+          },
+          
+]
+    }]

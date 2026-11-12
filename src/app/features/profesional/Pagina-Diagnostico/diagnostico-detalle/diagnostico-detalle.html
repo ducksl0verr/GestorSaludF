@@ -1,0 +1,36 @@
+<a routerLink="..">Volver a la lista.</a>
+
+@if (cargando()) {
+
+    <p>Cargando...</p>
+
+} @else if (error()) {
+
+    <p class="error">{{ error() }}</p>
+
+} @else if (diagnostico(); as d) {
+
+    <h2>Diagnóstico N° {{ d.id }}</h2>
+
+    <dl>
+
+        <dt>Nombre</dt>
+        <dd>{{ d.nombre }}</dd>
+
+        <dt>Descripción</dt>
+        <dd>{{ d.descripcion }}</dd>
+
+        <dt>Fecha de diagnóstico</dt>
+        <dd>{{ d.fechaDiagnostico }}</dd>
+
+        <dt>ID Historia Clínica</dt>
+        <dd>{{ d.idHistoriaClinica }}</dd>
+
+    </dl>
+
+    <button type="button" (click)="eliminar(d)">
+        Eliminar diagnóstico
+    </button>
+
+}
+

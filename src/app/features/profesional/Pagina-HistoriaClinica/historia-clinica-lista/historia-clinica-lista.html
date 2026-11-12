@@ -1,0 +1,50 @@
+<div id="contenedor">
+
+    <p id="titulo">Historias Clínicas</p>
+
+    <button [routerLink]="[rutaHistoriasClinicas, 'nuevo']">
+        Nueva Historia Clínica
+    </button>
+
+    <ul>
+
+        @for(h of historiasClinicas(); track h.id) {
+
+            <li>
+
+                <p>
+                    {{ h.id }} - {{ h.fecha }}
+                </p>
+
+                <p>
+                    Paciente: {{ h.id_paciente }}
+                </p>
+
+                <p>
+                    Observaciones: {{ h.observaciones }}
+                </p>
+
+                <button [routerLink]="[rutaHistoriasClinicas, 'editar', h.id]">
+                    Editar
+                </button>
+
+                <button [routerLink]="[rutaHistoriasClinicas, h.id]">
+                    Ver detalles
+                </button>
+
+                <button (click)="borrarHistoriaClinica(h.id)">
+                    Eliminar
+                </button>
+
+            </li>
+
+        } @empty {
+            <li>No hay historias clínicas registradas.</li>
+        }
+
+    </ul>
+
+</div>
+
+
+
