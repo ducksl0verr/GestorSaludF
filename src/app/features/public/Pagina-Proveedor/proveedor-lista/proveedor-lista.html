@@ -1,14 +1,14 @@
 <div id="contenedor">
     <p id="titulo">Proveedores</p>
-    <button [routerLink]="[rutaProveedores, 'nuevo']">Nuevo Proveedor</button>
+    <button [routerLink]="[base, 'proveedores', 'nuevo']">Nuevo Proveedor</button>
     <ul>
         @for(pr of proveedores(); track pr.id){
             <li>
                 <p>
                     {{ pr.id }} - {{ pr.nombre }}
                 </p>
-                <button [routerLink]="[rutaProveedores, 'editar', pr.id]">Editar</button>
-                <button [routerLink]="[rutaProveedores, pr.id]">Ver detalles</button>
+                <button [routerLink]="[base, 'proveedores', 'editar', pr.id]">Editar</button>
+                <button [routerLink]="[base, 'proveedores', pr.id]">Ver detalles</button>
             </li>
         }
     </ul>

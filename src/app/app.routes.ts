@@ -12,6 +12,7 @@ import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.r
 import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/paciente.routes';
 import { TURNO_ROUTES } from './features/administrativo/Pagina-Turno/turno.routes';
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
+import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 
 export const routes: Routes = [
     {
@@ -42,7 +43,8 @@ export const routes: Routes = [
         loadComponent: ()=> import('./layouts/admin-layout/admin-layout').then((m)=> m.AdminLayout),
         canActivate: [authGuard, roleGuard],
         data: {
-            roles: [Roles.ROLE_ADMINISTRADOR]
+            roles: [Roles.ROLE_ADMINISTRADOR],
+            base: '/admin'
         },
         children: [
             {
@@ -68,15 +70,15 @@ export const routes: Routes = [
             },
             {
                 path: 'proveedores',
-                data:{ baseProveedores: '/admin/proveedores'},
                 children: PROVEEDOR_ROUTES
             },
             {
                 path:'obrasSociales',
-                data: {
-                    baseObras: 'admin/obrasSociales'
-                },
                 children: OBRAS_SOCIALES_ROUTES
+            },
+            {
+                path:'tratamientos',
+                children: TRATAMIENTOS_ROUTES
             }
         ],
     },

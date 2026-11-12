@@ -19,7 +19,7 @@ export class ProveedorDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['baseProveedores'];
+  private base = this.route.snapshot.data['base'];
 
   constructor() {
       const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -40,7 +40,7 @@ export class ProveedorDetalle {
       if (!confirm(`¿Eliminar a ${p.nombre}?`)) return;
   
       this.pService.borrar(p.id).subscribe({
-        next: () => this.router.navigate([this.base]),
+        next: () => this.router.navigate([this.base, 'proveedores']),
         error: () => this.error.set('No se pudo eliminar el proveedor.'),
       });
     }

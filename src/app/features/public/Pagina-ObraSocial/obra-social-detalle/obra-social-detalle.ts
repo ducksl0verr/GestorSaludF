@@ -19,7 +19,7 @@ export class ObraSocialDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['baseObras'];
+  private base = this.route.snapshot.data['base'];
 
   constructor() {
       const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -40,7 +40,7 @@ export class ObraSocialDetalle {
       if (!confirm(`¿Eliminar a ${o.nombre}?`)) return;
   
       this.oService.borrarObraSocial(o.id).subscribe({
-        next: () => this.router.navigate([this.base]),
+        next: () => this.router.navigate([this.base, 'obrasSociales']),
         error: () => this.error.set('No se pudo eliminar a la obra social.'),
       });
     }

@@ -1,8 +1,8 @@
 <div class="container">
     <h2 class="mb-0">Obras sociales</h2>
-    <a [routerLink]="rutaObras + '/nuevo'">
+    <button [routerLink]="[base, 'obrasSociales', 'nuevo']">
       + Nueva obra social
-    </a>
+    </button>
 
   @if (obras().length === 0) {
     <div class="alert alert-info">No hay obras sociales cargadas.</div>
@@ -14,9 +14,14 @@
                     {{ obra.id }} - {{ obra.nombre }}
                   </p>
                   
-                  <button [routerLink]="[rutaObras, 'editar', obra.id]">Editar</button>
-                  <button [routerLink]="[rutaObras, obra.id]">Ver detalles</button>
+                  <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
+                  <button [routerLink]="[base, 'obrasSociales', obra.id]">Ver detalles</button>
+                  <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  
                 </li>
+            }
+            @if (mensajeError()) {
+                <p class="error">{{ mensajeError() }}</p>
             }
         </ul>
     }
