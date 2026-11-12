@@ -33,13 +33,17 @@
                         </td>
 
                         <td>
+                            <a [routerLink]="['detalle', quirofano.id]">
+                            Ver detalle
+                            </a>
+
+                            <a [routerLink]="['editar', quirofano.id]">
+                                Editar
+                            </a>
+
                             @if (quirofano.disponible) {
-                                <button
-                                    type="button"
-                                    (click)="ocuparQuirofano(quirofano.id)">
-                                    Ocupar
-                                </button>
-                            }
+                            <button type="button" (click)="ocuparQuirofano(quirofano.id)">Ocupar</button>
+    }
                         </td>
                     </tr>
                 }

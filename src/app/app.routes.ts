@@ -14,6 +14,7 @@ import { TURNO_ROUTES } from './features/administrativo/Pagina-Turno/turno.route
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
+import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
 
 export const routes: Routes = [
     {
@@ -115,6 +116,10 @@ export const routes: Routes = [
                 loadComponent: () =>
                 import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-lista/prescripcion-tratamiento-lista')
                 .then(m => m.PrescripcionTratamientoLista)
+            },
+            {
+                path: 'quirofanos',
+                children: QUIROFANO_ROUTES
             },
             {
                 path: 'turno',
