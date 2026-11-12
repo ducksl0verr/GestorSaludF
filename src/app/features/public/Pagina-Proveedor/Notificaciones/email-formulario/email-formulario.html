@@ -1,0 +1,39 @@
+<div class="contenedor">
+  <h2>Enviar mensaje al proveedor</h2>
+
+  <form (submit)="onSubmit($event)" novalidate>
+
+    <div>
+      <label for="asunto">Asunto</label>
+      <input id="asunto" type="text" [formField]="mensajeForm.asunto" />
+
+      @if (mensajeForm.asunto().touched() && mensajeForm.asunto().invalid()) {
+        @for (e of mensajeForm.asunto().errors(); track e) {
+          <p class="error">{{ e.message }}</p>
+        }
+      }
+    </div>
+
+    <div>
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" rows="6" [formField]="mensajeForm.mensaje"></textarea>
+
+      @if (mensajeForm.mensaje().touched() && mensajeForm.mensaje().invalid()) {
+        @for (e of mensajeForm.mensaje().errors(); track e) {
+          <p class="error">{{ e.message }}</p>
+        }
+      }
+    </div>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Enviando...' : 'Enviar mensaje' }}
+    </button>
+    <button type="button" [routerLink]="[base, 'proveedores', proveedorId]">
+      Cancelar
+    </button>
+  </form>
+</div>

@@ -19,6 +19,12 @@ export const PROVEEDOR_ROUTES: Routes = [
         .then(m => m.ProveedorFormulario)
     },
     {
+        path:':id/mensaje',
+        loadComponent: ()=>
+            import('./Notificaciones/email-formulario/email-formulario')
+                .then(m=>m.EmailFormulario)
+    },
+    {
         path: ':id',
         loadComponent: ()=>
             import('./proveedor-detalle/proveedor-detalle')

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Service } from '@angular/core';
 import { Proveedor, ProveedorActualizar, ProveedorNuevo } from '../model/Proveedor';
+import { Mensaje } from '../Notificaciones/Model/Mensaje';
 
 @Injectable({
     providedIn: 'root'
@@ -27,5 +28,9 @@ export class ProveedorService {
 
     borrar(id: number){
         return this.http.delete<void>(`${this.API_URL}/${id}`);
+    }
+
+    enviarMensaje(id: number, m: Mensaje){
+        return this.http.post(`/api/usuarios/${id}/mensaje`, m, { responseType: 'text'});
     }
 }
