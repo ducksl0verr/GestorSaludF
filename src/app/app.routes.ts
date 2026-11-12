@@ -13,6 +13,7 @@ import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/pacie
 import { TURNO_ROUTES } from './features/administrativo/Pagina-Turno/turno.routes';
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
+import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
 
 export const routes: Routes = [
     {
@@ -79,6 +80,10 @@ export const routes: Routes = [
             {
                 path:'tratamientos',
                 children: TRATAMIENTOS_ROUTES
+            },
+            {
+                path: 'medicamentos',
+                children: MEDICAMENTOS_ROUTES
             }
         ],
     },

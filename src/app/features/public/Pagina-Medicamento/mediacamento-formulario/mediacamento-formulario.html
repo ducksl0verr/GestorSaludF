@@ -1,1 +1,127 @@
-<p>mediacamento-formulario works!</p>
+<form (submit)="onSubmit($event)" novalidate>
+ 
+  <h2>Datos del Medicamento</h2>
+ 
+  @if (error()) {
+    <p>{{ error() }}</p>
+  }
+  <div>
+    <label>Nombre</label>
+    <input
+      type="text"
+      [formField]="medForm.nombre"
+      placeholder="Ibuprofeno"
+    />
+ 
+    @if (medForm.nombre().touched() &&
+         medForm.nombre().invalid()) {
+      @for (error of medForm.nombre().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+  <div>
+    <label>Principio Activo: </label>
+        <input
+        type="text"
+        [formField]="medForm.principioActivo"
+        placeholder="Ibuprofeno..."
+        />
+    
+        @if (medForm.principioActivo().touched() &&
+            medForm.principioActivo().invalid()) {
+            @for (error of medForm.principioActivo().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+  </div>
+
+  <div>
+    <label>Laboratorio: </label>
+        <input
+        type="text"
+        [formField]="medForm.laboratorio"
+        placeholder="Bayer..."
+        />
+    
+        @if (medForm.laboratorio().touched() &&
+            medForm.laboratorio().invalid()) {
+            @for (error of medForm.laboratorio().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+  </div>
+
+  <div>
+    <label>Descripción: </label>
+        <input
+        type="text"
+        [formField]="medForm.descripcion"
+        placeholder="Pastillas en capsula..."
+        />
+    
+        @if (medForm.descripcion().touched() &&
+            medForm.descripcion().invalid()) {
+            @for (error of medForm.descripcion().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+  </div>
+
+  <div>
+    <label>Stock: </label>
+        <input
+        type="number"
+        [formField]="medForm.stock"
+        placeholder="420..."
+        />
+    
+        @if (medForm.stock().touched() &&
+            medForm.stock().invalid()) {
+            @for (error of medForm.stock().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+  </div>
+
+  <div>
+    <label>Precio: </label>
+        <input
+        type="number"
+        [formField]="medForm.precio"
+        placeholder="$15000"
+        />
+    
+        @if (medForm.precio().touched() &&
+            medForm.precio().invalid()) {
+            @for (error of medForm.precio().errors(); track error) {
+                <small>{{ error.message }}</small>
+            }
+        }
+  </div>
+
+  @if (!esEdicion) {
+    <div>
+        <label>Fecha de vencimiento: </label>
+            <input
+            type="text"
+            [formField]="medForm.fechaVencimiento"
+            placeholder="28/07/2030"
+            />
+        
+            @if (medForm.fechaVencimiento().touched() &&
+                medForm.fechaVencimiento().invalid()) {
+                @for (error of medForm.fechaVencimiento().errors(); track error) {
+                    <small>{{ error.message }}</small>
+                }
+            }
+  </div>
+  }
+ 
+ 
+  <button type="submit" [disabled]="cargando()">
+    {{ cargando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+ 
+</form>
+
