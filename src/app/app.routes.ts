@@ -14,14 +14,11 @@ import { TURNO_ROUTES } from './features/administrativo/Pagina-Turno/turno.route
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
-<<<<<<< HEAD
 import { OlvideContrasena } from './core/RecuperacionContraseña/olvide-contrasena/olvide-contrasena';
 import { RestablecerContrasena } from './core/RecuperacionContraseña/restablecer-contrasena/restablecer-contrasena';
-=======
-import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
 import { CONSULTORIO_ROUTES } from './features/administrativo/Pagina-consultorios/consultorios.routes';
 import { SALAS_INTERNACION_ROUTES } from './features/administrativo/Pagina-Salas-de-internacion/sala-internacion.routes';
->>>>>>> feature/MaquetacionInterfazAdministrativo
+import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
 
 export const routes: Routes = [
     {
@@ -109,7 +106,8 @@ export const routes: Routes = [
         loadComponent: ()=> import('./layouts/administrativo-layout/administrativo-layout').then((m)=> m.AdministrativoLayout),
         canActivate: [authGuard, roleGuard],
         data: {
-            roles: [Roles.ROLE_ADMINISTRATIVO]
+            roles: [Roles.ROLE_ADMINISTRATIVO],
+            base: '/administrativo'
         },
 
         children: [
