@@ -90,7 +90,7 @@ export class TurnoFormulario implements OnInit {
             };
 
             this.turnoService.actualizarTurno(this.turnoId()!, turnoActualizar).subscribe({
-                next: () => this.router.navigate(['/administrativo', 'turnos']),
+                next: () => this.router.navigate(['/administrativo', 'turno']),
                 error: (error) => console.error('Error al actualizar el turno', error)
             });
 
@@ -105,7 +105,7 @@ export class TurnoFormulario implements OnInit {
             };
 
             this.turnoService.registrarTurno(turnoNuevo).subscribe({
-                next: () => this.router.navigate(['/administrativo', 'turnos']),
+                next: () => this.router.navigate(['/administrativo', 'turno']),
                 error: (error) => console.error('Error al registrar el turno', error)
             });
         }

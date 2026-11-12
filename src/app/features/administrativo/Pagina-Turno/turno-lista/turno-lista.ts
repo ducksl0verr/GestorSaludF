@@ -31,8 +31,10 @@ cargarTurnos(): void {
       console.error('Error al obtener los turnos', error);
     }
   });
+}
 
-
+editarTurno(id: number): void {
+  this.router.navigate(['/administrativo', 'turno', 'editar', id]);
 }
 
 

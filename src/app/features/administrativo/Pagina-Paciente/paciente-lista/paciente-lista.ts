@@ -53,12 +53,12 @@ ngOnInit(): void {
 
     // Ir al detalle del paciente
     verDetalle(id: number): void {
-        this.router.navigate(['/administrativo', 'pacientes', id]);
+        this.router.navigate(['/administrativo', 'paciente', id]);
     }
 
     // Ir a editar el paciente
     editarPaciente(id: number): void {
-        this.router.navigate(['/administrativo', 'pacientes', 'editar', id]);
+        this.router.navigate(['/administrativo', 'paciente', 'editar', id]);
     }
 }
 

@@ -29,7 +29,4 @@ export class ConsultorioService {
         return this.http.put<Consultorio>(`${this.API_URL}/${id}`, consultorio);
     }
 
-    eliminarConsultorio(id: number) {
-        return this.http.delete<void>(`${this.API_URL}/${id}`);
-    }
 }

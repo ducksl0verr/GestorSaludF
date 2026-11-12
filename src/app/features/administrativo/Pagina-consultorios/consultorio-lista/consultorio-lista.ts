@@ -36,17 +36,5 @@ export class ConsultorioLista implements OnInit {
 
 
 
-    eliminarConsultorio(id: number): void {
-      if (confirm('¿Estás seguro de que deseas eliminar este consultorio?')) {
-          this.consultorioService.eliminarConsultorio(id).subscribe({
-              next: () => {
-                  alert('Consultorio eliminado correctamente');
-                  this.cargarConsultorios();
-                },
-                error: (error) => {
-                    console.error('Error al eliminar el consultorio', error);
-                }
-          });
-      }
-  }
+    
 }

@@ -157,7 +157,7 @@ guardarPaciente(): void {
         this.servicioPaciente.actualizarPaciente(this.id, pacienteActualizar).subscribe({
             next: () => {
                 alert('Paciente actualizado correctamente');
-                this.router.navigate(['/administrativo', 'pacientes']);
+                this.router.navigate(['/administrativo', 'paciente']);
             },
             error: () => alert('No se pudo actualizar el paciente')
         });
@@ -167,7 +167,7 @@ guardarPaciente(): void {
         this.servicioPaciente.registrarPaciente(this.pacienteModel()).subscribe({
             next: () => {
                 alert('Paciente registrado correctamente');
-                this.router.navigate(['/administrativo', 'pacientes']);
+                this.router.navigate(['/administrativo', 'paciente']);
             },
             error: () => alert('No se pudo registrar el paciente')
         });

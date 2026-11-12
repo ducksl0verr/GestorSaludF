@@ -19,6 +19,7 @@
                     <th>ID Tratamiento</th>
                     <th>ID Consultorio</th>
                     <th>ID Profesional</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -33,6 +34,11 @@
                         <td>{{ turno.id_tratamiento }}</td>
                         <td>{{ turno.id_consultorio }}</td>
                         <td>{{ turno.id_profesional }}</td>
+                        <td>
+                            <button (click)="editarTurno(turno.id)">
+                                Editar
+                            </button>
+                        </td>
                     </tr>
                 }
             </tbody>
