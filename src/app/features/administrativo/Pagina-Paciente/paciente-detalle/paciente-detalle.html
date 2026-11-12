@@ -1,0 +1,70 @@
+<div class="contenedor">
+
+    @if (paciente(); as p) {
+
+        <h2>Detalle del paciente</h2>
+
+        <section>
+            <h3>Datos personales</h3>
+
+            <p><strong>Nombre:</strong> {{ p.nombre }}</p>
+            <p><strong>Apellido:</strong> {{ p.apellido }}</p>
+            <p><strong>DNI:</strong> {{ p.dni }}</p>
+            <p><strong>Fecha de nacimiento:</strong> {{ p.fecha_nacimiento }}</p>
+            <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado }}</p>
+        </section>
+
+        <button [routerLink]="['/administrativo/prescripciones', p.id]">
+        Ver prescripciones
+        </button>
+
+        <section>
+            <h3>Contacto</h3>
+
+            <p><strong>Email:</strong> {{ p.contacto.email }}</p>
+            <p><strong>Teléfono:</strong> {{ p.contacto.telefono }}</p>
+        </section>
+
+        <section>
+            <h3>Domicilio</h3>
+
+            <p><strong>Calle:</strong> {{ p.domicilio.calle }}</p>
+            <p><strong>Número:</strong> {{ p.domicilio.numero }}</p>
+            <p><strong>Piso:</strong> {{ p.domicilio.piso }}</p>
+            <p><strong>Departamento:</strong> {{ p.domicilio.depto }}</p>
+            <p><strong>Localidad:</strong> {{ p.domicilio.localidad }}</p>
+            <p><strong>Provincia:</strong> {{ p.domicilio.provincia }}</p>
+            <p><strong>Código postal:</strong> {{ p.domicilio.codigo_postal }}</p>
+        </section>
+
+        <section>
+    <h3>Obra social</h3>
+
+    @if (obraSocial(); as obra) {
+        <p><strong>Nombre:</strong> {{ obra.nombre }}</p>
+        <p><strong>Cobertura:</strong> {{ obra.cobertura }}</p>
+    } @else {
+        <p>No se encontró la obra social.</p>
+    }
+</section>
+
+        
+
+
+        <button [routerLink]="['/administrativo', 'paciente']">
+            Volver
+        </button>
+
+        <button [routerLink]="['/administrativo', 'paciente', 'editar', p.id]">
+            Editar
+        </button>
+
+        <button (click)="eliminar(p)">
+            Eliminar
+        </button>
+
+    } @else {
+        <p>No se encontró el paciente.</p>
+    }
+
+</div>

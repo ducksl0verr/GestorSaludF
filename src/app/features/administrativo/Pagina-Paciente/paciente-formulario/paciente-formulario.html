@@ -1,0 +1,171 @@
+
+<div class="contenedor">
+
+    <h2>{{ id ? 'Editar paciente' : 'Registrar paciente' }}</h2>
+
+    <form (submit)= '$event.preventDefault(); guardarPaciente()'>
+
+        <!-- DATOS PERSONALES -->
+        <h3>Datos personales</h3>
+
+        <div class="campo">
+            <label>Nombre:</label>
+            <input type="text" [formField]="pacienteForm.nombre">
+
+            @if (pacienteForm.nombre().invalid() && pacienteForm.nombre().touched()) {
+                <p>{{ pacienteForm.nombre().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Apellido:</label>
+            <input type="text" [formField]="pacienteForm.apellido">
+
+            @if (pacienteForm.apellido().invalid() && pacienteForm.apellido().touched()) {
+                <p>{{ pacienteForm.apellido().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Fecha de nacimiento:</label>
+            <input type="date" [formField]="pacienteForm.fecha_nacimiento">
+
+            @if (pacienteForm.fecha_nacimiento().invalid() && pacienteForm.fecha_nacimiento().touched()) {
+                <p>{{ pacienteForm.fecha_nacimiento().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>DNI:</label>
+            <input type="text" [formField]="pacienteForm.dni">
+
+            @if (pacienteForm.dni().invalid() && pacienteForm.dni().touched()) {
+                <p>{{ pacienteForm.dni().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Número de afiliado:</label>
+            <input type="number" [formField]="pacienteForm.numeroAfiliado">
+
+            @if (pacienteForm.numeroAfiliado().invalid() && pacienteForm.numeroAfiliado().touched()) {
+                <p>{{ pacienteForm.numeroAfiliado().errors()[0]?.message }}</p>
+            }
+        </div>
+
+
+        <!-- DOMICILIO -->
+        <h3>Domicilio</h3>
+
+        <div class="campo">
+            <label>Calle:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.calle">
+
+            @if (pacienteForm.domicilio.calle().invalid() && pacienteForm.domicilio.calle().touched()) {
+                <p>{{ pacienteForm.domicilio.calle().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Número:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.numero">
+
+            @if (pacienteForm.domicilio.numero().invalid() && pacienteForm.domicilio.numero().touched()) {
+                <p>{{ pacienteForm.domicilio.numero().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Piso:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.piso">
+
+            @if (pacienteForm.domicilio.piso().invalid() && pacienteForm.domicilio.piso().touched()) {
+                <p>{{ pacienteForm.domicilio.piso().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Departamento:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.depto">
+
+            @if (pacienteForm.domicilio.depto().invalid() && pacienteForm.domicilio.depto().touched()) {
+                <p>{{ pacienteForm.domicilio.depto().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Localidad:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.localidad">
+
+            @if (pacienteForm.domicilio.localidad().invalid() && pacienteForm.domicilio.localidad().touched()) {
+                <p>{{ pacienteForm.domicilio.localidad().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Provincia:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.provincia">
+
+            @if (pacienteForm.domicilio.provincia().invalid() && pacienteForm.domicilio.provincia().touched()) {
+                <p>{{ pacienteForm.domicilio.provincia().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Código postal:</label>
+            <input type="text" [formField]="pacienteForm.domicilio.codigo_postal">
+
+            @if (pacienteForm.domicilio.codigo_postal().invalid() && pacienteForm.domicilio.codigo_postal().touched()) {
+                <p>{{ pacienteForm.domicilio.codigo_postal().errors()[0]?.message }}</p>
+            }
+        </div>
+
+
+
+        <!-- CONTACTO -->
+        <h3>Contacto</h3>
+
+        <div class="campo">
+            <label>Teléfono:</label>
+            <input type="tel" [formField]="pacienteForm.contacto.telefono">
+
+            @if (pacienteForm.contacto.telefono().invalid() && pacienteForm.contacto.telefono().touched()) {
+                <p>{{ pacienteForm.contacto.telefono().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Email:</label>
+            <input type="email" [formField]="pacienteForm.contacto.email">
+
+            @if (pacienteForm.contacto.email().invalid() && pacienteForm.contacto.email().touched()) {
+                <p>{{ pacienteForm.contacto.email().errors()[0]?.message }}</p>
+            }
+        </div>
+
+
+        <!-- OBRA SOCIAL -->
+        <h3>Obra social</h3>
+
+        <div class="campo">
+            <label>ID de obra social:</label>
+            <input type="number" [formField]="pacienteForm.id_obraSocial">
+
+            @if (pacienteForm.id_obraSocial().invalid() && pacienteForm.id_obraSocial().touched()) {
+                <p>{{ pacienteForm.id_obraSocial().errors()[0]?.message }}</p>
+            }
+        </div>
+
+
+        <!-- BOTÓN -->
+        <button type="submit">
+            {{ id ? 'Actualizar paciente' : 'Registrar paciente' }}
+        </button>
+
+        <button type="button" routerLink="/administrativo/paciente">
+            Cancelar
+        </button>
+
+    </form>
+
+</div>

@@ -1,0 +1,51 @@
+<div class="contenedor">
+
+    <h2>Listado de turnos</h2>
+
+    <a routerLink="nuevo" class="boton-agregar">
+        Registrar turno
+    </a>
+
+    @if (turnos().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha y hora</th>
+                    <th>Estado del turno</th>
+                    <th>Estado de facturación</th>
+                    <th>ID Paciente</th>
+                    <th>ID Tratamiento</th>
+                    <th>ID Consultorio</th>
+                    <th>ID Profesional</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (turno of turnos(); track turno.id) {
+                    <tr>
+                        <td>{{ turno.id }}</td>
+                        <td>{{ turno.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ turno.estadoTurno }}</td>
+                        <td>{{ turno.estadoFacturacionDeTurno }}</td>
+                        <td>{{ turno.id_paciente }}</td>
+                        <td>{{ turno.id_tratamiento }}</td>
+                        <td>{{ turno.id_consultorio }}</td>
+                        <td>{{ turno.id_profesional }}</td>
+                        <td>
+                            <button (click)="editarTurno(turno.id)">
+                                Editar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay turnos registrados.</p>
+    }
+
+</div>
