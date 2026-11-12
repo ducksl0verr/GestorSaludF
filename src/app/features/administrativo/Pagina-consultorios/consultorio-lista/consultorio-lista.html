@@ -1,1 +1,49 @@
-<p>consultorio-lista works!</p>
+<div class="contenedor">
+
+    <h2>Listado de consultorios</h2>
+
+    <a routerLink="nuevo" class="boton-agregar">
+        Registrar consultorio
+    </a>
+
+    @if (consultorios().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (consultorio of consultorios(); track consultorio.id) {
+                    <tr>
+                        <td>{{ consultorio.id }}</td>
+                        <td>{{ consultorio.nombre }}</td>
+                        <td>
+                            <a [routerLink]="['detalle', consultorio.id]">
+                                Ver detalle
+                            </a>
+
+                            <a [routerLink]="['editar', consultorio.id]">
+                                Editar
+                            </a>
+
+                            <button
+                                type="button"
+                                (click)="eliminarConsultorio(consultorio.id)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay consultorios registrados.</p>
+    }
+
+</div>

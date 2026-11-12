@@ -1,1 +1,26 @@
-<p>consultorio-detalle works!</p>
+<div class="contenedor">
+
+    <h2>Detalle del consultorio</h2>
+
+    @if (consultorio(); as c) {
+
+        <div class="detalle">
+            <p><strong>ID:</strong> {{ c.id }}</p>
+            <p><strong>Nombre:</strong> {{ c.nombre }}</p>
+        </div>
+
+        <a [routerLink]="['/administrativo/consultorios/editar', c.id]">
+            Editar consultorio
+        </a>
+
+    } @else {
+        <p>Cargando consultorio...</p>
+    }
+
+    <br>
+
+    <a routerLink="/administrativo/consultorios">
+        Volver al listado
+    </a>
+
+</div>

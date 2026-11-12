@@ -1,1 +1,35 @@
-<p>consultorio-formulario works!</p>
+<div class="contenedor">
+
+    @if (id === null) {
+        <h2>Registrar consultorio</h2>
+    } @else {
+        <h2>Editar consultorio</h2>
+    }
+
+    <form (submit)="guardar(); $event.preventDefault()">
+
+        <div class="campo">
+            <label for="nombre">Nombre:</label>
+
+            <input
+                id="nombre"
+                type="text"
+                [formField]="consultorioForm.nombre"
+                placeholder="Ingrese el nombre del consultorio">
+
+            @if (consultorioForm.nombre().invalid() && consultorioForm.nombre().touched()) {
+                <p class="error">El nombre es obligatorio.</p>
+            }
+        </div>
+
+        <button type="submit">Guardar</button>
+
+        <button
+            type="button"
+            routerLink="/administrativo/consultorios">
+            Cancelar
+        </button>
+
+    </form>
+
+</div>

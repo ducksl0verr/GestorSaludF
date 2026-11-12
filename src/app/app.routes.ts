@@ -15,6 +15,7 @@ import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
 import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
+import { CONSULTORIO_ROUTES } from './features/administrativo/Pagina-consultorios/consultorios.routes';
 
 export const routes: Routes = [
     {
@@ -124,6 +125,10 @@ export const routes: Routes = [
             {
                 path: 'turno',
                 children: TURNO_ROUTES
+            },
+            {
+                path: 'consultorios',
+                children: CONSULTORIO_ROUTES
             },
             
             
