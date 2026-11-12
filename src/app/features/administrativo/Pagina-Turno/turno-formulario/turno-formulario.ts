@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, min, required } from '@angular/forms/signals';
 import { TurnoService } from '../services/turno-service';
@@ -14,6 +14,9 @@ import { EstadoTurno } from '../models/estado-turno';
 export class TurnoFormulario implements OnInit {
 
     turnoId = signal<number | undefined>(undefined);
+    
+    private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];
 
     estadosTurno: EstadoTurno[] = [
         'PENDIENTE',
@@ -47,12 +50,11 @@ export class TurnoFormulario implements OnInit {
 
     constructor(
         private turnoService: TurnoService,
-        private route: ActivatedRoute,
         private router: Router
     ) {}
 
     ngOnInit(): void {
-        const id = this.route.snapshot.paramMap.get('id');
+        const id = this.route.snapshot.params['id'];
 
         if (id) {
             this.turnoId.set(Number(id));
@@ -90,7 +92,7 @@ export class TurnoFormulario implements OnInit {
             };
 
             this.turnoService.actualizarTurno(this.turnoId()!, turnoActualizar).subscribe({
-                next: () => this.router.navigate(['/administrativo', 'turno']),
+                next: () => this.router.navigate([this.base, 'turnos']),
                 error: (error) => console.error('Error al actualizar el turno', error)
             });
 
@@ -105,7 +107,7 @@ export class TurnoFormulario implements OnInit {
             };
 
             this.turnoService.registrarTurno(turnoNuevo).subscribe({
-                next: () => this.router.navigate(['/administrativo', 'turno']),
+                next: () => this.router.navigate([this.base, 'turnos']),
                 error: (error) => console.error('Error al registrar el turno', error)
             });
         }

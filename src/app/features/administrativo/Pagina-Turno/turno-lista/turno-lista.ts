@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Turno } from '../models/turno';
 import { TurnoService } from '../services/turno-service';
 
@@ -14,6 +14,8 @@ import { TurnoService } from '../services/turno-service';
 export class TurnoLista implements OnInit {
 
 turnos = signal<Turno[]>([]);
+private route = inject(ActivatedRoute);
+protected base = this.route.snapshot.data['base'];
 
 
 constructor(private router : Router, private turnoService : TurnoService){}
@@ -34,11 +36,7 @@ cargarTurnos(): void {
 }
 
 editarTurno(id: number): void {
-  this.router.navigate(['/administrativo', 'turno', 'editar', id]);
+  this.router.navigate([this.base, 'turnos', 'editar', id]);
 }
-
-
-
-
 
 }

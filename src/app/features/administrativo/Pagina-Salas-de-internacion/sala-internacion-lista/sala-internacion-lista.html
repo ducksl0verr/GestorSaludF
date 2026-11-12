@@ -2,7 +2,7 @@
 
     <h2>Listado de salas de internación</h2>
 
-    <a routerLink="nuevo" class="boton-agregar">
+    <a [routerLink]="[base, 'salas-internacion', 'nuevo']" class="boton-agregar">
         Registrar sala
     </a>
 
@@ -25,11 +25,11 @@
                         <td>{{ sala.capacidad_maxima }}</td>
                         <td>{{ sala.pacientes.length }}</td>
                         <td>
-                            <a [routerLink]="['detalle', sala.id]">
+                            <a [routerLink]="[base, 'salas-internacion', sala.id]">
                                 Ver detalle
                             </a>
 
-                            <a [routerLink]="['editar', sala.id]">
+                            <a [routerLink]="[base, 'salas-internacion', 'editar', sala.id]">
                                 Editar
                             </a>
                         </td>

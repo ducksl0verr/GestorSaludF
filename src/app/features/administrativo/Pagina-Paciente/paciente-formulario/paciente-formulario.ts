@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PacienteService } from '../services/paciente-service';
 import { form, FormField, min, minLength, required } from '@angular/forms/signals';
@@ -16,8 +16,10 @@ import { PacienteActualizar } from '../models/paciente-actualizar';
 export class PacienteFormulario implements OnInit{
 
   id?: number;
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];  
 
-  constructor(private route: ActivatedRoute, private servicioPaciente: PacienteService, private router : Router) {}
+  constructor(private servicioPaciente: PacienteService, private router : Router) {}
 
 
   pacienteModel  = signal<PacienteNuevo>({
@@ -63,12 +65,6 @@ export class PacienteFormulario implements OnInit{
     required(campo.domicilio.calle, {message: 'La calle es obligatoria'});
     minLength(campo.domicilio.calle, 3, {message: 'La calle debe tener al menos 3 caracteres'});
 
-    required(campo.domicilio.piso, {message: 'El piso es obligatorio'});
-    minLength(campo.domicilio.piso, 1, {message: 'El piso debe tener al menos 1 carácter'});
-
-    required(campo.domicilio.depto, {message: 'El departamento es obligatorio'});
-    minLength(campo.domicilio.depto, 1, {message: 'El departamento debe tener al menos 1 carácter'});
-
     required(campo.domicilio.numero, {message: 'El número es obligatorio'});
     minLength(campo.domicilio.numero, 1, {message: 'El número debe tener al menos 1 carácter'});
 
@@ -96,7 +92,7 @@ export class PacienteFormulario implements OnInit{
 
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.params['id'];
 
     if (id) {
         this.id = Number(id);
@@ -157,7 +153,7 @@ guardarPaciente(): void {
         this.servicioPaciente.actualizarPaciente(this.id, pacienteActualizar).subscribe({
             next: () => {
                 alert('Paciente actualizado correctamente');
-                this.router.navigate(['/administrativo', 'paciente']);
+                this.router.navigate([this.base, 'pacientes']);
             },
             error: () => alert('No se pudo actualizar el paciente')
         });
@@ -167,7 +163,7 @@ guardarPaciente(): void {
         this.servicioPaciente.registrarPaciente(this.pacienteModel()).subscribe({
             next: () => {
                 alert('Paciente registrado correctamente');
-                this.router.navigate(['/administrativo', 'paciente']);
+                this.router.navigate([this.base, 'pacientes']);
             },
             error: () => alert('No se pudo registrar el paciente')
         });

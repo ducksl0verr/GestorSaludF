@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Consultorio } from '../models/consultorio';
 import { ConsultorioService } from '../services/consultorio-service';
@@ -13,6 +13,9 @@ import { ConsultorioService } from '../services/consultorio-service';
 export class ConsultorioLista implements OnInit {
 
     consultorios = signal<Consultorio[]>([]);
+    private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];
+
 
     constructor(private consultorioService: ConsultorioService) {}
 

@@ -18,7 +18,7 @@ export const QUIROFANO_ROUTES: Routes = [
             .then(m => m.QuirofanoFormulario)
     },
     {
-        path: 'detalle/:id',
+        path: ':id',
         loadComponent: () => import('./quirofano-detalle/quirofano-detalle')
             .then(m => m.QuirofanoDetalle)
     }

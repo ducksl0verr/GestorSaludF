@@ -18,7 +18,7 @@ export const CONSULTORIO_ROUTES: Routes = [
             .then(m => m.ConsultorioFormulario)
     },
     {
-        path: 'detalle/:id',
+        path: ':id',
         loadComponent: () => import('./consultorio-detalle/consultorio-detalle')
             .then(m => m.ConsultorioDetalle)
     }

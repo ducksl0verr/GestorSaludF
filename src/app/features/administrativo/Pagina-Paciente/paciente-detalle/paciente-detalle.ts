@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { Paciente } from '../models/paciente';
@@ -14,10 +14,12 @@ import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obr
 })
 export class PacienteDetalle implements OnInit {
 
-paciente = signal<Paciente | undefined>(undefined);
-obraSocial = signal<Obra_Social | undefined>(undefined);
+    paciente = signal<Paciente | undefined>(undefined);
+    obraSocial = signal<Obra_Social | undefined>(undefined);
+    private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];  
 
-constructor(private pacienteService: PacienteService, private route: ActivatedRoute, private router: Router,private obraSocialService: ObraSocialService,) {}
+constructor(private pacienteService: PacienteService, private router: Router,private obraSocialService: ObraSocialService,) {}
 
 ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -42,7 +44,7 @@ eliminar(p: Paciente): void {
     if (!confirm(`¿Eliminar a ${p.nombre} ${p.apellido}?`)) return;
 
     this.pacienteService.borrarPaciente(p.id).subscribe({
-      next: () => this.router.navigate(['/administrativo', 'pacientes']),
+      next: () => this.router.navigate([this.base, 'pacientes']),
       error: () => console.error('No se pudo eliminar el paciente.'),
     });
   }

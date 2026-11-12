@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { SalaInternacion } from '../models/sala-internacion';
 import { SalaInternacionService } from '../services/sala-internacion-service';
@@ -13,6 +13,9 @@ import { SalaInternacionService } from '../services/sala-internacion-service';
 export class SalaInternacionLista implements OnInit {
 
     salas = signal<SalaInternacion[]>([]);
+     private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
+
 
     constructor(private salaService: SalaInternacionService) {}
 

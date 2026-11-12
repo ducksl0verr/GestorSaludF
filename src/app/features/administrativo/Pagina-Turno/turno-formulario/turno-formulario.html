@@ -71,7 +71,7 @@
                 {{ turnoId() ? 'Guardar cambios' : 'Registrar turno' }}
             </button>
 
-            <button type="button" routerLink="/administrativo/turno">
+            <button type="button" [routerLink]="[base, 'turnos']">
                 Volver
             </button>
         </div>

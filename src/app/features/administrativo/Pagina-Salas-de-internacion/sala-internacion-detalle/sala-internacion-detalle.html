@@ -70,7 +70,7 @@
 
         <br>
 
-        <a [routerLink]="['/administrativo/salas-internacion/editar', s.id]">
+        <a [routerLink]="[base, 'salas-internacion', 'editar', s.id]">
             Editar capacidad
         </a>
     } @else {
@@ -79,7 +79,7 @@
 
     <br>
 
-    <a routerLink="/administrativo/salas-internacion">
+    <a [routerLink]="[base, 'salas-internacion']">
         Volver al listado
     </a>
 </div>

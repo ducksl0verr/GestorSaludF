@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required } from '@angular/forms/signals';
 
@@ -17,6 +17,9 @@ export class QuirofanoFormulario implements OnInit {
 
     id: number | null = null;
 
+    private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];  
+
     quirofanoModel = signal({
         nombre: '',
         disponible: true
@@ -27,13 +30,12 @@ export class QuirofanoFormulario implements OnInit {
     });
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private quirofanoService: QuirofanoService
     ) {}
 
     ngOnInit(): void {
-        const idParametro = this.route.snapshot.paramMap.get('id');
+        const idParametro = this.route.snapshot.params['id'];
 
         if (idParametro) {
             this.id = Number(idParametro);
@@ -66,7 +68,7 @@ export class QuirofanoFormulario implements OnInit {
             this.quirofanoService.guardarQuirofano(quirofanoNuevo).subscribe({
                 next: () => {
                     alert('Quirófano registrado correctamente');
-                    this.router.navigate(['/administrativo/quirofanos']);
+                    this.router.navigate([this.base, 'quirofanos']);
                 },
                 error: (error) => {
                     console.error('Error al registrar el quirófano', error);
@@ -86,7 +88,7 @@ export class QuirofanoFormulario implements OnInit {
             ).subscribe({
                 next: () => {
                     alert('Quirófano actualizado correctamente');
-                    this.router.navigate(['/administrativo/quirofanos']);
+                    this.router.navigate([this.base, 'quirofanos']);
                 },
                 error: (error) => {
                     console.error('Error al actualizar el quirófano', error);

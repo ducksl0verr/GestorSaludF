@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { SalaInternacion } from '../models/sala-internacion';
@@ -20,9 +20,11 @@ export class SalaInternacionDetalle implements OnInit {
     pacienteSeleccionado = signal<number | null>(null);
 
     idSala: number = 0;
+    private route= inject(ActivatedRoute);
+    
+    private base = this.route.snapshot.data['base'];
 
     constructor(
-        private route: ActivatedRoute,
         private salaService: SalaInternacionService,
         private pacienteService: PacienteService
     ) {}

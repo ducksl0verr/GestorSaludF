@@ -115,7 +115,7 @@ export const routes: Routes = [
                 path: '', redirectTo: 'consultorios', pathMatch: 'full'
             },
             {
-                path: 'paciente',
+                path: 'pacientes',
                 children: PACIENTE_ROUTES
             },
             {
@@ -135,7 +135,7 @@ export const routes: Routes = [
                 children: QUIROFANO_ROUTES
             },
             {
-                path: 'turno',
+                path: 'turnos',
                 children: TURNO_ROUTES
             },
             {
@@ -146,8 +146,10 @@ export const routes: Routes = [
                 path: 'salas-internacion',
                 children: SALAS_INTERNACION_ROUTES
             },
-            
-            
+            {
+                path: 'tratamientos',
+                children: TRATAMIENTOS_ROUTES
+            }
             
         ]
     }, 

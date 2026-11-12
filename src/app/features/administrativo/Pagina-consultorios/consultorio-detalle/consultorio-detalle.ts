@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Consultorio } from '../models/consultorio';
@@ -14,8 +14,11 @@ export class ConsultorioDetalle implements OnInit {
 
     consultorio = signal<Consultorio | null>(null);
 
+    private route= inject(ActivatedRoute);
+
+    private base = this.route.snapshot.data['base'];
+
     constructor(
-        private route: ActivatedRoute,
         private consultorioService: ConsultorioService
     ) {}
 

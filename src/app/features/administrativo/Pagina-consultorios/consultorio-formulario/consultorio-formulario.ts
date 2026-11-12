@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required } from '@angular/forms/signals';
 
@@ -16,6 +16,10 @@ export class ConsultorioFormulario implements OnInit {
 
     id: number | null = null;
 
+    private route= inject(ActivatedRoute);
+  
+    private base = this.route.snapshot.data['base'];
+
     consultorioModel = signal({
         nombre: ''
     });
@@ -25,7 +29,6 @@ export class ConsultorioFormulario implements OnInit {
     });
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private consultorioService: ConsultorioService
     ) {}
@@ -34,7 +37,7 @@ export class ConsultorioFormulario implements OnInit {
 
 
     ngOnInit(): void {
-        const idParametro = this.route.snapshot.paramMap.get('id');
+        const idParametro = this.route.snapshot.params['id'];
 
         if (idParametro) {
             this.id = Number(idParametro);
@@ -72,7 +75,7 @@ export class ConsultorioFormulario implements OnInit {
             this.consultorioService.guardarConsultorio(consultorioNuevo).subscribe({
                 next: () => {
                     alert('Consultorio registrado correctamente');
-                    this.router.navigate(['/administrativo/consultorios']);
+                    this.router.navigate([this.base, 'consultorios']);
                 },
                 error: (error) => {
                     console.error('Error al registrar el consultorio', error);
@@ -91,7 +94,7 @@ export class ConsultorioFormulario implements OnInit {
             ).subscribe({
                 next: () => {
                     alert('Consultorio actualizado correctamente');
-                    this.router.navigate(['/administrativo/consultorios']);
+                    this.router.navigate([this.base, 'consultorios']);
                 },
                 error: (error) => {
                     console.error('Error al actualizar el consultorio', error);

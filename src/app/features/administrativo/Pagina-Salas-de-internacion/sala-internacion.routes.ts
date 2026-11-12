@@ -18,7 +18,7 @@ export const SALAS_INTERNACION_ROUTES: Routes = [
         component: SalaInternacionFormulario
     },
     {
-        path: 'detalle/:id',
+        path: ':id',
         component: SalaInternacionDetalle
     }
 ];

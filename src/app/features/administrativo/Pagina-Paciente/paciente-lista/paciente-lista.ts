@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, signal, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Paciente } from '../models/paciente';
 import { PacienteService } from '../services/paciente-service';
 import { Router } from '@angular/router';
@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 export class PacienteLista implements OnInit {
 
 pacientes = signal<Paciente[]>([]);
+
+private route = inject(ActivatedRoute);
+protected base = this.route.snapshot.data['base'];  
 
 constructor(private servicioPaciente: PacienteService, private router : Router){}
 
@@ -53,12 +56,12 @@ ngOnInit(): void {
 
     // Ir al detalle del paciente
     verDetalle(id: number): void {
-        this.router.navigate(['/administrativo', 'paciente', id]);
+        this.router.navigate([this.base, 'pacientes', id]);
     }
 
     // Ir a editar el paciente
     editarPaciente(id: number): void {
-        this.router.navigate(['/administrativo', 'paciente', 'editar', id]);
+        this.router.navigate([this.base, 'pacientes', 'editar', id]);
     }
 }
 

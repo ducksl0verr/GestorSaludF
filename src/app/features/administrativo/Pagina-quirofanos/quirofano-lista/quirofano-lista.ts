@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Quirofano } from '../models/quirofano';
 import { QuirofanoService } from '../services/quirofano-service';
@@ -13,6 +13,9 @@ import { QuirofanoService } from '../services/quirofano-service';
 export class QuirofanoLista implements OnInit {
 
     quirofanos = signal<Quirofano[]>([]);
+
+    private route = inject(ActivatedRoute);
+    protected base = this.route.snapshot.data['base'];  
 
     constructor(private quirofanoService: QuirofanoService) {}
 

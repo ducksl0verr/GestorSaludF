@@ -9,7 +9,7 @@
             <p><strong>Nombre:</strong> {{ c.nombre }}</p>
         </div>
 
-        <a [routerLink]="['/administrativo/consultorios/editar', c.id]">
+        <a [routerLink]="[base, 'consultorios', 'editar', c.id]">
             Editar consultorio
         </a>
 
@@ -19,7 +19,7 @@
 
     <br>
 
-    <a routerLink="/administrativo/consultorios">
+    <a [routerLink]="[base, 'consultorios']">
         Volver al listado
     </a>
 

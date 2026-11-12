@@ -162,7 +162,7 @@
             {{ id ? 'Actualizar paciente' : 'Registrar paciente' }}
         </button>
 
-        <button type="button" routerLink="/administrativo/paciente">
+        <button type="button" [routerLink]="[base, 'pacientes']">
             Cancelar
         </button>
 

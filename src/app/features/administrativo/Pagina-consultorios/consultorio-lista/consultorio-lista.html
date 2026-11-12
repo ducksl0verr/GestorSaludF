@@ -2,7 +2,7 @@
 
     <h2>Listado de consultorios</h2>
 
-    <a routerLink="nuevo" class="boton-agregar">
+    <a [routerLink]="[base, 'consultorios', 'nuevo']" class="boton-agregar">
         Registrar consultorio
     </a>
 
@@ -23,11 +23,11 @@
                         <td>{{ consultorio.id }}</td>
                         <td>{{ consultorio.nombre }}</td>
                         <td>
-                            <a [routerLink]="['detalle', consultorio.id]">
+                            <a [routerLink]="[base, 'consultorios', consultorio.id]">
                                 Ver detalle
                             </a>
 
-                            <a [routerLink]="['editar', consultorio.id]">
+                            <a [routerLink]="[base, 'consultorios', 'editar', consultorio.id]">
                                 Editar
                             </a>
 

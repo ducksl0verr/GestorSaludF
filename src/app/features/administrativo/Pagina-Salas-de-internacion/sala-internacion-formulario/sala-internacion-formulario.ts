@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required, min } from '@angular/forms/signals';
 
@@ -16,6 +16,11 @@ export class SalaInternacionFormulario implements OnInit {
 
     id: number | null = null;
 
+    
+    private route= inject(ActivatedRoute);
+    
+    private base = this.route.snapshot.data['base'];
+
     salaModel = signal({
         capacidad_maxima: 1
     });
@@ -26,12 +31,11 @@ export class SalaInternacionFormulario implements OnInit {
     });
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private salaService: SalaInternacionService) {}
 
     ngOnInit(): void {
-        const idParametro = this.route.snapshot.paramMap.get('id');
+        const idParametro = this.route.snapshot.params['id'];
 
         if (idParametro) {
             this.id = Number(idParametro);
@@ -63,7 +67,7 @@ export class SalaInternacionFormulario implements OnInit {
             this.salaService.guardarSalaInternacion(salaNueva).subscribe({
                 next: () => {
                     alert('Sala de internación registrada correctamente');
-                    this.router.navigate(['/administrativo/salas-internacion']);
+                    this.router.navigate([this.base, 'salas-internacion']);
                 },
                 error: (error) => {
                     console.error('Error al registrar la sala', error);
@@ -82,7 +86,7 @@ export class SalaInternacionFormulario implements OnInit {
             ).subscribe({
                 next: () => {
                     alert('Sala de internación actualizada correctamente');
-                    this.router.navigate(['/administrativo/salas-internacion']);
+                    this.router.navigate([this.base, 'salas-internacion']);
                 },
                 error: (error) => {
                     console.error('Error al actualizar la sala', error);
