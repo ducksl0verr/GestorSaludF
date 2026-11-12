@@ -18,7 +18,7 @@ export class DiagnosticoLista {
   get rutaDiagnosticos(): string {
     return this.router.url.startsWith('/admin/')
       ? '/admin/diagnosticos'
-      : '/administrativo/diagnosticos';
+      : '/administrativo/diagnosticos'
   }
 
   constructor(
