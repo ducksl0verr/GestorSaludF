@@ -1,1 +1,28 @@
-<p>mediacamento-lista works!</p>
+<div class="container">
+    <h2 class="mb-0">Medicamentos</h2>
+    <button [routerLink]="[base, 'medicamentos', 'nuevo']">
+      Nuevo medicamento
+    </button>
+
+  @if (medicamentos().length === 0) {
+    <div class="alert alert-info">No hay medicamentos cargados.</div>
+  } @else {
+        <ul>
+            @for (med of medicamentos(); track med.id) {
+                <li>
+                  <p>
+                    {{ med.id }} - {{ med.nombre }}
+                  </p>
+                  
+                  <button [routerLink]="[base, 'medicamentos', 'editar', med.id]">Editar</button>
+                  <button [routerLink]="[base, 'medicamentos', med.id]">Ver detalles</button>
+                  <button (click)="borrarMedicamento(med.id)">Eliminar</button>
+                  
+                </li>
+            }
+            @if (mensajeError()) {
+                <p class="error">{{ mensajeError() }}</p>
+            }
+        </ul>
+    }
+</div>

@@ -4,14 +4,14 @@
     <p>Cargando...</p>
 } @else if (error()){
     <p class="error">{{ error() }}</p>
-} @else if (obra(); as p){
-    <h2> {{p.nombre}} </h2>
+} @else if (obra(); as o){
+    <h2> {{o.nombre}} </h2>
     <dl>
     <dt>Cobertura</dt>
-    <dd>{{ p.cobertura }}</dd>
+    <dd>{{ o.cobertura }}</dd>
 
     <dt>Domicilios:</dt>
-    @for(dom of p.domicilios; track $index){
+    @for(dom of o.domicilios; track $index){
         <li>
           {{ dom.calle }} {{ dom.numero }}
           @if (dom.piso) { | Piso: {{ dom.piso }} }

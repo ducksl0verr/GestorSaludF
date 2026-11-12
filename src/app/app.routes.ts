@@ -11,6 +11,7 @@ import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usua
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
+import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
 
 export const routes: Routes = [
     {
@@ -77,6 +78,10 @@ export const routes: Routes = [
             {
                 path:'tratamientos',
                 children: TRATAMIENTOS_ROUTES
+            },
+            {
+                path: 'medicamentos',
+                children: MEDICAMENTOS_ROUTES
             }
         ],
     },

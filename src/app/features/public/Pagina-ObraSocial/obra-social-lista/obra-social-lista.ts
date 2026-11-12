@@ -3,6 +3,8 @@ import { ObraSocialService } from '../Service/obra-social-service';
 import { Obra_Social } from '../Model/Obra_Social';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   imports: [RouterModule, CommonModule],
@@ -17,13 +19,16 @@ export class ObraSocialLista {
   private route = inject(ActivatedRoute);
   protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
 
-
+  private platformId = inject(PLATFORM_ID);
   
   constructor(
     private oService: ObraSocialService
   ){}
 
   ngOnInit(){
+    if (!isPlatformBrowser(this.platformId)) {
+        return;
+    }
     this.cargarObras();
   }
 

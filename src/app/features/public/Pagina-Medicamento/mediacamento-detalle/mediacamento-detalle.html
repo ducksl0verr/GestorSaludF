@@ -1,1 +1,29 @@
-<p>mediacamento-detalle works!</p>
+<a routerLink="..">Volver a la lista.</a>
+
+@if (cargando()){
+    <p>Cargando...</p>
+} @else if (error()){
+    <p class="error">{{ error() }}</p>
+} @else if (med(); as m){
+    <h2> {{m.nombre}} </h2>
+    <dl>
+    <dt>Principio activo: </dt>
+    <dd>{{ m.principioActivo }}</dd>
+
+    <dt>Laboratorio: </dt>
+    <dd>{{ m.laboratorio }}</dd>
+
+    <dt>Descripción: </dt>
+    <dd>{{ m.descripcion }}</dd>
+
+    <dt>Stock: </dt>
+    <dd>{{ m.stock }}</dd>
+
+    <dt>Precio: </dt>
+    <dd>{{ m.precio }}</dd>
+
+    <dt>Fecha de vencimiento: </dt>
+    <dd>{{ m.fechaVencimiento }}</dd>
+
+  </dl>
+}
