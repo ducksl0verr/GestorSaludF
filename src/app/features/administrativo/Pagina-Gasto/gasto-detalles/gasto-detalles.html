@@ -1,0 +1,36 @@
+<div class="contenedor">
+
+    <h2>Detalle del gasto</h2>
+
+    @if (gasto(); as g) {
+
+        <div class="detalle">
+            <p><strong>ID:</strong> {{ g.id }}</p>
+            <p><strong>Fecha:</strong> {{ g.fecha | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Descripción:</strong> {{ g.descripcion }}</p>
+            <p><strong>Monto:</strong> {{ g.monto }}</p>
+            <p><strong>Tipo de gasto:</strong> {{ g.tipoGasto }}</p>
+            <p><strong>Proveedor:</strong> {{ g.nombreProveedor }}</p>
+            <p><strong>Método de pago:</strong> {{ g.metodoPago }}</p>
+            <p><strong>Observaciones:</strong> {{ g.observaciones }}</p>
+        </div>
+
+        <div class="acciones">
+            <button [routerLink]="[base, 'gastos']">
+                Volver
+            </button>
+
+            <button [routerLink]="[base, 'gastos', 'editar', g.id]">
+                Editar gasto
+            </button>
+
+            <button type="button" (click)="eliminar()">
+                Eliminar gasto
+            </button>
+        </div>
+
+    } @else {
+        <p>Cargando detalle del gasto...</p>
+    }
+
+</div>

@@ -1,0 +1,55 @@
+<div class="contenedor">
+
+    <h2>Listado de pagos</h2>
+
+    <a [routerLink]="[base, 'pagos', 'nuevo']" class="boton-agregar">
+        Registrar pago
+    </a>
+
+    @if (pagos().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Pacientes</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (pago of pagos(); track pago.id) {
+                    <tr>
+                        <td>{{ pago.id }}</td>
+                        <td>{{ pago.monto }}</td>
+                        <td>{{ pago.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>
+                            @for (paciente of pago.pacientes; track paciente.id) {
+                                {{ paciente.nombre }} {{ paciente.apellido }}@if (!$last) {, }
+                            }
+                        </td>
+                        <td>
+                            <a [routerLink]="[base, 'pagos', pago.id]">
+                                Ver detalle
+                            </a>
+
+                            <a [routerLink]="[base, 'pagos', 'editar', pago.id]">
+                                Editar
+                            </a>
+
+                            <button type="button" (click)="eliminar(pago)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay pagos registrados.</p>
+    }
+
+</div>

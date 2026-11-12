@@ -1,0 +1,47 @@
+<div class="contenedor">
+
+    <h2>Detalle del pago</h2>
+
+    @if (pago(); as p) {
+
+        <div class="detalle">
+            <p><strong>ID:</strong> {{ p.id }}</p>
+            <p><strong>Monto:</strong> {{ p.monto }}</p>
+            <p><strong>Fecha:</strong> {{ p.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <section>
+            <h3>Pacientes asociados</h3>
+
+            @if (p.pacientes.length > 0) {
+                <ul>
+                    @for (paciente of p.pacientes; track paciente.id) {
+                        <li>
+                            {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
+                        </li>
+                    }
+                </ul>
+            } @else {
+                <p>El pago no tiene pacientes asociados.</p>
+            }
+        </section>
+
+        <div class="acciones">
+            <button [routerLink]="[base, 'pagos']">
+                Volver
+            </button>
+
+            <button [routerLink]="[base, 'pagos', 'editar', p.id]">
+                Editar pago
+            </button>
+
+            <button type="button" (click)="eliminar()">
+                Eliminar pago
+            </button>
+        </div>
+
+    } @else {
+        <p>Cargando detalle del pago...</p>
+    }
+
+</div>

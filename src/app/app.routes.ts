@@ -20,6 +20,9 @@ import { CONSULTORIO_ROUTES } from './features/administrativo/Pagina-consultorio
 import { SALAS_INTERNACION_ROUTES } from './features/administrativo/Pagina-Salas-de-internacion/sala-internacion.routes';
 import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
 import { PRESCRIPCIONES_ROUTES } from './features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento.routes';
+import { PAGO_ROUTES } from './features/administrativo/Pagina-Pago/pago.routes';
+import { GASTO_ROUTES } from './features/administrativo/Pagina-Gasto/gasto.routes';
+import { FACTURA_ROUTES } from './features/administrativo/Pagina-Factura/factura.routes';
 
 export const routes: Routes = [
     {
@@ -102,6 +105,18 @@ export const routes: Routes = [
             {
                 path: 'prescripciones',
                 children: PRESCRIPCIONES_ROUTES
+            },
+            {
+                path: 'pagos',
+                children: PAGO_ROUTES
+            },
+            {
+                path: 'gastos',
+                children: GASTO_ROUTES
+            },
+            {
+                path: 'facturas',
+                children: FACTURA_ROUTES
             }
         ],
     },
@@ -146,6 +161,18 @@ export const routes: Routes = [
             {
                 path: 'tratamientos',
                 children: TRATAMIENTOS_ROUTES
+            },
+            {
+                path: 'pagos',
+                children: PAGO_ROUTES
+            },
+            {
+                path: 'gastos',
+                children: GASTO_ROUTES
+            },
+            {
+                path: 'facturas',
+                children: FACTURA_ROUTES
             }
             
         ]

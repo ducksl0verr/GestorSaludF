@@ -1,0 +1,73 @@
+<div class="contenedor">
+
+    <h2>Registrar factura</h2>
+
+    <form (submit)="$event.preventDefault(); guardar()">
+
+        <div class="campo">
+            <label for="idPaciente">Paciente:</label>
+
+            <select
+                id="idPaciente"
+                [formField]="facturaForm.idPaciente"
+                (change)="seleccionarPaciente($event)">
+                <option value="0" disabled>Seleccionar paciente</option>
+                @for (paciente of pacientes(); track paciente.id) {
+                    <option [value]="paciente.id.toString()">
+                        {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
+                    </option>
+                }
+            </select>
+
+            @if (facturaForm.idPaciente().invalid() && facturaForm.idPaciente().touched()) {
+                <p class="error">Debe seleccionar un paciente.</p>
+            }
+        </div>
+
+        <section>
+            <h3>Turnos facturables</h3>
+
+            @if (turnosFacturables().length > 0) {
+
+                @for (turno of turnosFacturables(); track turno.id_turno) {
+                    <label>
+                        <input
+                            type="checkbox"
+                            [checked]="facturaModel().idsTurnos.includes(turno.id_turno)"
+                            (change)="agregarTurno(turno.id_turno, $event)">
+
+                        {{ turno.fechaHora | date:'dd/MM/yyyy HH:mm' }} -
+                        {{ turno.tratamiento }} (turno N° {{ turno.id_turno }})
+                    </label>
+                }
+
+            } @else {
+                <p>
+                    @if (facturaModel().idPaciente === '0') {
+                        Seleccione un paciente para ver sus turnos facturables.
+                    } @else {
+                        El paciente no tiene turnos facturables.
+                    }
+                </p>
+            }
+
+            @if (facturaForm.idsTurnos().invalid() && facturaForm.idsTurnos().touched()) {
+                <p class="error">Debe seleccionar al menos un turno.</p>
+            }
+        </section>
+
+        @if (mensajeError(); as error) {
+            <p class="error">{{ error }}</p>
+        }
+
+        <div class="acciones">
+            <button type="submit">Guardar</button>
+
+            <button type="button" [routerLink]="[base, 'facturas']">
+                Cancelar
+            </button>
+        </div>
+
+    </form>
+
+</div>

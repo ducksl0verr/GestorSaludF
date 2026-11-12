@@ -1,0 +1,54 @@
+<div class="contenedor">
+
+    <h2>Detalle de la factura</h2>
+
+    @if (factura(); as f) {
+
+        <div class="detalle">
+            <p><strong>ID:</strong> {{ f.id }}</p>
+            <p><strong>Número de factura:</strong> {{ f.numero_factura }}</p>
+            <p><strong>Fecha de emisión:</strong> {{ f.fechaEmision | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Fecha de vencimiento:</strong> {{ f.fechaVencimiento | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Total:</strong> {{ f.total }}</p>
+            <p><strong>Estado:</strong> {{ f.estadoFactura }}</p>
+        </div>
+
+        <section>
+            <h3>Detalles de la factura</h3>
+
+            @if (f.detalles && f.detalles.length > 0) {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Importe</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (detalle of f.detalles; track detalle.id) {
+                            <tr>
+                                <td>{{ detalle.concepto }}</td>
+                                <td>{{ detalle.importe }}</td>
+                                <td>{{ detalle.cantidad }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+                <p>La factura no tiene detalles asociados.</p>
+            }
+        </section>
+
+        <div class="acciones">
+            <button [routerLink]="[base, 'facturas']">
+                Volver
+            </button>
+        </div>
+
+    } @else {
+        <p>Cargando detalle de la factura...</p>
+    }
+
+</div>

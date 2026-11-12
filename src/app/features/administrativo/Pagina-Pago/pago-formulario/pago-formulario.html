@@ -1,0 +1,70 @@
+<div class="contenedor">
+
+    @if (id === null) {
+        <h2>Registrar pago</h2>
+    } @else {
+        <h2>Editar pago</h2>
+    }
+
+    <form (submit)="$event.preventDefault(); guardar()">
+
+        <div class="campo">
+            <label for="monto">Monto:</label>
+
+            <input
+                id="monto"
+                type="number"
+                [formField]="pagoForm.monto">
+
+            @if (pagoForm.monto().invalid() && pagoForm.monto().touched()) {
+                <p class="error">El monto debe ser mayor a cero.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="fecha">Fecha y hora:</label>
+
+            <input
+                id="fecha"
+                type="datetime-local"
+                [formField]="pagoForm.fecha">
+
+            @if (pagoForm.fecha().invalid() && pagoForm.fecha().touched()) {
+                <p class="error">La fecha es obligatoria.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Pacientes:</label>
+
+            @for (paciente of pacientes(); track paciente.id) {
+                <label>
+                    <input
+                        type="checkbox"
+                        [checked]="pagoModel().idsPacientes.includes(paciente.id)"
+                        (change)="agregarPaciente(paciente.id, $event)">
+
+                    {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
+                </label>
+            }
+
+            @if (pagoForm.idsPacientes().invalid() && pagoForm.idsPacientes().touched()) {
+                <p class="error">Debe seleccionar al menos un paciente.</p>
+            }
+        </div>
+
+        @if (mensajeError(); as error) {
+            <p class="error">{{ error }}</p>
+        }
+
+        <div class="acciones">
+            <button type="submit">Guardar</button>
+
+            <button type="button" [routerLink]="[base, 'pagos']">
+                Cancelar
+            </button>
+        </div>
+
+    </form>
+
+</div>

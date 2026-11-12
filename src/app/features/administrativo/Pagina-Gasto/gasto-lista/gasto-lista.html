@@ -1,0 +1,57 @@
+<div class="contenedor">
+
+    <h2>Listado de gastos</h2>
+
+    <a [routerLink]="[base, 'gastos', 'nuevo']" class="boton-agregar">
+        Registrar gasto
+    </a>
+
+    @if (gastos().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Tipo de gasto</th>
+                    <th>Proveedor</th>
+                    <th>Método de pago</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (gasto of gastos(); track gasto.id) {
+                    <tr>
+                        <td>{{ gasto.id }}</td>
+                        <td>{{ gasto.fecha | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ gasto.descripcion }}</td>
+                        <td>{{ gasto.monto }}</td>
+                        <td>{{ gasto.tipoGasto }}</td>
+                        <td>{{ gasto.nombreProveedor }}</td>
+                        <td>{{ gasto.metodoPago }}</td>
+                        <td>
+                            <a [routerLink]="[base, 'gastos', gasto.id]">
+                                Ver detalle
+                            </a>
+
+                            <a [routerLink]="[base, 'gastos', 'editar', gasto.id]">
+                                Editar
+                            </a>
+
+                            <button type="button" (click)="eliminar(gasto)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay gastos registrados.</p>
+    }
+
+</div>

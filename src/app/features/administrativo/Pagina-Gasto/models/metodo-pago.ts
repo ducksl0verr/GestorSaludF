@@ -1,0 +1,13 @@
+export enum MetodoPago {
+    EFECTIVO = 'EFECTIVO',
+    TARJETA_DE_CREDITO = 'TARJETA_DE_CREDITO',
+    TARJETA_DE_DEBITO = 'TARJETA_DE_DEBITO',
+    TRANSFERENCIA = 'TRANSFERENCIA'
+}
+
+export const METODOS_PAGO: MetodoPago[] = [
+    MetodoPago.EFECTIVO,
+    MetodoPago.TARJETA_DE_CREDITO,
+    MetodoPago.TARJETA_DE_DEBITO,
+    MetodoPago.TRANSFERENCIA
+];

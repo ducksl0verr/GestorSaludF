@@ -1,0 +1,129 @@
+<div class="contenedor">
+
+    @if (id === null) {
+        <h2>Registrar gasto</h2>
+    } @else {
+        <h2>Editar gasto</h2>
+    }
+
+    <form (submit)="$event.preventDefault(); guardar()">
+
+        <div class="campo">
+            <label for="fecha">Fecha:</label>
+
+            <input
+                id="fecha"
+                type="date"
+                [formField]="gastoForm.fecha">
+
+            @if (gastoForm.fecha().invalid() && gastoForm.fecha().touched()) {
+                <p class="error">La fecha es obligatoria.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="descripcion">Descripción:</label>
+
+            <input
+                id="descripcion"
+                type="text"
+                [formField]="gastoForm.descripcion">
+
+            @if (gastoForm.descripcion().invalid() && gastoForm.descripcion().touched()) {
+                <p class="error">La descripción es obligatoria.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="monto">Monto:</label>
+
+            <input
+                id="monto"
+                type="number"
+                [formField]="gastoForm.monto">
+
+            @if (gastoForm.monto().invalid() && gastoForm.monto().touched()) {
+                <p class="error">El monto debe ser mayor a cero.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="tipoGasto">Tipo de gasto:</label>
+
+            <select id="tipoGasto" [formField]="gastoForm.tipoGasto">
+                <option value="" disabled>Seleccionar tipo</option>
+                @for (tipo of tiposGasto; track tipo) {
+                    <option [value]="tipo">{{ tipo }}</option>
+                }
+            </select>
+
+            @if (gastoForm.tipoGasto().invalid() && gastoForm.tipoGasto().touched()) {
+                <p class="error">El tipo de gasto es obligatorio.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="nombreProveedor">Proveedor:</label>
+
+            @if (id === null) {
+                <select
+                    id="nombreProveedor"
+                    [formField]="gastoForm.nombreProveedor">
+                    <option value="" disabled>Seleccionar proveedor</option>
+                    @for (proveedor of proveedores(); track proveedor.id) {
+                        <option [value]="proveedor.nombre">{{ proveedor.nombre }}</option>
+                    }
+                </select>
+            } @else {
+                <input
+                    id="nombreProveedor"
+                    type="text"
+                    [value]="gastoModel().nombreProveedor"
+                    disabled>
+
+                <p class="ayuda">El proveedor no puede modificarse una vez registrado el gasto.</p>
+            }
+
+            @if (gastoForm.nombreProveedor().invalid() && gastoForm.nombreProveedor().touched()) {
+                <p class="error">El proveedor es obligatorio.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="metodoPago">Método de pago:</label>
+
+            <select id="metodoPago" [formField]="gastoForm.metodoPago">
+                <option value="" disabled>Seleccionar método de pago</option>
+                @for (metodo of metodosPago; track metodo) {
+                    <option [value]="metodo">{{ metodo }}</option>
+                }
+            </select>
+
+            @if (gastoForm.metodoPago().invalid() && gastoForm.metodoPago().touched()) {
+                <p class="error">El método de pago es obligatorio.</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label for="observaciones">Observaciones:</label>
+
+            <textarea
+                id="observaciones"
+                [formField]="gastoForm.observaciones"></textarea>
+
+            @if (gastoForm.observaciones().invalid() && gastoForm.observaciones().touched()) {
+                <p class="error">Las observaciones son obligatorias.</p>
+            }
+        </div>
+
+        <div class="acciones">
+            <button type="submit">Guardar</button>
+
+            <button type="button" [routerLink]="[base, 'gastos']">
+                Cancelar
+            </button>
+        </div>
+
+    </form>
+
+</div>
