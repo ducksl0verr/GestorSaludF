@@ -30,7 +30,7 @@ export class PrescripcionTratamientoDetalles implements OnInit{
   eliminar(p : PrescripcionTratamiento): void {
       if (!confirm(`¿Eliminar la prescripción de tratamiento ${p.id}?`)) return;
   
-      this.prescripcionTratamientoService.borrarPrescripcionTratamiento(p.id).subscribe({
+      this.prescripcionTratamientoService.darBajaPrescripcionTratamiento(p.id).subscribe({
         next: () => this.router.navigate(['/administrativo', 'prescripciones']),
         error: () => console.error('No se pudo eliminar la prescripción de tratamiento.'),
       });

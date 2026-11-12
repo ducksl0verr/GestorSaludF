@@ -100,16 +100,16 @@ export const routes: Routes = [
                 children: PACIENTE_ROUTES
             },
             {
-                path: 'prescripciones/:id',
-                loadComponent: () =>
-                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-lista/prescripcion-tratamiento-lista')
-                .then(m => m.PrescripcionTratamientoLista)
-            },
-            {
                 path: 'prescripciones/:id/nueva',
                 loadComponent: () =>
                 import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-formulario/prescripcion-tratamiento-formulario')
                 .then(m => m.PrescripcionTratamientoFormulario)
+            },
+            {
+                path: 'prescripciones/:id',
+                loadComponent: () =>
+                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-lista/prescripcion-tratamiento-lista')
+                .then(m => m.PrescripcionTratamientoLista)
             },
             {
                 path: 'turno',
