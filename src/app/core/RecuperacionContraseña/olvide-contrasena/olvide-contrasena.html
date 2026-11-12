@@ -1,0 +1,28 @@
+<div class="contenedor">
+  <h2>Recuperar contraseña</h2>
+
+  @if (enviado()) {
+    <p>Si el email está registrado, te enviamos un enlace para restablecer tu contraseña. Revisá tu bandeja de entrada.</p>
+    <a routerLink="/login">Volver al inicio de sesión</a>
+  } @else {
+    <form (submit)="onSubmit($event)" novalidate>
+      <label for="email">Email</label>
+      <input id="email" type="email" [formField]="formulario.email" />
+
+      @if (formulario.email().touched() && formulario.email().invalid()) {
+        @for (e of formulario.email().errors(); track e) {
+          <p class="error">{{ e.message }}</p>
+        }
+      }
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="cargando()">
+        {{ cargando() ? 'Enviando...' : 'Enviar enlace' }}
+      </button>
+      <a routerLink="/login">Cancelar</a>
+    </form>
+  }
+</div>

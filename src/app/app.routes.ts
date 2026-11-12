@@ -12,6 +12,8 @@ import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.r
 import { OBRAS_SOCIALES_ROUTES } from './features/public/Pagina-ObraSocial/obras_sociales.routes';
 import { TRATAMIENTOS_ROUTES } from './features/public/Pagina-Tratamientos/tratamiento.routes';
 import { MEDICAMENTOS_ROUTES } from './features/public/Pagina-Medicamento/medicamentos.route';
+import { OlvideContrasena } from './core/RecuperacionContraseña/olvide-contrasena/olvide-contrasena';
+import { RestablecerContrasena } from './core/RecuperacionContraseña/restablecer-contrasena/restablecer-contrasena';
 
 export const routes: Routes = [
     {
@@ -31,6 +33,14 @@ export const routes: Routes = [
     },
     {
         path:'registrar', component: Registrar
+    },
+    {
+        path: 'olvide-contrasena', component: OlvideContrasena,
+        canActivate: [publicoGuard]
+    },
+    {
+        path: 'restablecer',
+        component: RestablecerContrasena
     },
     {
         path:'panel',

@@ -4,7 +4,6 @@ import { UsuarioService } from '../service/usuario-service';
 import { CommonModule } from '@angular/common';
 import { Usuario } from '../models/Usuario';
 import { Profesional } from '../models/Profesional';
-import { error } from 'console';
 
 @Component({
   imports: [CommonModule, RouterModule],

@@ -1,0 +1,39 @@
+<div class="contenedor">
+  <h2>Nueva contraseña</h2>
+
+  @if (tokenFaltante) {
+    <p class="error">El enlace no es válido. Solicitá uno nuevo.</p>
+    <a routerLink="/olvide-contrasena">Solicitar otro enlace</a>
+  } @else if (exito()) {
+    <p>Contraseña actualizada correctamente. Ya podés iniciar sesión.</p>
+    <a routerLink="/login">Iniciar sesión</a>
+  } @else {
+    <form (submit)="onSubmit($event)" novalidate>
+      <label for="nueva">Nueva contraseña</label>
+      <input id="nueva" type="password" autocomplete="new-password"
+             [formField]="formulario.nuevaContrasena" />
+      @if (formulario.nuevaContrasena().touched() && formulario.nuevaContrasena().invalid()) {
+        @for (e of formulario.nuevaContrasena().errors(); track e) {
+          <p class="error">{{ e.message }}</p>
+        }
+      }
+
+      <label for="confirmar">Confirmar contraseña</label>
+      <input id="confirmar" type="password" autocomplete="new-password"
+             [formField]="formulario.confirmar" />
+      @if (formulario.confirmar().touched() && formulario.confirmar().invalid()) {
+        @for (e of formulario.confirmar().errors(); track e) {
+          <p class="error">{{ e.message }}</p>
+        }
+      }
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="cargando()">
+        {{ cargando() ? 'Guardando...' : 'Cambiar contraseña' }}
+      </button>
+    </form>
+  }
+</div>

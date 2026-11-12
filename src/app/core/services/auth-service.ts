@@ -114,4 +114,12 @@ export class AuthService {
         this.storage?.setItem(this.ACCESS_KEY, res.accessToken);
         this.storage?.setItem(this.REFRESH_KEY, res.refreshToken);
     }
+
+    solicitarRecuperacion(email:string){
+        return this.http.post(`${this.API_URL}/olvide-contrasena`, {email}, {responseType: 'text'});
+    }
+
+    restablecerContrasena(token: string, nuevaContrasena: string) {
+        return this.http.post(`${this.API_URL}/restablecer-contrasena`, { token, nuevaContrasena }, { responseType: 'text' });
+    }
 }
