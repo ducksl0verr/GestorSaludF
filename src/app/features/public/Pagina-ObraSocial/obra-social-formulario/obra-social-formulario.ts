@@ -132,7 +132,7 @@ export class ObraSocialFormulario {
         this.oService.actualizarObraSocual(this.obraId, obraData).subscribe({
           next: ()=>{
             alert('Obra social actualizada correctamente.');
-            this.router.navigate([this.base]);
+            this.router.navigate([this.base, 'obrasSociales']);
           },
           error: (e)=> {
             this.error.set(e.error?.message || 'No se pudo guardar a la obra social.');
@@ -143,7 +143,7 @@ export class ObraSocialFormulario {
         this.oService.guardarObraSocial(obraData).subscribe({
           next: ()=>{
             alert('Obra Social actualizada correctamente.');
-            this.router.navigate([this.base]);
+            this.router.navigate([this.base, 'obrasSociales']);
           },
           error: (e)=> {
             this.error.set(e.error?.message || 'No se pudo guardar la obra social.');

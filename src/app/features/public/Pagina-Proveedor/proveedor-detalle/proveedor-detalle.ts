@@ -40,7 +40,7 @@ export class ProveedorDetalle {
       if (!confirm(`¿Eliminar a ${p.nombre}?`)) return;
   
       this.pService.borrar(p.id).subscribe({
-        next: () => this.router.navigate(['proveedores',this.base]),
+        next: () => this.router.navigate([this.base, 'proveedores']),
         error: () => this.error.set('No se pudo eliminar el proveedor.'),
       });
     }
