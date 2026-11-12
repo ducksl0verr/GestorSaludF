@@ -107,8 +107,8 @@ export class PacienteFormulario implements OnInit{
                     numeroAfiliado: data.numeroAfiliado,
                     domicilio: {
                         calle: data.domicilio.calle,
-                        piso: data.domicilio.piso,
-                        depto: data.domicilio.depto,
+                        piso: data.domicilio.piso ?? '',
+                        depto: data.domicilio.depto ?? '',
                         numero: data.domicilio.numero,
                         localidad: data.domicilio.localidad,
                         provincia: data.domicilio.provincia,

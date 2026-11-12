@@ -19,6 +19,7 @@ import { RestablecerContrasena } from './core/RecuperacionContraseña/restablece
 import { CONSULTORIO_ROUTES } from './features/administrativo/Pagina-consultorios/consultorios.routes';
 import { SALAS_INTERNACION_ROUTES } from './features/administrativo/Pagina-Salas-de-internacion/sala-internacion.routes';
 import { QUIROFANO_ROUTES } from './features/administrativo/Pagina-quirofanos/quirofano.routes';
+import { PRESCRIPCIONES_ROUTES } from './features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento.routes';
 
 export const routes: Routes = [
     {
@@ -97,6 +98,10 @@ export const routes: Routes = [
             {
                 path: 'medicamentos',
                 children: MEDICAMENTOS_ROUTES
+            },
+            {
+                path: 'prescripciones',
+                children: PRESCRIPCIONES_ROUTES
             }
         ],
     },
@@ -119,16 +124,8 @@ export const routes: Routes = [
                 children: PACIENTE_ROUTES
             },
             {
-                path: 'prescripciones/:id/nueva',
-                loadComponent: () =>
-                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-formulario/prescripcion-tratamiento-formulario')
-                .then(m => m.PrescripcionTratamientoFormulario)
-            },
-            {
-                path: 'prescripciones/:id',
-                loadComponent: () =>
-                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-lista/prescripcion-tratamiento-lista')
-                .then(m => m.PrescripcionTratamientoLista)
+                path: 'prescripciones',
+                children: PRESCRIPCIONES_ROUTES
             },
             {
                 path: 'quirofanos',

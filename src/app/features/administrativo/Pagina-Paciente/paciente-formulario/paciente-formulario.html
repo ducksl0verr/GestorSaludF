@@ -76,21 +76,13 @@
         </div>
 
         <div class="campo">
-            <label>Piso:</label>
+            <label>Piso (opcional):</label>
             <input type="text" [formField]="pacienteForm.domicilio.piso">
-
-            @if (pacienteForm.domicilio.piso().invalid() && pacienteForm.domicilio.piso().touched()) {
-                <p>{{ pacienteForm.domicilio.piso().errors()[0]?.message }}</p>
-            }
         </div>
 
         <div class="campo">
-            <label>Departamento:</label>
+            <label>Departamento (opcional):</label>
             <input type="text" [formField]="pacienteForm.domicilio.depto">
-
-            @if (pacienteForm.domicilio.depto().invalid() && pacienteForm.domicilio.depto().touched()) {
-                <p>{{ pacienteForm.domicilio.depto().errors()[0]?.message }}</p>
-            }
         </div>
 
         <div class="campo">

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PacienteService } from '../../Pagina-Paciente/services/paciente-service';
 import { Paciente } from '../../Pagina-Paciente/models/paciente';
@@ -13,13 +13,12 @@ import { PrescripcionTratamiento } from '../models/prescripcion-tratamiento';
 })
 export class PrescripcionTratamientoLista implements OnInit {
 
+  private pacienteService = inject(PacienteService);
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];
+
   paciente = signal<Paciente | undefined>(undefined);
   prescripciones = signal<PrescripcionTratamiento[]>([]);
-
-  constructor(
-    private pacienteService: PacienteService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit(): void {
 

@@ -21,31 +21,51 @@
             <h3>Datos del turno</h3>
 
             <div class="campo">
-                <label>ID del paciente:</label>
-                <input
-                    type="number" [formField]="turnoForm.id_paciente"
-                >
+                <label>Paciente:</label>
+                <select [formField]="turnoForm.id_paciente">
+                    <option value="0" disabled>Seleccionar paciente</option>
+                    @for (paciente of pacientes(); track paciente.id) {
+                        <option [value]="paciente.id.toString()">
+                            {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
+                        </option>
+                    }
+                </select>
             </div>
 
             <div class="campo">
-                <label>ID del tratamiento:</label>
-                <input
-                    type="number" [formField]="turnoForm.id_tratamiento"
-                >
+                <label>Tratamiento:</label>
+                <select [formField]="turnoForm.id_tratamiento">
+                    <option value="0" disabled>Seleccionar tratamiento</option>
+                    @for (tratamiento of tratamientos(); track tratamiento.id) {
+                        <option [value]="tratamiento.id.toString()">
+                            {{ tratamiento.nombre }}
+                        </option>
+                    }
+                </select>
             </div>
 
             <div class="campo">
-                <label>ID del consultorio:</label>
-                <input
-                    type="number" [formField]="turnoForm.id_consultorio"
-                >
+                <label>Sala / consultorio:</label>
+                <select [formField]="turnoForm.id_consultorio">
+                    <option value="0" disabled>Seleccionar sala</option>
+                    @for (consultorio of consultorios(); track consultorio.id) {
+                        <option [value]="consultorio.id.toString()">
+                            {{ consultorio.nombre }}
+                        </option>
+                    }
+                </select>
             </div>
 
             <div class="campo">
-                <label>ID del profesional:</label>
-                <input
-                    type="number" [formField]="turnoForm.id_profesional"
-                >
+                <label>Profesional:</label>
+                <select [formField]="turnoForm.id_profesional">
+                    <option value="0" disabled>Seleccionar profesional</option>
+                    @for (profesional of profesionales(); track profesional.id) {
+                        <option [value]="profesional.id.toString()">
+                            {{ profesional.nombre }} {{ profesional.apellido }}
+                        </option>
+                    }
+                </select>
             </div>
 
         } @else {

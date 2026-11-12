@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required } from '@angular/forms/signals';
 
@@ -23,6 +23,14 @@ import { PrescripcionTratamientoNueva } from '../models/prescripcion-tratamiento
 })
 export class PrescripcionTratamientoFormulario implements OnInit {
 
+    private pacienteService = inject(PacienteService);
+    private tratamientoService = inject(TratamientoService);
+    private usuarioService = inject(UsuarioService);
+    private prescripcionService = inject(PrescripcionTratamientoService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    protected base = this.route.snapshot.data['base'];
+
     paciente = signal<Paciente | undefined>(undefined);
     tratamientos = signal<Tratamiento[]>([]);
     profesionales = signal<Profesional[]>([]);
@@ -42,15 +50,6 @@ export class PrescripcionTratamientoFormulario implements OnInit {
         required(campo.id_profesional);
         required(campo.fecha_inicio);
     });
-
-    constructor(
-        private pacienteService: PacienteService,
-        private tratamientoService: TratamientoService,
-        private usuarioService: UsuarioService,
-        private prescripcionService: PrescripcionTratamientoService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {}
 
     ngOnInit(): void {
 
@@ -91,7 +90,7 @@ export class PrescripcionTratamientoFormulario implements OnInit {
         this.prescripcionService.registrarPrescripcionTratamiento(prescripcion).subscribe({
             next: () => {
                 alert('Prescripción registrada correctamente.');
-                this.router.navigate(['/administrativo/prescripciones', this.idPaciente]);
+                this.router.navigate([this.base, 'prescripciones', this.idPaciente]);
             },
             error: (error) => {
                 console.error('Error al registrar la prescripción', error);

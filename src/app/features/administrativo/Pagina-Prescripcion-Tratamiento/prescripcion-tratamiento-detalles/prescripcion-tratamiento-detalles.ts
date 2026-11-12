@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PrescripcionTratamiento } from '../models/prescripcion-tratamiento';
 import { PrescripcionTratamientoService } from '../services/prescripcion-tratamiento-service';
@@ -11,9 +11,12 @@ import { PrescripcionTratamientoService } from '../services/prescripcion-tratami
 })
 export class PrescripcionTratamientoDetalles implements OnInit{
 
-  prescripcionTratamiento = signal<PrescripcionTratamiento | undefined>(undefined);
+  private router = inject(Router);
+  private prescripcionTratamientoService = inject(PrescripcionTratamientoService);
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];
 
-  constructor(private router: Router, private prescripcionTratamientoService: PrescripcionTratamientoService, private route : ActivatedRoute) {}
+  prescripcionTratamiento = signal<PrescripcionTratamiento | undefined>(undefined);
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -31,7 +34,7 @@ export class PrescripcionTratamientoDetalles implements OnInit{
       if (!confirm(`¿Eliminar la prescripción de tratamiento ${p.id}?`)) return;
   
       this.prescripcionTratamientoService.darBajaPrescripcionTratamiento(p.id).subscribe({
-        next: () => this.router.navigate(['/administrativo', 'prescripciones']),
+        next: () => this.router.navigate([this.base, 'prescripciones']),
         error: () => console.error('No se pudo eliminar la prescripción de tratamiento.'),
       });
     }

@@ -8,11 +8,11 @@
         <p><strong>DNI:</strong> {{ p.dni }}</p>
 
         <div class="acciones">
-           <button [routerLink]="['/administrativo/prescripciones', p.id, 'nueva']">
+           <button [routerLink]="[base, 'prescripciones', p.id, 'nueva']">
     Agregar prescripción
 </button>
 
-            <button [routerLink]="['/administrativo/pacientes', p.id]">
+            <button [routerLink]="[base, 'pacientes', p.id]">
                 Volver al paciente
             </button>
         </div>

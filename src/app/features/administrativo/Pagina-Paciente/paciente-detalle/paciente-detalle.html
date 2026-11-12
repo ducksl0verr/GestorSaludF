@@ -14,7 +14,7 @@
             <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado }}</p>
         </section>
 
-        <button [routerLink]="['/administrativo/prescripciones', p.id]">
+        <button [routerLink]="[base, 'prescripciones', p.id]">
         Ver prescripciones
         </button>
 
