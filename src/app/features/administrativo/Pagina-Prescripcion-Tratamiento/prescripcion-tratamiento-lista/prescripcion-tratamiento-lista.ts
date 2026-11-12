@@ -1,9 +1,37 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { PacienteService } from '../../Pagina-Paciente/services/paciente-service';
+import { Paciente } from '../../Pagina-Paciente/models/paciente';
+import { PrescripcionTratamiento } from '../models/prescripcion-tratamiento';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-prescripcion-tratamiento-lista',
   styleUrl: './prescripcion-tratamiento-lista.css',
   templateUrl: './prescripcion-tratamiento-lista.html',
 })
-export class PrescripcionTratamientoLista {}
+export class PrescripcionTratamientoLista implements OnInit {
+
+  paciente = signal<Paciente | undefined>(undefined);
+  prescripciones = signal<PrescripcionTratamiento[]>([]);
+
+  constructor(
+    private pacienteService: PacienteService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.pacienteService.getPaciente(id).subscribe({
+      next: (paciente) => {
+        this.paciente.set(paciente);
+        this.prescripciones.set(paciente.tratamientos);
+      },
+      error: (error) => console.error('Error al obtener las prescripciones', error)
+    });
+
+  }
+}

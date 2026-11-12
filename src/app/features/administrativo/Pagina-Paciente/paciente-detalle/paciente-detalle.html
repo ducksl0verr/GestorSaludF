@@ -14,6 +14,10 @@
             <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado }}</p>
         </section>
 
+        <button [routerLink]="['/administrativo/prescripciones', p.id]">
+    Ver prescripciones
+</button>
+
         <section>
             <h3>Contacto</h3>
 
@@ -44,24 +48,14 @@
     }
 </section>
 
-        <section>
-            <h3>Tratamientos</h3>
+        
 
-            @if (p.tratamientos.length > 0) {
-                @for (tratamiento of p.tratamientos; track $index) {
-                    <p>{{ tratamiento }}</p>
-                }
-            } @else {
-                <p>No tiene tratamientos registrados.</p>
-            }
 
-        </section>
-
-        <button [routerLink]="['/administrativo', 'pacientes']">
+        <button [routerLink]="['/administrativo', 'paciente']">
             Volver
         </button>
 
-        <button [routerLink]="['/administrativo', 'pacientes', 'editar', p.id]">
+        <button [routerLink]="['/administrativo', 'paciente', 'editar', p.id]">
             Editar
         </button>
 

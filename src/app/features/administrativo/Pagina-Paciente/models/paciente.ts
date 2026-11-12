@@ -1,5 +1,6 @@
 import { Contacto } from "../../../public/contacto/models/Contacto";
 import { Domicilio } from "../../../public/Pagina-Domicilio/Model/Domicilio";
+import { PrescripcionTratamiento } from "../../Pagina-Prescripcion-Tratamiento/models/prescripcion-tratamiento";
 
 export interface Paciente { ///vendria a ser el paciente Respuesta, verificar si es correcto
     id: number;
@@ -13,6 +14,9 @@ export interface Paciente { ///vendria a ser el paciente Respuesta, verificar si
     id_obraSocial: number;
     nombreObraSocial: string;
     coberturaObraSocial: string;
-    tratamientos: any[]; ///any supongo que deberia ser reemplazado por el tratamiento model 
+    tratamientos: PrescripcionTratamiento[]; 
 }
+
+
+
 

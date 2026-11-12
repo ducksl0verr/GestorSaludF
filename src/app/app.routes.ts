@@ -94,14 +94,20 @@ export const routes: Routes = [
                 path: '', redirectTo: 'consultorios', pathMatch: 'full'
             },
             {
-                path: 'consultorios',
-                loadComponent: () =>
-                    import('./features/administrativo/consultorios/consultorios')
-                .then(m=>m.Consultorios)
-            },
-            {
                 path: 'paciente',
                 children: PACIENTE_ROUTES
+            },
+            {
+                path: 'prescripciones/:id',
+                loadComponent: () =>
+                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-lista/prescripcion-tratamiento-lista')
+                .then(m => m.PrescripcionTratamientoLista)
+            },
+            {
+                path: 'prescripciones/:id/nueva',
+                loadComponent: () =>
+                import('./features/administrativo/Pagina-Prescripcion-Tratamiento/prescripcion-tratamiento-formulario/prescripcion-tratamiento-formulario')
+                .then(m => m.PrescripcionTratamientoFormulario)
             },
             {
                 path: 'turno',
