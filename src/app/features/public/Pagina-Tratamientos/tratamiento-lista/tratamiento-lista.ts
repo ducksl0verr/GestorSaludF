@@ -13,13 +13,9 @@ import { TratamientoService } from '../Service/tratamiento-service';
 export class TratamientoLista {
 
   tratamientos = signal<Tratamiento[]>([]);
-  private router = inject(Router);
-
-  get rutaTratamientos(): string {
-    return this.router.url.startsWith('/admin/')
-      ? '/admin/tratamientos'
-      : '/administrativo/tratamientos';
-  }
+  
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
 
   constructor(
       private tService: TratamientoService

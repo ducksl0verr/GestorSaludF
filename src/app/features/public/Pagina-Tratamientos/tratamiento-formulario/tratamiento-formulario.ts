@@ -15,7 +15,7 @@ export class TratamientoFormulario {
     tratamientoId?: number;
     private route= inject(ActivatedRoute);
     
-    private base = this.route.snapshot.data['baseTra'];
+    private base = this.route.snapshot.data['base'];
   
     tratamientoModel= signal<TratamientoNuevo>({
       nombre: '',
@@ -81,7 +81,7 @@ export class TratamientoFormulario {
         this.tService.actualizarTratamiento(this.tratamientoId, tratamientoData).subscribe({
           next: ()=>{
             alert('Tratamiento actualizado correctamente.');
-            this.router.navigate([this.base]);
+            this.router.navigate([this.base, 'tratamientos']);
           },
           error: (e)=> {
             this.error.set(e.error?.message || 'No se pudo guardar el tratamiento.');
@@ -92,7 +92,7 @@ export class TratamientoFormulario {
         this.tService.guardarTratamiento(tratamientoData).subscribe({
           next: ()=>{
             alert('Tratamiento actualizado correctamente.');
-            this.router.navigate([this.base]);
+            this.router.navigate([this.base, 'tratamientos']);
           },
           error: (e)=> {
             this.error.set(e.error?.message || 'No se pudo guardar el tratamiento.');

@@ -41,7 +41,8 @@ export const routes: Routes = [
         loadComponent: ()=> import('./layouts/admin-layout/admin-layout').then((m)=> m.AdminLayout),
         canActivate: [authGuard, roleGuard],
         data: {
-            roles: [Roles.ROLE_ADMINISTRADOR]
+            roles: [Roles.ROLE_ADMINISTRADOR],
+            base: '/admin'
         },
         children: [
             {
@@ -67,21 +68,14 @@ export const routes: Routes = [
             },
             {
                 path: 'proveedores',
-                data:{ baseProveedores: '/admin/proveedores'},
                 children: PROVEEDOR_ROUTES
             },
             {
                 path:'obrasSociales',
-                data: {
-                    baseObras: 'admin/obrasSociales'
-                },
                 children: OBRAS_SOCIALES_ROUTES
             },
             {
                 path:'tratamientos',
-                data: {
-                    baseTra: 'admin/tratamientos'
-                },
                 children: TRATAMIENTOS_ROUTES
             }
         ],

@@ -19,7 +19,7 @@ export class ObraSocialDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['baseObras'];
+  private base = this.route.snapshot.data['base'];
 
   constructor() {
       const id = Number(this.route.snapshot.paramMap.get('id'));

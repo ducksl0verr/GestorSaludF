@@ -15,7 +15,7 @@ export class ObraSocialFormulario {
     obraId?: number;
     private route= inject(ActivatedRoute);
     
-    private base = this.route.snapshot.data['baseObras'];
+    private base = this.route.snapshot.data['base'];
   
     obraModel= signal<Obra_SocialNueva>({
       nombre: '',

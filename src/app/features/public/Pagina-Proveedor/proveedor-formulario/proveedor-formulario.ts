@@ -18,7 +18,7 @@ export class ProveedorFormulario {
   readonly TipoProveedor = TipoProveedor;
   private route= inject(ActivatedRoute);
   
-  private base = this.route.snapshot.data['baseProveedores'];
+  private base = this.route.snapshot.data['base'];
 
   proveedorModel= signal<ProveedorNuevo>({
     nombre: '',
@@ -153,7 +153,7 @@ export class ProveedorFormulario {
       this.pService.actualizarProveedor(this.proveedorId, proveedorData).subscribe({
         next: ()=>{
           alert('Proveedor actualizado correctamente.');
-          this.router.navigate([this.base]);
+          this.router.navigate([this.base, 'proveedores']);
         },
         error: (e)=> {
           this.error.set(e.error?.message || 'No se pudo guardar el proveedor.');
@@ -164,7 +164,7 @@ export class ProveedorFormulario {
       this.pService.guardarProveedor(proveedorData).subscribe({
         next: ()=>{
           alert('Proovedor actualizado correctamente.');
-          this.router.navigate([this.base]);
+          this.router.navigate([this.base, 'proveedores']);
         },
         error: (e)=> {
           this.error.set(e.error?.message || 'No se pudo guardar el usuario.');

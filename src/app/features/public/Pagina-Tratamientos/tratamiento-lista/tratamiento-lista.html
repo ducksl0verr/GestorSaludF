@@ -1,6 +1,6 @@
 <div id="contenedor">
     <p id="titulo">Tratamientos</p>
-    <button [routerLink]="[rutaTratamientos, 'nuevo']">Nuevo Tratamientor</button>
+    <button [routerLink]="[base, 'tratamientos', 'nuevo']">Nuevo Tratamientor</button>
     <ul>
         @for(tr of tratamientos(); track tr.id){
             <li>
@@ -13,7 +13,7 @@
                 <p>
                     Precio: {{ tr.precio }}
                 </p>
-                <button [routerLink]="[rutaTratamientos, 'editar', tr.id]">Editar</button>
+                <button [routerLink]="[base, 'tratamientos', 'editar', tr.id]">Editar</button>
                 <button (click)="borrarTratamiento(tr.id)">Eliminar</button>
             </li>
         }
