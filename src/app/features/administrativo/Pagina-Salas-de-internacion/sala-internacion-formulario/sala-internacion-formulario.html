@@ -1,0 +1,35 @@
+<div class="contenedor">
+
+    @if (id === null) {
+        <h2>Registrar sala de internación</h2>
+    } @else {
+        <h2>Editar sala de internación</h2>
+    }
+
+    <form (submit)="guardar(); $event.preventDefault()">
+
+        <div class="campo">
+            <label for="capacidad">Capacidad máxima:</label>
+
+            <input
+                id="capacidad" type="number" [formField]="salaForm.capacidad_maxima" placeholder="Ingrese la capacidad máxima">
+
+            @if (salaForm.capacidad_maxima().invalid() &&
+                 salaForm.capacidad_maxima().touched()) {
+                <p class="error">
+                    La capacidad debe ser como mínimo 1.
+                </p>
+            }
+        </div>
+
+        <button type="submit">Guardar</button>
+
+        <button
+            type="button"
+            routerLink="/administrativo/salas-internacion">
+            Cancelar
+        </button>
+
+    </form>
+
+</div>

@@ -1,0 +1,85 @@
+<div class="contenedor">
+    <h2>Detalle de sala de internación</h2>
+
+    @if (sala(); as s) {
+        <div class="detalle">
+            <p><strong>ID:</strong> {{ s.id }}</p>
+            <p><strong>Capacidad máxima:</strong> {{ s.capacidad_maxima }}</p>
+            <p>
+                <strong>Pacientes internados:</strong>
+                {{ s.pacientes.length }} / {{ s.capacidad_maxima }}
+            </p>
+        </div>
+
+        <h3>Pacientes internados</h3>
+
+        @if (s.pacientes.length > 0) {
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>DNI</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (paciente of s.pacientes; track paciente.id) {
+                        <tr>
+                            <td>{{ paciente.id }}</td>
+                            <td>{{ paciente.nombre }}</td>
+                            <td>{{ paciente.apellido }}</td>
+                            <td>{{ paciente.dni }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        } @else {
+            <p>No hay pacientes internados en esta sala.</p>
+        }
+
+        <h3>Internar paciente</h3>
+
+        @if (s.pacientes.length < s.capacidad_maxima) {
+            <div class="campo">
+                <label for="paciente">Seleccionar paciente:</label>
+
+                <select
+                    id="paciente"
+                    [value]="pacienteSeleccionado() ?? ''"
+                    (change)="seleccionarPaciente($event)"
+                >
+                    <option value="">Seleccione un paciente</option>
+
+                    @for (paciente of pacientes(); track paciente.id) {
+                        <option [value]="paciente.id">
+                            {{ paciente.nombre }} {{ paciente.apellido }}
+                            - DNI: {{ paciente.dni }}
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <button type="button" (click)="internarPaciente()">
+                Internar paciente
+            </button>
+        } @else {
+            <p>La sala alcanzó su capacidad máxima.</p>
+        }
+
+        <br>
+
+        <a [routerLink]="['/administrativo/salas-internacion/editar', s.id]">
+            Editar capacidad
+        </a>
+    } @else {
+        <p>Cargando información de la sala...</p>
+    }
+
+    <br>
+
+    <a routerLink="/administrativo/salas-internacion">
+        Volver al listado
+    </a>
+</div>

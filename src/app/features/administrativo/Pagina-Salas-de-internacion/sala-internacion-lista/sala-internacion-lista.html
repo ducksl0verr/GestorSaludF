@@ -1,0 +1,45 @@
+<div class="contenedor">
+
+    <h2>Listado de salas de internación</h2>
+
+    <a routerLink="nuevo" class="boton-agregar">
+        Registrar sala
+    </a>
+
+    @if (salas().length > 0) {
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Capacidad máxima</th>
+                    <th>Pacientes internados</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (sala of salas(); track sala.id) {
+                    <tr>
+                        <td>{{ sala.id }}</td>
+                        <td>{{ sala.capacidad_maxima }}</td>
+                        <td>{{ sala.pacientes.length }}</td>
+                        <td>
+                            <a [routerLink]="['detalle', sala.id]">
+                                Ver detalle
+                            </a>
+
+                            <a [routerLink]="['editar', sala.id]">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    } @else {
+        <p>No hay salas de internación registradas.</p>
+    }
+
+</div>
