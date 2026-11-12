@@ -1,0 +1,118 @@
+<form (submit)="onSubmit($event)" novalidate>
+
+  <h2>Datos de la Historia Clínica</h2>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <div>
+    <label>Fecha</label>
+    <input
+      type="date"
+      [formField]="historiaClinicaForm.fecha"
+    />
+
+    @if (historiaClinicaForm.fecha().touched() &&
+         historiaClinicaForm.fecha().invalid()) {
+      @for (error of historiaClinicaForm.fecha().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Observaciones</label>
+    <textarea
+      [formField]="historiaClinicaForm.observaciones"
+      placeholder="Ingrese las observaciones"
+    ></textarea>
+
+    @if (historiaClinicaForm.observaciones().touched() &&
+         historiaClinicaForm.observaciones().invalid()) {
+      @for (error of historiaClinicaForm.observaciones().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Evolución</label>
+    <textarea
+      [formField]="historiaClinicaForm.evolucion"
+      placeholder="Ingrese la evolución del paciente"
+    ></textarea>
+
+    @if (historiaClinicaForm.evolucion().touched() &&
+         historiaClinicaForm.evolucion().invalid()) {
+      @for (error of historiaClinicaForm.evolucion().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <hr>
+
+  <h3>Datos del paciente y profesional</h3>
+
+  <div>
+    <label>ID Paciente</label>
+    <input
+      type="number"
+      [formField]="historiaClinicaForm.id_paciente"
+    />
+  </div>
+
+  <div>
+    <label>ID Profesional</label>
+    <input
+      type="number"
+      [formField]="historiaClinicaForm.id_profesional"
+    />
+  </div>
+
+  <hr>
+
+  <h3>Diagnósticos</h3>
+
+  <div>
+    <label>ID del diagnóstico</label>
+    <input
+      type="number"
+      [value]="diagnosticoId()"
+      (input)="diagnosticoId.set(+$any($event.target).value)"
+    />
+
+    <button
+      type="button"
+      (click)="agregarDiagnostico()"
+    >
+      Agregar diagnóstico
+    </button>
+  </div>
+
+  @for (id of historiaClinicaModel().ids_diagnosticos; track $index; let i = $index) {
+
+    <div>
+      <p>Diagnóstico ID: {{ id }}</p>
+
+      <button
+        type="button"
+        (click)="eliminarDiagnostico(i)"
+      >
+        Eliminar diagnóstico
+      </button>
+    </div>
+
+  } @empty {
+    <p>No hay diagnósticos agregados.</p>
+  }
+
+  <hr>
+
+  <button type="submit" [disabled]="cargando()">
+    {{ cargando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+
+</form>
+

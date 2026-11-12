@@ -1,0 +1,180 @@
+
+<div class="contenedor">
+
+  <div class="encabezado">
+    <h2>Nueva Receta</h2>
+    <p>Complete los datos de la receta y los medicamentos indicados.</p>
+  </div>
+
+  <form (submit)="guardar($event)" novalidate>
+
+    <div class="tarjeta">
+
+      <h3>Datos de la receta</h3>
+
+      <div class="form-grid">
+
+        <div class="campo">
+          <label>ID Paciente</label>
+
+          <input
+            type="number"
+            [formField]="formulario.id_paciente"
+            placeholder="Ingrese el ID del paciente"
+          >
+
+          @if (formulario.id_paciente().touched() &&
+               formulario.id_paciente().invalid()) {
+            <small>Ingrese un ID de paciente válido.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label>ID Profesional</label>
+
+          <input
+            type="number"
+            [formField]="formulario.id_profesional"
+            placeholder="Ingrese el ID del profesional"
+          >
+
+          @if (formulario.id_profesional().touched() &&
+               formulario.id_profesional().invalid()) {
+            <small>Ingrese un ID de profesional válido.</small>
+          }
+        </div>
+
+      </div>
+
+      <div class="separador"></div>
+
+      <div class="titulo-detalles">
+
+        <h3>Medicamentos</h3>
+
+        <button
+          type="button"
+          class="btn-agregar"
+          (click)="agregarDetalle()">
+          + Agregar medicamento
+        </button>
+
+      </div>
+
+      @for (detalle of formulario.detalles; track detalle; let i = $index) {
+
+        <div class="medicamento">
+
+          <div class="medicamento-header">
+
+            <h4>Medicamento {{ i + 1 }}</h4>
+
+            @if (modelo().detalles.length > 1) {
+              <button
+                type="button"
+                class="btn-eliminar"
+                (click)="eliminarDetalle(i)">
+                Eliminar
+              </button>
+            }
+
+          </div>
+
+          <div class="form-grid">
+
+            <div class="campo">
+              <label>ID Medicamento</label>
+
+              <input
+                type="number"
+                [formField]="detalle.id_medicamento"
+                placeholder="ID del medicamento"
+              >
+
+              @if (detalle.id_medicamento().touched() &&
+                   detalle.id_medicamento().invalid()) {
+                <small>Ingrese un ID válido.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Dosis</label>
+
+              <input
+                type="text"
+                [formField]="detalle.dosis"
+                placeholder="Ej: 500 mg"
+              >
+
+              @if (detalle.dosis().touched() &&
+                   detalle.dosis().invalid()) {
+                <small>La dosis es obligatoria.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Frecuencia</label>
+
+              <input
+                type="text"
+                [formField]="detalle.frecuencia"
+                placeholder="Ej: Cada 8 horas"
+              >
+
+              @if (detalle.frecuencia().touched() &&
+                   detalle.frecuencia().invalid()) {
+                <small>La frecuencia es obligatoria.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Cantidad</label>
+
+              <input
+                type="number"
+                [formField]="detalle.cantidad"
+                placeholder="Cantidad"
+              >
+
+              @if (detalle.cantidad().touched() &&
+                   detalle.cantidad().invalid()) {
+                <small>La cantidad debe ser mayor a cero.</small>
+              }
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+      @if (error()) {
+        <p class="mensaje-error">{{ error() }}</p>
+      }
+
+      <div class="acciones">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cancelar()">
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="btn-guardar"
+          [disabled]="cargando() || formulario().invalid()">
+
+          {{ cargando() ? 'Guardando...' : 'Guardar receta' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
+

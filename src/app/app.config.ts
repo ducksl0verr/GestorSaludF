@@ -2,8 +2,9 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,4 +12,4 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always'})), provideClientHydration(),
     provideHttpClient(withInterceptors([authInterceptor]))
   ]
-};
+}

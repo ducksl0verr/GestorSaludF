@@ -1,0 +1,43 @@
+<a routerLink="..">Volver a la lista.</a>
+
+@if (cargando()) {
+    <p>Cargando...</p>
+} @else if (error()) {
+    <p class="error">{{ error() }}</p>
+} @else if (historiaClinica(); as h) {
+
+    <h2>Historia Clínica N° {{ h.id }}</h2>
+
+    <dl>
+
+        <dt>Fecha</dt>
+        <dd>{{ h.fecha }}</dd>
+
+        <dt>Observaciones</dt>
+        <dd>{{ h.observaciones }}</dd>
+
+        <dt>Evolución</dt>
+        <dd>{{ h.evolucion }}</dd>
+
+        <dt>ID Paciente</dt>
+        <dd>{{ h.id_paciente }}</dd>
+
+        <dt>ID Profesional</dt>
+        <dd>{{ h.id_profesional }}</dd>
+
+        <dt>Diagnósticos</dt>
+
+        @for (d of h.diagnosticos; track d.id) {
+            <dd>
+                {{ d.descripcion }}
+            </dd>
+        } @empty {
+            <dd>No hay diagnósticos registrados.</dd>
+        }
+
+    </dl>
+
+    <button type="button" (click)="eliminar(h)">
+        Eliminar historia clínica
+    </button>
+}

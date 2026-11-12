@@ -1,0 +1,102 @@
+<div class="contenedor">
+
+  <div class="encabezado">
+    <h2>Detalle de Receta</h2>
+    <p>Información completa de la receta médica.</p>
+  </div>
+
+  @if (receta(); as r) {
+
+    <div class="tarjeta">
+
+      <h3>Información general</h3>
+
+      <div class="datos-receta">
+
+        <div class="dato">
+          <span>ID de receta</span>
+          <p>{{ r.id }}</p>
+        </div>
+
+        <div class="dato">
+          <span>Fecha</span>
+          <p>{{ r.fecha }}</p>
+        </div>
+
+        <div class="dato">
+          <span>ID Paciente</span>
+          <p>{{ r.id_paciente }}</p>
+        </div>
+
+        <div class="dato">
+          <span>ID Profesional</span>
+          <p>{{ r.id_profesional }}</p>
+        </div>
+
+      </div>
+
+      <div class="separador"></div>
+
+      <h3>Medicamentos recetados</h3>
+
+      @if (r.detalles && r.detalles.length > 0) {
+
+        <div class="tabla-responsive">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Medicamento</th>
+                <th>Dosis</th>
+                <th>Frecuencia</th>
+                <th>Cantidad</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              @for (d of r.detalles; track d.id) {
+
+                <tr>
+                  <td>{{ d.nombreMedicamento }}</td>
+                  <td>{{ d.dosis }}</td>
+                  <td>{{ d.frecuencia }}</td>
+                  <td>{{ d.cantidad }}</td>
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      } @else {
+
+        <p class="sin-datos">
+          No hay medicamentos registrados en esta receta.
+        </p>
+
+      }
+
+      <div class="acciones">
+
+        <a routerLink="/recetas" class="btn-volver">
+          Volver al listado
+        </a>
+
+      </div>
+
+    </div>
+
+  } @else {
+
+    <div class="mensaje-cargando">
+      <p>Cargando información de la receta...</p>
+    </div>
+
+  }
+
+</div>
