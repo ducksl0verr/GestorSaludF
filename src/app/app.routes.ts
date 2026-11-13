@@ -79,11 +79,6 @@ export const routes: Routes = [
                 children: PROFESIONAL_ROUTES
             },
             {
-                path: 'configuracion',
-                loadComponent: ()=> import('./features/admin/configuracion/configuracion')
-                .then((m) => m.Configuracion),
-            },
-            {
                 path: 'proveedores',
                 children: PROVEEDOR_ROUTES
             },
