@@ -1,5 +1,5 @@
 import { Contacto } from "../../../public/contacto/models/Contacto";
-import { Roles } from "../../../public/enums/Roles";
+import { Roles } from "../../../auth/enums/Roles";
 import { Usuario, UsuarioDTO } from "./Usuario";
 
 export interface Profesional extends Usuario{

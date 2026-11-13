@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { email, form, FormField, maxLength, minLength, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Usuario } from '../models/Usuario';
-import { Roles } from '../../../public/enums/Roles';
+import { Roles } from '../../../auth/enums/Roles';
 import { UsuarioService } from '../service/usuario-service';
 import { UsuarioFormModel } from '../models/UsuarioFormModel';
 import { esProfesional } from '../models/Profesional';

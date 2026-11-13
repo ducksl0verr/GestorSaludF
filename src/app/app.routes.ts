@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { PublicLayout } from './layouts/public-layout/public-layout';
-import { Panel } from './features/auth/panel/panel';
 import { authGuard } from './core/guards/auth-guard';
 import { Registrar } from './features/auth/registrar/registrar';
 import { publicoGuard } from './core/guards/publico-guard';
 import { roleGuard } from './core/guards/role-guard';
-import { Roles } from './features/public/enums/Roles';
+import { Roles } from './features/auth/enums/Roles';
 import { PROFESIONAL_ROUTES, USUARIO_ROUTES } from './features/admin/Pagina-Usuarios/usuario.routes';
 import { PROVEEDOR_ROUTES } from './features/public/Pagina-Proveedor/proveedor.routes';
 import { PACIENTE_ROUTES } from './features/administrativo/Pagina-Paciente/paciente.routes';
@@ -53,11 +52,6 @@ export const routes: Routes = [
     {
         path: 'restablecer',
         component: RestablecerContrasena
-    },
-    {
-        path:'panel',
-        component: Panel,
-        canActivate:[authGuard]
     },
     {
         path: 'admin', 
@@ -162,10 +156,6 @@ export const routes: Routes = [
                 children: SALAS_INTERNACION_ROUTES
             },
             {
-                path: 'tratamientos',
-                children: TRATAMIENTOS_ROUTES
-            },
-            {
                 path: 'pagos',
                 children: PAGO_ROUTES
             },
@@ -190,7 +180,7 @@ export const routes: Routes = [
         },
         children: [
           {
-            path: '', redirectTo: 'diagnosticos', pathMatch: 'full'
+            path: '', redirectTo: 'pacientes', pathMatch: 'full'
           },
           {
             path:'diagnosticos', children:DIAGNOSTICO_ROUTES
@@ -204,7 +194,15 @@ export const routes: Routes = [
           {
                 path: 'medicamentos',
                 children: MEDICAMENTOS_ROUTES
-          }
+          },
+          {
+                path: 'pacientes',
+                children: PACIENTE_ROUTES
+          },
+            {
+                path: 'tratamientos',
+                children: TRATAMIENTOS_ROUTES
+            }
         ]
     },
     {

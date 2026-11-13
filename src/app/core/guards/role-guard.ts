@@ -1,7 +1,7 @@
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
-import { Roles } from '../../features/public/enums/Roles';
+import { Roles } from '../../features/auth/enums/Roles';
 import { isPlatformBrowser } from '@angular/common';
 
 export const roleGuard: CanActivateFn = (route, state) => {

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Roles } from '../../public/enums/Roles';
+import { Roles } from '../enums/Roles';
 import { CommonModule } from '@angular/common';
 import { email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 import { AuthService } from '../../../core/services/auth-service';

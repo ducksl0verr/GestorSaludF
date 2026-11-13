@@ -1,4 +1,4 @@
-import { Roles } from "../../../public/enums/Roles";
+import { Roles } from "../../../auth/enums/Roles";
 
 export interface UsuarioFormModel {
   nombre: string;

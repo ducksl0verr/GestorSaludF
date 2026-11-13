@@ -4,7 +4,7 @@ import { Usuario, UsuarioDTO } from '../models/Usuario';
 import { CuentaNuevaPedido } from '../../../../core/models/CuentaNueva';
 import { Profesional, ProfesionalDTO } from '../models/Profesional';
 import { forkJoin, map, of, switchMap } from 'rxjs';
-import { Roles } from '../../../public/enums/Roles';
+import { Roles } from '../../../auth/enums/Roles';
 
 
 @Injectable({

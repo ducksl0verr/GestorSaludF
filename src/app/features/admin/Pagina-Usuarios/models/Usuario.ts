@@ -1,5 +1,5 @@
 import { Contacto } from "../../../public/contacto/models/Contacto";
-import { Roles } from "../../../public/enums/Roles";
+import { Roles } from "../../../auth/enums/Roles";
 
 export interface Usuario {
     id: number;

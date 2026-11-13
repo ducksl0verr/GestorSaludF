@@ -6,7 +6,7 @@ import { AuthRespuesta } from '../models/AuthRespuesta';
 import { AuthPedido } from '../models/AuthPedido';
 import { CuentaNueva, CuentaNuevaPedido } from '../models/CuentaNueva';
 import { Observable, tap } from 'rxjs';
-import { Roles } from '../../features/public/enums/Roles';
+import { Roles } from '../../features/auth/enums/Roles';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
