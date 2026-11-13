@@ -8,11 +8,12 @@ h2 {
 
 .boton-agregar {
     display: inline-block;
-    background-color: #922727;
-    color: white;
+    background-color: var(--od-orange);
+    color: var(--od-white);
     padding: 10px 15px;
     text-decoration: none;
-    border-radius: 5px;
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
     margin-bottom: 20px;
 }
 
@@ -22,31 +23,53 @@ table {
     margin-top: 15px;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--od-border);
     text-align: left;
 }
 
 th {
-    background-color: #f5f3f0;
+    background-color: var(--od-aqua-light);
 }
 
 .disponible {
-    color: green;
+    color: var(--od-teal);
     font-weight: bold;
 }
 
 .ocupado {
-    color: #922727;
+    color: var(--od-orange-dark);
     font-weight: bold;
 }
 
 button {
-    background-color: #922727;
-    color: white;
-    border: none;
+    background-color: var(--od-teal);
+    color: var(--od-white);
+    border: var(--od-btn-border);
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: var(--od-btn-radius);
     cursor: pointer;
+}
+
+@media (max-width: 720px) {
+    .contenedor {
+        padding: 16px 12px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 560px) {
+    .contenedor {
+        padding: 14px 10px;
+    }
+
+    button {
+        width: 100%;
+    }
 }

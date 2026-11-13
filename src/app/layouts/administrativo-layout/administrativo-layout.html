@@ -1,28 +1,32 @@
-<div id="administrativoLayout">
+<div id="administrativoLayout" class="od-layout">
 
-    <header>
-        <h2>
-            Panel de gestión administrativa.
-        </h2>
+    <header class="od-layout__banner">
+        <div class="od-layout__heading">
+            <span class="od-layout__kicker">Gestión administrativa</span>
+            <h2>Panel de gestión administrativa</h2>
+        </div>
+
+        <app-boton-salir></app-boton-salir>
     </header>
 
-    <div id="body">
+    <div id="body" class="od-layout__body">
 
-        <aside>
-            <nav>
-                <p routerLink="/administrativo/pacientes">Pacientes</p>
-                <p routerLink="/administrativo/turnos">Turnos</p>
-                <p routerLink="/administrativo/quirofanos">Quirófanos</p>
-                <p routerLink="/administrativo/consultorios">Consultorios</p>
-                <p routerLink="/administrativo/salas-internacion">Salas de internación</p>
-                <p routerLink="/administrativo/pagos">Pagos</p>
-                <p routerLink="/administrativo/gastos">Gastos</p>
-                <p routerLink="/administrativo/facturas">Facturas</p>
+        <aside class="od-sidebar">
+            <p class="od-sidebar__title">Menú principal</p>
 
+            <nav aria-label="Secciones de gestión administrativa">
+                <a routerLink="/administrativo/pacientes" routerLinkActive="activo">Pacientes</a>
+                <a routerLink="/administrativo/turnos" routerLinkActive="activo">Turnos</a>
+                <a routerLink="/administrativo/quirofanos" routerLinkActive="activo">Quirófanos</a>
+                <a routerLink="/administrativo/consultorios" routerLinkActive="activo">Consultorios</a>
+                <a routerLink="/administrativo/salas-internacion" routerLinkActive="activo">Salas de internación</a>
+                <a routerLink="/administrativo/pagos" routerLinkActive="activo">Pagos</a>
+                <a routerLink="/administrativo/gastos" routerLinkActive="activo">Gastos</a>
+                <a routerLink="/administrativo/facturas" routerLinkActive="activo">Facturas</a>
             </nav>
         </aside>
 
-        <main id="administrativo">
+        <main id="administrativo" class="od-main">
             <router-outlet></router-outlet>
         </main>
 

@@ -1,43 +1,12 @@
-.profLayout{
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+:host {
+    display: block;
+    background-color: var(--od-cream);
 }
 
-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2%;
+.profLayout {
+    min-height: 100%;
 }
 
-.body{
-    display: flex;
-    flex: 1;
+#prof {
+    width: 100%;
 }
-
-aside{
-    width:30%;
-    padding: 3%;
-    background-color: aqua;
-}
-
-aside, nav{
-    display: flex;
-    flex-direction: column;
-    gap: 10%;
-}
-
-aside, p{
-    padding: 2%;
-}
-
-#prof{
-    padding: 5%;
-}
-
-nav{
-    cursor:pointer
-}
-
-

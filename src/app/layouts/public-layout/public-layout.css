@@ -1,4 +1,24 @@
-.public{
+.public {
     width: 100%;
     min-height: 70vh;
+    padding: clamp(24px, 4vw, 48px);
+    background-color: var(--od-cream);
+}
+
+@media (max-width: 720px) {
+    .public {
+        padding: 22px 14px;
+    }
+}
+
+@media (max-width: 560px) {
+    .public {
+        padding: 18px 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .public {
+        padding: 14px 10px;
+    }
 }

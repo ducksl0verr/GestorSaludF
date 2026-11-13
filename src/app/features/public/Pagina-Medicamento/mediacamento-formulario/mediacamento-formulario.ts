@@ -14,7 +14,7 @@ import { MedicamentoService } from '../Service/medicamento-service';
 export class MediacamentoFormulario {
   medID?: number;
   private route = inject(ActivatedRoute);
-  private base= this.route.snapshot.data['base'];
+  protected base= this.route.snapshot.data['base'];
 
   medicamentoModel= signal<MedicamentoNuevo>({
     nombre: '',

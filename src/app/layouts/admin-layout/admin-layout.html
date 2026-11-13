@@ -1,26 +1,32 @@
-<div class="adminLayout">
+<div class="adminLayout od-layout">
 
-    <header>
-        <h2>Panel de administración</h2>
+    <header class="od-layout__banner">
+        <div class="od-layout__heading">
+            <span class="od-layout__kicker">Administración</span>
+            <h2>Panel de administrador</h2>
+        </div>
+
+        <app-boton-salir></app-boton-salir>
     </header>
-    <app-boton-salir></app-boton-salir>
 
-    <div class="body">
+    <div class="od-layout__body">
 
-        <aside>
-            <nav>
-                <p routerLink="/admin/usuarios">Usuarios</p>
-                <p routerLink="/admin/profesionales">Profesionales</p>
-                <p routerLink="/admin/proveedores">Proveedores</p>
-                <p routerLink="/admin/dashboard">Dashboard</p>
-                <p routerLink="/admin/obrasSociales">Obras Sociales</p>
-                <p routerLink="/admin/pagos">Pagos</p>
-                <p routerLink="/admin/gastos">Gastos</p>
-                <p routerLink="/admin/facturas">Facturas</p>
+        <aside class="od-sidebar">
+            <p class="od-sidebar__title">Menú principal</p>
+
+            <nav aria-label="Secciones de administración">
+                <a routerLink="/admin/usuarios" routerLinkActive="activo">Usuarios</a>
+                <a routerLink="/admin/profesionales" routerLinkActive="activo">Profesionales</a>
+                <a routerLink="/admin/proveedores" routerLinkActive="activo">Proveedores</a>
+                <a routerLink="/admin/dashboard" routerLinkActive="activo">Dashboard</a>
+                <a routerLink="/admin/obrasSociales" routerLinkActive="activo">Obras Sociales</a>
+                <a routerLink="/admin/pagos" routerLinkActive="activo">Pagos</a>
+                <a routerLink="/admin/gastos" routerLinkActive="activo">Gastos</a>
+                <a routerLink="/admin/facturas" routerLinkActive="activo">Facturas</a>
             </nav>
         </aside>
 
-        <main id="admin">
+        <main id="admin" class="od-main">
             <router-outlet></router-outlet>
         </main>
 

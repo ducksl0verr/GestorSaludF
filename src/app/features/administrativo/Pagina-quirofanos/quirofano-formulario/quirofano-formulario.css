@@ -19,23 +19,35 @@ label {
     font-weight: bold;
 }
 
-input, select {
+input,
+select {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid var(--od-border);
+    border-radius: 10px;
 }
 
 button {
     padding: 10px 15px;
     margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #922727;
-    color: white;
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-teal);
+    color: var(--od-white);
     cursor: pointer;
 }
 
 .error {
-    color: #922727;
+    color: var(--od-danger);
     font-size: 14px;
+}
+
+@media (max-width: 560px) {
+    .contenedor {
+        padding: 14px 10px;
+    }
+
+    button {
+        width: 100%;
+        margin: 0 0 10px;
+    }
 }

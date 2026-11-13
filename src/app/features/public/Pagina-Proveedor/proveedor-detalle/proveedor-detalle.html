@@ -1,34 +1,40 @@
-<a [routerLink]="[base, 'proveedores']">Volver a la lista.</a>
+<a [routerLink]="[base, 'proveedores']">Atras</a>
 
-@if (cargando()){
-    <p>Cargando...</p>
-} @else if (error()){
-    <p class="error">{{ error() }}</p>
-} @else if (proveedor(); as p){
-    <h2> {{p.nombre}} </h2>
-    <dl>
-    <dt>Contacto</dt>
-    <dd>Email: {{ p.contacto.email }}</dd>
-    <dd>Telefono: {{ p.contacto.telefono }}</dd>
+@if (cargando()) {
+  <p>Cargando...</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (proveedor(); as p) {
+  <h2>{{ p.nombre }}</h2>
+
+  <dl>
+    <dt>Email</dt>
+    <dd>{{ p.contacto.email }}</dd>
+
+    <dt>Teléfono</dt>
+    <dd>{{ p.contacto.telefono }}</dd>
 
     <dt>Tipo de proveedor</dt>
     <dd>{{ p.tipo }}</dd>
 
-    <dt>Cuil</dt>
+    <dt>CUIL</dt>
     <dd>{{ p.cuil }}</dd>
 
-    <dt>Domicilios:</dt>
-    @for(dom of p.direccion; track $index){
-        <li>
-          {{ dom.calle }} {{ dom.numero }}
-          @if (dom.piso) { | Piso: {{ dom.piso }} }
-          @if (dom.depto) {| Depto: {{ dom.depto }} }
-          <br>
-          {{ dom.localidad }}, {{ dom.provincia }} (CP: {{ dom.codigo_postal }})
-        </li>
+    <dt>Domicilios</dt>
+    @for (dom of p.direccion; track $index) {
+      <dd>
+        {{ dom.calle }} {{ dom.numero }}
+        @if (dom.piso) { | Piso: {{ dom.piso }} }
+        @if (dom.depto) { | Depto: {{ dom.depto }} }
+        <br>
+        {{ dom.localidad }}, {{ dom.provincia }} (CP: {{ dom.codigo_postal }})
+      </dd>
     }
-
   </dl>
-  <button [routerLink]="[base, 'proveedores', 'editar', p.id]">Editar proveedor</button>
-  <button [routerLink]="[base, 'proveedores', p.id, 'mensaje']">Enviar mensaje.</button>
+
+  <div class="acciones">
+    <a [routerLink]="[base, 'proveedores', 'editar', p.id]">Editar</a>
+    <a [routerLink]="[base, 'proveedores', p.id, 'mensaje']">Enviar mensaje</a>
+    <button type="button" (click)="eliminar(p)">Eliminar</button>
+  </div>
 }

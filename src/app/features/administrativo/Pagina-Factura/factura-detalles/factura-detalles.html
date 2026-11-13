@@ -17,6 +17,7 @@
             <h3>Detalles de la factura</h3>
 
             @if (f.detalles && f.detalles.length > 0) {
+                <div class="tabla-responsive">
                 <table>
                     <thead>
                         <tr>
@@ -36,6 +37,7 @@
                         }
                     </tbody>
                 </table>
+            </div>
             } @else {
                 <p>La factura no tiene detalles asociados.</p>
             }
@@ -43,7 +45,7 @@
 
         <div class="acciones">
             <button [routerLink]="[base, 'facturas']">
-                Volver
+                Atras
             </button>
         </div>
 

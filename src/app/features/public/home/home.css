@@ -1,9 +1,11 @@
-#logo{
+#logo {
     display: grid;
-    place-items:center;
-    height: 100vh;
+    place-items: center;
+    width: 100%;
 }
-*{
+
+#logo img {
+    display: block;
     max-width: 100%;
-    margin: 0 auto;
+    height: auto;
 }

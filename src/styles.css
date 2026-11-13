@@ -1,10 +1,1313 @@
-*{
+/* ============================================================
+   Oh, Doctor! - Sistema visual
+   Paleta inspirada en las diapositivas del proyecto.
+   ============================================================ */
+
+:root {
+    --od-teal: #17706C;
+    --od-teal-dark: #11605C;
+    --od-teal-deep: #0D4F4B;
+    --od-orange: #D9701F;
+    --od-orange-dark: #B85A14;
+    --od-amber: #E0A526;
+    --od-amber-dark: #C58C12;
+    --od-aqua: #8FBDB8;
+    --od-aqua-light: #DCEBE8;
+    --od-cream: #F6F5F0;
+    --od-white: #FFFFFF;
+    --od-text: #1F2D2B;
+    --od-muted: #5F716E;
+    --od-border: #D9E4E1;
+    --od-danger: #A3341F;
+    --od-radius: 18px;
+    --od-btn-radius: 999px;
+    --od-btn-border: 2px solid transparent;
+    --od-shadow: 0 12px 32px rgba(23, 112, 108, 0.12);
+    --od-shadow-soft: 0 6px 20px rgba(23, 112, 108, 0.08);
+}
+
+* {
     box-sizing: border-box;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--od-cream);
+    color: var(--od-text);
+    font-family: "Segoe UI", "Trebuchet MS", system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--od-teal-dark);
+    line-height: 1.2;
+}
+
+a {
+    color: var(--od-teal);
+}
+
+a:hover {
+    color: var(--od-orange);
+}
+
+button {
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
+    padding: 11px 20px;
+    background-color: var(--od-teal);
+    color: var(--od-white);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--od-teal-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(23, 112, 108, 0.22);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(224, 165, 38, 0.55);
+    outline-offset: 2px;
+}
+
+button:disabled {
+    background-color: #A9B7B4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+label {
+    color: var(--od-teal-dark);
+    font-weight: 600;
+    font-size: 0.93rem;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--od-border);
+    border-radius: 12px;
+    background-color: var(--od-white);
+    color: var(--od-text);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus {
+    border-color: var(--od-teal);
+    box-shadow: 0 0 0 4px rgba(23, 112, 108, 0.12);
+    outline: none;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--od-teal);
+    cursor: pointer;
+}
+
+small {
+    color: var(--od-danger);
+    font-weight: 600;
+}
+
+.error,
+.error-message,
+.errorMessage,
+.mensaje-error {
+    color: var(--od-danger) !important;
+    font-weight: 600;
+}
+
+/* ============================================================
+   Header y footer globales
+   ============================================================ */
+
+app-header {
+    display: block;
+}
+
+app-header > header {
+    background-color: var(--od-teal);
+    border-bottom: 4px solid var(--od-orange);
+    box-shadow: 0 4px 18px rgba(13, 79, 75, 0.22);
+}
+
+app-header nav {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px clamp(20px, 4vw, 52px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+app-header #nombre {
+    color: var(--od-orange);
+    font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.16);
+    cursor: pointer;
+}
+
+app-header img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.92);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+app-header img:hover {
+    transform: rotate(-6deg) scale(1.05);
+    background-color: var(--od-white);
+}
+
+app-footer {
+    display: block;
+}
+
+app-footer footer {
+    padding: 16px;
+    text-align: center;
+    background-color: var(--od-teal-deep);
+    color: #D8ECE9;
+    font-size: 0.86rem;
+    letter-spacing: 0.04em;
+    border-top: 3px solid var(--od-orange);
+}
+
+/* ============================================================
+   Estructura compartida de los paneles privados
+   ============================================================ */
+
+.od-layout {
+    min-height: calc(100vh - 120px);
+    min-height: calc(100dvh - 120px);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--od-cream);
+}
+
+.od-layout__banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 13px clamp(20px, 4vw, 48px);
+    background-color: var(--od-teal-dark);
+    color: var(--od-white);
+    border-bottom: 4px solid var(--od-orange);
+}
+
+.od-layout__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.od-layout__kicker {
+    color: var(--od-amber);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.od-layout__banner h2 {
+    color: var(--od-white);
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    font-weight: 700;
+}
+
+.od-layout__banner app-boton-salir button {
+    background-color: var(--od-orange);
+    color: var(--od-white);
+}
+
+.od-layout__banner app-boton-salir button:hover {
+    background-color: var(--od-orange-dark);
+}
+
+.od-layout__body {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+}
+
+.od-sidebar {
+    width: 292px;
+    flex: 0 0 292px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 26px 18px 32px;
+    background: linear-gradient(180deg, #E7B038 0%, #DCA022 100%);
+    border-right: 4px solid var(--od-orange);
+}
+
+.od-sidebar__title {
+    padding-left: 6px;
+    color: #6F4A05;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.od-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.od-sidebar nav a {
+    display: block;
+    padding: 11px 14px;
+    border: 1px solid rgba(217, 112, 31, 0.34);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.56);
+    color: #15433F;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.od-sidebar nav a:hover {
+    background-color: rgba(255, 255, 255, 0.88);
+    color: var(--od-teal-deep);
+    transform: translateX(3px);
+}
+
+.od-sidebar nav a.activo {
+    background-color: var(--od-teal);
+    border-color: var(--od-teal);
+    color: var(--od-white);
+    box-shadow: 0 8px 18px rgba(23, 112, 108, 0.22);
+}
+
+.od-main {
+    flex: 1;
+    min-width: 0;
+    padding: clamp(24px, 3.5vw, 44px);
+}
+
+/* ============================================================
+   Contenido de las páginas internas
+   ============================================================ */
+
+.od-main h2,
+.public h2 {
+    margin-bottom: 0.4rem;
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+}
+
+.od-main h3,
+.public h3 {
+    margin: 1.4rem 0 0.7rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--od-border);
+    color: var(--od-teal);
+    font-size: 1.08rem;
+}
+
+.od-main > h2 {
+    margin-bottom: 22px;
+}
+
+.od-main p {
+    color: var(--od-muted);
+}
+
+.od-main p strong {
+    color: var(--od-teal-dark);
+}
+
+.od-main #titulo {
+    color: var(--od-teal-dark);
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+    font-weight: 800;
+}
+
+.od-main a {
+    color: var(--od-teal);
+    font-weight: 600;
+}
+
+.od-main a:hover {
+    color: var(--od-orange);
+}
+
+/* Enlaces que funcionan como acciones (Atras, Cancelar, Editar, etc.) */
+.od-main a:not(.boton-agregar) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 6px 4px 0;
+    padding: 10px 18px;
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.od-main a:not(.boton-agregar):hover {
+    background-color: var(--od-teal);
+    color: var(--od-white);
+    transform: translateY(-1px);
+}
+
+.od-main .acciones > a,
+.od-main .acciones > button,
+.od-main form > a {
     margin: 0;
 }
 
-html, body{
-    height: 100%;
-    background-color: rgb(160, 204, 198);
+.od-main .contenedor,
+.od-main #contenedor {
+    padding: clamp(20px, 3vw, 34px);
+    border: 1px solid var(--od-border);
+    border-radius: 22px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+}
+
+.od-main form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 12px;
+}
+
+.form-group,
+.campo,
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo,
+.formulario {
+    margin-bottom: 16px;
+}
+
+.od-main form .campo,
+.od-main form .formulario {
+    margin-bottom: 0;
+}
+
+.acciones,
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.boton-agregar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0 18px;
+    padding: 11px 20px;
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-orange);
+    color: var(--od-white);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-agregar:hover {
+    background-color: var(--od-orange-dark);
+    color: var(--od-white);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(217, 112, 31, 0.24);
+}
+
+.od-main table {
+    width: 100%;
+    margin-top: 18px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 16px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+    overflow: hidden;
+    font-size: 0.93rem;
+}
+
+.od-main thead th {
+    padding: 14px 16px;
+    background-color: var(--od-teal);
+    color: var(--od-white);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.od-main tbody td {
+    padding: 14px 16px;
+    border-top: 1px solid var(--od-border);
+    color: var(--od-text);
+    vertical-align: middle;
+}
+
+.od-main tbody tr:nth-child(even) {
+    background-color: #F9FBFA;
+}
+
+.od-main tbody tr:hover {
+    background-color: var(--od-aqua-light);
+}
+
+.od-main table a {
+    display: inline-block;
+    margin: 2px;
+    padding: 6px 10px;
+    border: var(--od-btn-border);
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.od-main table a:hover {
+    background-color: var(--od-teal);
+    color: var(--od-white);
+}
+
+.od-main table button {
+    margin: 2px;
+    padding: 7px 12px;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-orange);
+    font-size: 0.82rem;
+}
+
+.od-main table button:hover:not(:disabled) {
+    background-color: var(--od-orange-dark);
+}
+
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.od-main ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+    list-style: none;
+}
+
+.od-main ul li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border: 1px solid var(--od-border);
+    border-left: 5px solid var(--od-aqua);
+    border-radius: 12px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+}
+
+.od-main ul li p {
+    margin: 0;
+    color: var(--od-text);
+    font-weight: 600;
+}
+
+.od-main ul li p:first-child {
+    flex: 1 1 220px;
+    color: var(--od-teal-dark);
+    font-weight: 700;
+}
+
+.od-main dl {
+    display: grid;
+    grid-template-columns: minmax(130px, 220px) 1fr;
+    margin-top: 16px;
+    border: 1px solid var(--od-border);
+    border-radius: 16px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+    overflow: hidden;
+}
+
+.od-main dt {
+    padding: 12px 16px;
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+    font-weight: 700;
+}
+
+.od-main dd {
+    padding: 12px 16px;
+    border-top: 1px solid var(--od-border);
+}
+
+.od-main .detalle {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 18px 20px;
+    border-left: 5px solid var(--od-aqua);
+    border-radius: 16px;
+    background-color: var(--od-aqua-light);
+}
+
+.od-main .detalle p {
+    margin: 0;
+    color: var(--od-text);
+}
+
+.od-main section {
+    margin-top: 18px;
+}
+
+.od-main .mensaje {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+}
+
+.od-main .encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.od-main .encabezado p {
+    margin-top: 4px;
+}
+
+/* ============================================================
+   Login, registro y recuperación de contraseña
+   ============================================================ */
+
+app-login,
+app-registrar,
+app-olvide-contrasena,
+app-restablecer-contrasena {
+    display: block;
+    width: 100%;
+    padding: clamp(28px, 5vw, 64px) 18px;
+}
+
+app-login h1,
+app-registrar h1 {
+    margin-bottom: 22px;
+    color: var(--od-teal-dark);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    text-align: center;
+}
+
+app-login form,
+app-olvide-contrasena .contenedor,
+app-restablecer-contrasena .contenedor {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid var(--od-border);
+    border-top: 6px solid var(--od-orange);
+    border-radius: 22px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow);
+}
+
+app-login form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+app-login form a {
+    color: var(--od-teal);
+    font-weight: 600;
+    text-align: center;
+}
+
+app-login form button,
+app-olvide-contrasena form button,
+app-restablecer-contrasena form button {
+    width: 100%;
+}
+
+app-login .errorMessage,
+app-registrar .error-message,
+app-olvide-contrasena .error,
+app-restablecer-contrasena .error {
+    padding: 10px 14px;
+    border-radius: 10px;
+    background-color: #FBEAE6;
+    color: var(--od-danger);
+}
+
+app-registrar .registro-contenedor {
+    width: 100%;
+    max-width: 1020px;
+    margin: 0 auto;
+}
+
+app-registrar .registro {
+    padding: clamp(24px, 4vw, 42px);
+    border: 1px solid var(--od-border);
+    border-top: 6px solid var(--od-orange);
+    border-radius: 22px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow);
+}
+
+app-registrar .registro > p {
+    margin-bottom: 22px;
+    color: var(--od-muted);
+}
+
+app-registrar form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+
+app-registrar .formulario {
+    margin-bottom: 0;
+}
+
+app-registrar fieldset {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+    padding: 18px;
+    border: 1px solid var(--od-border);
+    border-radius: 16px;
+    background-color: #FBFAF6;
+}
+
+app-registrar legend {
+    padding: 0 8px;
+    color: var(--od-teal);
+    font-weight: 800;
+}
+
+app-registrar form > button,
+app-registrar form > p,
+app-registrar .error-message {
+    grid-column: 1 / -1;
+}
+
+app-registrar form > button {
+    width: 100%;
+    padding: 14px 20px;
+}
+
+app-registrar form > p {
+    color: var(--od-muted);
+    text-align: center;
+}
+
+app-olvide-contrasena h2,
+app-restablecer-contrasena h2 {
+    margin-bottom: 18px;
+}
+
+app-olvide-contrasena form,
+app-restablecer-contrasena form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+app-olvide-contrasena .contenedor > a,
+app-restablecer-contrasena .contenedor > a {
+    display: inline-block;
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   Home público
+   ============================================================ */
+
+app-home {
+    display: block;
+}
+
+app-home #logo {
+    display: grid;
+    place-items: center;
+    gap: 24px;
+    height: auto;
+    min-height: 54vh;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: clamp(28px, 5vw, 56px);
+    border: 1px solid var(--od-border);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at top right, rgba(224, 165, 38, 0.18), transparent 55%),
+        var(--od-white);
+    box-shadow: var(--od-shadow);
+}
+
+app-home #logo img {
+    width: min(320px, 78%);
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 12px 28px rgba(23, 112, 108, 0.18);
+}
+
+/* ============================================================
+   Utilidades de contenido
+   ============================================================ */
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.od-main,
+.public {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
+.od-main .contenedor,
+.od-main #contenedor,
+.od-main .container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.od-main form,
+.od-main form > * {
+    min-width: 0;
+}
+
+/* Tablas: el wrapper permite desplazamiento horizontal sin romper el layout */
+.od-main .tabla-responsive {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 18px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
+}
+
+.od-main .tabla-responsive > table {
+    margin-top: 0;
+}
+
+/* Tarjetas y grillas usadas por recetas y otros módulos */
+.tarjeta {
+    padding: clamp(16px, 2.5vw, 28px);
+    border: 1px solid var(--od-border);
+    border-radius: 18px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+}
+
+.datos-receta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.dato {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background-color: var(--od-aqua-light);
+}
+
+.dato span {
+    display: block;
+    color: var(--od-muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.dato p {
+    margin: 3px 0 0;
+    color: var(--od-teal-dark);
+    font-weight: 700;
+}
+
+.separador {
+    height: 1px;
+    margin: 20px 0;
+    background-color: var(--od-border);
+}
+
+.titulo-detalles,
+.medicamento-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.titulo-detalles h3,
+.medicamento-header h4 {
+    margin: 0;
+    border: 0;
+}
+
+.medicamento {
+    margin-top: 16px;
+    padding: clamp(12px, 2vw, 18px);
+    border: 1px solid var(--od-border);
+    border-radius: 14px;
+    background-color: #FBFAF6;
+}
+
+.medicamento .form-grid {
+    margin-top: 12px;
+}
+
+.od-main .container {
+    padding: clamp(20px, 3vw, 34px);
+    border: 1px solid var(--od-border);
+    border-radius: 22px;
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow-soft);
+}
+
+.od-main .alert {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+}
+
+.od-main .mb-0 {
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   Adaptación responsive
+   ============================================================ */
+
+/* Escritorio amplio: el sidebar mantiene su ancho cómodo */
+@media (max-width: 1280px) {
+    .od-sidebar {
+        width: 270px;
+        flex-basis: 270px;
+    }
+}
+
+/* Tablets horizontales y pantallas medianas */
+@media (max-width: 1024px) {
+    .od-sidebar {
+        width: 240px;
+        flex-basis: 240px;
+        padding: 22px 14px 28px;
+    }
+
+    .od-main {
+        padding: clamp(20px, 3.5vw, 34px);
+    }
+}
+
+/* Tablets y pantallas angostas: el menú pasa a una fila desplazable */
+@media (max-width: 920px) {
+    .od-layout__body {
+        flex-direction: column;
+    }
+
+    .od-sidebar {
+        width: 100%;
+        flex: 0 0 auto;
+        gap: 12px;
+        padding: 16px clamp(14px, 3vw, 24px);
+        border-right: 0;
+        border-bottom: 4px solid var(--od-orange);
+    }
+
+    .od-sidebar__title {
+        padding-left: 0;
+    }
+
+    .od-sidebar nav {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .od-sidebar nav a {
+        flex: 0 0 auto;
+        padding: 9px 14px;
+        white-space: nowrap;
+    }
+
+    .od-sidebar nav a:hover {
+        transform: none;
+    }
+}
+
+/* Tablets verticales y móviles grandes */
+@media (max-width: 720px) {
+    .od-layout__banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 14px clamp(14px, 4vw, 28px);
+    }
+
+    .od-layout__banner app-boton-salir button {
+        width: 100%;
+    }
+
+    .od-main {
+        padding: 20px 14px 32px;
+    }
+
+    .od-main h2,
+    .public h2,
+    .od-main #titulo {
+        font-size: clamp(1.3rem, 5vw, 1.65rem);
+    }
+
+    .od-main .contenedor,
+    .od-main #contenedor,
+    .od-main .container {
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
+
+    app-registrar form,
+    app-registrar fieldset {
+        grid-template-columns: 1fr;
+    }
+
+    .od-main dl {
+        grid-template-columns: 1fr;
+    }
+
+    .od-main dt {
+        border-top: 1px solid var(--od-border);
+    }
+
+    .od-main dl dt:first-child {
+        border-top: 0;
+    }
+
+    .od-main .detalle {
+        padding: 14px 16px;
+    }
+
+    .od-main .tabla-responsive table {
+        min-width: 640px;
+    }
+
+    .od-main thead th,
+    .od-main tbody td {
+        padding: 11px 12px;
+    }
+
+    app-header #nombre {
+        font-size: 1.75rem;
+    }
+
+    app-header nav {
+        padding: 14px 18px;
+        gap: 14px;
+    }
+
+    app-header img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .public {
+        padding: clamp(18px, 5vw, 30px) 14px;
+    }
+
+    app-login,
+    app-registrar,
+    app-olvide-contrasena,
+    app-restablecer-contrasena {
+        padding: 26px 14px;
+    }
+
+    app-home #logo {
+        min-height: auto;
+        padding: 26px 18px;
+    }
+
+    app-home #logo img {
+        width: min(270px, 88%);
+    }
+}
+
+/* Móviles */
+@media (max-width: 560px) {
+    body {
+        line-height: 1.45;
+    }
+
+    .od-main {
+        padding: 16px 12px 28px;
+    }
+
+    .od-layout__banner h2 {
+        font-size: 1.1rem;
+    }
+
+    .od-layout__kicker {
+        font-size: 0.62rem;
+    }
+
+    .od-main form {
+        gap: 14px;
+    }
+
+    .od-main h3,
+    .public h3 {
+        margin-top: 1.15rem;
+        font-size: 1rem;
+    }
+
+    .od-main .encabezado {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .od-main .encabezado button,
+    .od-main .encabezado .boton-agregar {
+        width: 100%;
+    }
+
+    .od-main .acciones:not(td):not(th),
+    .od-main .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .od-main .acciones:not(td):not(th) > *,
+    .od-main .form-actions > * {
+        width: 100%;
+    }
+
+    .od-main form > button,
+    .od-main form > a,
+    .od-main .contenedor > button {
+        width: 100%;
+        margin-top: 6px;
+    }
+
+    .od-main ul li {
+        padding: 12px 14px;
+    }
+
+    .od-main ul li p:first-child {
+        flex-basis: 100%;
+    }
+
+    .od-main table a,
+    .od-main table button {
+        font-size: 0.8rem;
+    }
+
+    .od-main .tabla-responsive table {
+        min-width: 600px;
+    }
+
+    .form-grid,
+    .datos-receta {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta {
+        padding: 16px 14px;
+    }
+
+    app-registrar .registro {
+        padding: 20px 16px;
+    }
+
+    app-login form,
+    app-olvide-contrasena .contenedor,
+    app-restablecer-contrasena .contenedor {
+        padding: 22px 18px;
+    }
+
+    app-login,
+    app-registrar,
+    app-olvide-contrasena,
+    app-restablecer-contrasena {
+        padding: 22px 12px;
+    }
+
+    app-login h1,
+    app-registrar h1 {
+        margin-bottom: 16px;
+        font-size: 1.65rem;
+    }
+
+    app-header #nombre {
+        font-size: 1.5rem;
+    }
+
+    app-header nav {
+        padding: 12px 14px;
+    }
+
+    app-header img {
+        width: 36px;
+        height: 36px;
+    }
+
+    app-footer footer {
+        padding: 14px 12px;
+        font-size: 0.78rem;
+    }
+
+    /* Evita el zoom automático de iOS al enfocar campos */
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 380px) {
+    .od-main,
+    .public {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .od-main .contenedor,
+    .od-main #contenedor,
+    .od-main .container {
+        padding: 14px 11px;
+    }
+
+    .od-main h2,
+    .public h2,
+    .od-main #titulo {
+        font-size: 1.22rem;
+    }
+
+    app-header #nombre {
+        font-size: 1.3rem;
+    }
+
+    app-header img {
+        width: 32px;
+        height: 32px;
+    }
+
+    button {
+        padding: 10px 16px;
+    }
+
+    .od-main .tabla-responsive table {
+        min-width: 560px;
+    }
+}
+
+/* En pantallas táctiles evitamos efectos de hover que confunden */
+@media (hover: none) {
+    button:hover:not(:disabled),
+    .boton-agregar:hover,
+    .od-main table a:hover,
+    .od-sidebar nav a:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

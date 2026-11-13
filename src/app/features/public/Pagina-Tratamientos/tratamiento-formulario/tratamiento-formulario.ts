@@ -15,7 +15,7 @@ export class TratamientoFormulario {
     tratamientoId?: number;
     private route= inject(ActivatedRoute);
     
-    private base = this.route.snapshot.data['base'];
+    protected base = this.route.snapshot.data['base'];
   
     tratamientoModel= signal<TratamientoNuevo>({
       nombre: '',

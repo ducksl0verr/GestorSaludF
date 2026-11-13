@@ -1,4 +1,4 @@
-import { afterNextRender, Component, inject, signal } from '@angular/core';
+import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
 import { UsuarioService } from '../service/usuario-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Usuario } from '../models/Usuario';
@@ -21,6 +21,11 @@ export class UsuarioDetalle {
 
   // se expone para usarlo en el template
   esProfesional = esProfesional;
+
+  listaUrl = computed(() => {
+    const u = this.usuario();
+    return ['/admin', u && esProfesional(u) ? 'profesionales' : 'usuarios'];
+  });
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));

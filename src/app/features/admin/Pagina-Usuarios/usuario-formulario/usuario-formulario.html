@@ -86,5 +86,5 @@
   <button type="submit" [disabled]="cargando()">
     {{ cargando() ? 'Guardando...' : 'Guardar' }}
   </button>
-  <a routerLink="listaActual">Cancelar</a>
+  <a [routerLink]="listaActual">Cancelar</a>
 </form>

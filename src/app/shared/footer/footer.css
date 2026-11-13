@@ -1,4 +1,21 @@
-footer{
+:host {
+    display: block;
+}
+
+footer {
+    padding: 16px;
     text-align: center;
-    background-color: wheat;
+    background-color: var(--od-teal-deep);
+    color: #D8ECE9;
+    font-size: 0.86rem;
+    letter-spacing: 0.04em;
+    border-top: 3px solid var(--od-orange);
+}
+
+@media (max-width: 560px) {
+    footer {
+        padding: 14px 12px;
+        font-size: 0.78rem;
+        letter-spacing: 0.02em;
+    }
 }
