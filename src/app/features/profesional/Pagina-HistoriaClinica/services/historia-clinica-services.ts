@@ -10,7 +10,7 @@ import { HistoriaClinica, HistoriaClinicaActualizar, HistoriaClinicaNueva } from
 export class HistoriaClinicaService {
 
     private http: HttpClient = inject(HttpClient);
-    private readonly API_URL = "/api/historias-clinicas";
+    private readonly API_URL = "/api/historiasClinicas";
 
     getHistoriasClinicas() {
         return this.http.get<HistoriaClinica[]>(this.API_URL);

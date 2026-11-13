@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Receta } from '../model/receta';
 import { RecetaService } from '../services/receta-services';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule],
   selector: 'app-receta-lista',
   styleUrl: './receta-lista.css',
   templateUrl: './receta-lista.html',
@@ -14,6 +14,9 @@ export class RecetaLista implements OnInit {
 
   private recetasService = inject(RecetaService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  protected base = this.route.snapshot.data['base'];
 
   recetas = signal<Receta[]>([]);
   cargando = signal(false);
@@ -43,32 +46,10 @@ export class RecetaLista implements OnInit {
   }
 
   verDetalle(id: number): void {
-    this.router.navigate(['/recetas', id]);
+    this.router.navigate([this.base, 'recetas', id]);
   }
 
   nuevaReceta(): void {
-    this.router.navigate(['/recetas/form']);
-  }
-
-  eliminar(id: number): void {
-
-    if (confirm('¿Está seguro de eliminar esta receta?')) {
-
-      this.recetasService.borrar(id).subscribe({
-        next: () => {
-          this.listarRecetas();
-        },
-
-        error: (err) => {
-          console.error('Error al eliminar receta', err);
-          this.error.set('No se pudo eliminar la receta.');
-        }
-      });
-
-    }
+    this.router.navigate([this.base, 'recetas', 'nuevo']);
   }
 }
-
-
-
-

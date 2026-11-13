@@ -24,6 +24,10 @@ export class DiagnosticoService {
         return this.http.post<Diagnostico>(this.API_URL, diagnostico);
     }
 
+    actualizarDiagnostico(id: number, diagnostico: DiagnosticoNuevo) {
+        return this.http.put<Diagnostico>(`${this.API_URL}/${id}`, diagnostico);
+    }
+
     borrar(id: number) {
         return this.http.delete<void>(`${this.API_URL}/${id}`);
     }

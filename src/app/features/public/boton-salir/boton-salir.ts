@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   imports: [],
   selector: 'app-boton-salir',
   styleUrl: './boton-salir.css',
-  template: '<button type="button" (click)="salir()">Cerrar sesión</button>`',
+  template: '<button type="button" (click)="salir()">Cerrar sesión</button>',
 })
 export class BotonSalir {
   private auth = inject(AuthService);

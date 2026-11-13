@@ -5,7 +5,17 @@
     <p>Información completa de la receta médica.</p>
   </div>
 
-  @if (receta(); as r) {
+  @if (cargando()) {
+
+    <div class="mensaje-cargando">
+      <p>Cargando información de la receta...</p>
+    </div>
+
+  } @else if (error()) {
+
+    <p class="mensaje-error">{{ error() }}</p>
+
+  } @else if (receta(); as r) {
 
     <div class="tarjeta">
 
@@ -83,7 +93,7 @@
 
       <div class="acciones">
 
-        <a routerLink="/recetas" class="btn-volver">
+        <a [routerLink]="[base, 'recetas']" class="btn-volver">
           Volver al listado
         </a>
 
@@ -94,7 +104,7 @@
   } @else {
 
     <div class="mensaje-cargando">
-      <p>Cargando información de la receta...</p>
+      <p>No se encontró la receta solicitada.</p>
     </div>
 
   }

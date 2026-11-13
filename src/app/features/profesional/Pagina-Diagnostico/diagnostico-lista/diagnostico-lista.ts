@@ -1,25 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Diagnostico } from '../model/diagnostico';
-import { Router, RouterLink } from '@angular/router';
 import { DiagnosticoService } from '../services/diagnostico-services';
 
 @Component({
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterModule],
   selector: 'app-diagnostico-lista',
   styleUrl: './diagnostico-lista.css',
   templateUrl: './diagnostico-lista.html',
 })
-export class DiagnosticoLista {
+export class DiagnosticoLista implements OnInit {
 
   diagnosticos = signal<Diagnostico[]>([]);
-  private router = inject(Router);
+  cargando = signal(false);
+  error = signal('');
 
-  get rutaDiagnosticos(): string {
-    return this.router.url.startsWith('/admin/')
-      ? '/admin/diagnosticos'
-      : '/administrativo/diagnosticos'
-  }
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];
 
   constructor(
     private dService: DiagnosticoService
@@ -30,20 +28,29 @@ export class DiagnosticoLista {
   }
 
   cargarDiagnosticos() {
-    this.dService.getDiagnosticos().subscribe(data => {
-      console.log(data);
-      this.diagnosticos.set(data);
+
+    this.cargando.set(true);
+    this.error.set('');
+
+    this.dService.getDiagnosticos().subscribe({
+      next: (data) => {
+        this.diagnosticos.set(data);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudieron cargar los diagnósticos.');
+        this.cargando.set(false);
+      }
     });
   }
 
   borrarDiagnostico(id: number) {
     if (!confirm('¿Eliminar este diagnóstico?')) return;
 
-    this.dService.borrar(id).subscribe(() => {
-      this.cargarDiagnosticos();
+    this.dService.borrar(id).subscribe({
+      next: () => this.cargarDiagnosticos(),
+      error: () => this.error.set('No se pudo eliminar el diagnóstico.')
     });
   }
 
 }
-
-

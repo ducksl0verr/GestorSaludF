@@ -18,13 +18,6 @@ export const RECETA_ROUTES: Routes = [
   },
 
   {
-    path: 'editar/:id',
-    loadComponent: () =>
-      import('./receta-formulario/receta-formulario')
-        .then(m => m.RecetaFormulario)
-  },
-
-  {
     path: ':id',
     loadComponent: () =>
       import('./receta-detalle/receta-detalle')

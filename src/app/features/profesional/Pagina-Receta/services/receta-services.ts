@@ -23,8 +23,4 @@ export class RecetaService {
         return this.http.post<Receta>(this.API_URL, receta);
     }
 
-    borrar(id: number) {
-        return this.http.delete<void>(`${this.API_URL}/${id}`);
-    }
-
 }

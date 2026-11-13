@@ -24,7 +24,7 @@ import { PAGO_ROUTES } from './features/administrativo/Pagina-Pago/pago.routes';
 import { GASTO_ROUTES } from './features/administrativo/Pagina-Gasto/gasto.routes';
 import { FACTURA_ROUTES } from './features/administrativo/Pagina-Factura/factura.routes';
 import { RECETA_ROUTES } from './features/profesional/Pagina-Receta/receta.routes';
-import { HISTORIA_CLINICA_ROUTES } from './features/profesional/Pagina-HistoriaClinica/diagnostico.routes';
+import { HISTORIA_CLINICA_ROUTES } from './features/profesional/Pagina-HistoriaClinica/historia-clinica.routes';
 import { DIAGNOSTICO_ROUTES } from './features/profesional/Pagina-Diagnostico/diagnostico.routes';
 
 export const routes: Routes = [
@@ -182,23 +182,32 @@ export const routes: Routes = [
     }, 
     {
       path: 'profesional',
-      loadComponent: ()=> import('./layouts/prof-layouts/prof-layouts')
-        .then(m=>m.ProfLayouts),
+      loadComponent: ()=> import('./layouts/prof-layouts/prof-layouts').then(m=>m.ProfLayouts),
         canActivate: [authGuard, roleGuard],
         data: {
-          roles: [Roles.ROLE_PROFESIONAL]
+          roles: [Roles.ROLE_PROFESIONAL],
+          base: '/profesional'
         },
         children: [
           {
+            path: '', redirectTo: 'diagnosticos', pathMatch: 'full'
+          },
+          {
             path:'diagnosticos', children:DIAGNOSTICO_ROUTES
           },
-
           {
             path:'historiasclinicas', children:HISTORIA_CLINICA_ROUTES
           },
-           {
+          {
             path:'recetas', children:RECETA_ROUTES
           },
-          
+          {
+                path: 'medicamentos',
+                children: MEDICAMENTOS_ROUTES
+          }
+        ]
+    },
+    {
+      path: '**', redirectTo: ''
+    }
 ]
-    }]

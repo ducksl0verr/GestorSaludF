@@ -1,27 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { signalGetFn } from '@angular/core/primitives/signals';
-import { Router, RouterModule } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HistoriaClinica } from '../model/historia-clinica';
 import { HistoriaClinicaService } from '../services/historia-clinica-services';
 
 @Component({
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   selector: 'app-historia-clinica-lista',
   styleUrl: './historia-clinica-lista.css',
   templateUrl: './historia-clinica-lista.html',
 })
 
-export class HistoriaClinicaLista {
+export class HistoriaClinicaLista implements OnInit {
 
   historiasClinicas = signal<HistoriaClinica[]>([]);
-  private router = inject(Router);
+  cargando = signal(false);
+  error = signal('');
 
-  get rutaHistoriasClinicas(): string {
-    return this.router.url.startsWith('/admin/')
-      ? '/admin/historias-clinicas'
-      : '/administrativo/historias-clinicas';
-  }
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];
 
   constructor(
     private hService: HistoriaClinicaService
@@ -32,17 +29,28 @@ export class HistoriaClinicaLista {
   }
 
   cargarHistoriasClinicas() {
-    this.hService.getHistoriasClinicas().subscribe(data => {
-      console.log(data);
-      this.historiasClinicas.set(data);
+
+    this.cargando.set(true);
+    this.error.set('');
+
+    this.hService.getHistoriasClinicas().subscribe({
+      next: (data) => {
+        this.historiasClinicas.set(data);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudieron cargar las historias clínicas.');
+        this.cargando.set(false);
+      }
     });
   }
 
   borrarHistoriaClinica(id: number) {
     if (!confirm('¿Eliminar esta historia clínica?')) return;
 
-    this.hService.borrar(id).subscribe(() => {
-      this.cargarHistoriasClinicas();
+    this.hService.borrar(id).subscribe({
+      next: () => this.cargarHistoriasClinicas(),
+      error: () => this.error.set('No se pudo eliminar la historia clínica.')
     });
   }
 

@@ -1,6 +1,5 @@
-
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { FormField, form, required, min, applyEach } from '@angular/forms/signals';
 
@@ -10,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-receta-form',
-  imports: [FormField, RouterModule,CommonModule],
+  imports: [FormField, RouterModule, CommonModule],
   templateUrl: './receta-formulario.html',
   styleUrl: './receta-formulario.css'
 })
@@ -18,6 +17,9 @@ export class RecetaFormulario {
 
   private recetasService = inject(RecetaService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  private base = this.route.snapshot.data['base'];
 
   cargando = signal(false);
   error = signal('');
@@ -84,6 +86,7 @@ export class RecetaFormulario {
     event.preventDefault();
 
     if (this.formulario().invalid()) {
+      this.formulario().markAsTouched();
       return;
     }
 
@@ -96,7 +99,7 @@ export class RecetaFormulario {
 
       next: () => {
         this.cargando.set(false);
-        this.router.navigate(['/recetas']);
+        this.router.navigate([this.base, 'recetas']);
       },
 
       error: (err) => {
@@ -110,7 +113,7 @@ export class RecetaFormulario {
   }
 
   cancelar(): void {
-    this.router.navigate(['/recetas']);
+    this.router.navigate([this.base, 'recetas']);
   }
 
 }

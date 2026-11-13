@@ -1,14 +1,15 @@
-
 <form (submit)="onSubmit($event)" novalidate>
 
-  <h2>Datos del diagnóstico</h2>
+  <h2>
+    {{ diagnosticoId ? 'Editar diagnóstico' : 'Datos del diagnóstico' }}
+  </h2>
 
   @if (error()) {
     <p class="error">{{ error() }}</p>
   }
 
   <div>
-    <label>Puto viejo de mierda</label>
+    <label>Nombre del diagnóstico</label>
     <input
       type="text"
       [formField]="diagnosticoForm.nombre"
@@ -57,19 +58,26 @@
     <label>ID Historia Clínica</label>
     <input
       type="number"
-      [value]="diagnosticoModel().idHistoriaClinica || ''"
-      (input)="diagnosticoModel.update(d => ({
-        ...d,
-        idHistoriaClinica: +$any($event.target).value
-      }))"
+      [formField]="diagnosticoForm.idHistoriaClinica"
       placeholder="Ingrese el ID de la historia clínica"
     />
+
+    @if (diagnosticoForm.idHistoriaClinica().touched() &&
+         diagnosticoForm.idHistoriaClinica().invalid()) {
+      @for (error of diagnosticoForm.idHistoriaClinica().errors(); track error) {
+        <small>{{ error.message }}</small>
+      }
+    }
   </div>
 
   <hr>
 
   <button type="submit" [disabled]="cargando()">
     {{ cargando() ? 'Guardando...' : 'Guardar' }}
+  </button>
+
+  <button type="button" (click)="cancelar()">
+    Cancelar
   </button>
 
 </form>

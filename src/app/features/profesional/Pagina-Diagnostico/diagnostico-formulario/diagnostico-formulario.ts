@@ -1,13 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DiagnosticoService } from '../services/diagnostico-services';
-import { Router } from 'express';
 import { DiagnosticoNuevo } from '../model/diagnostico';
-import { form, FormField, maxLength, minLength, required } from '@angular/forms/signals';
+import { form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  imports: [FormField,CommonModule,RouterModule],
+  imports: [FormField, CommonModule, RouterModule],
   selector: 'app-diagnostico-formulario',
   styleUrl: './diagnostico-formulario.css',
   templateUrl: './diagnostico-formulario.html',
@@ -15,11 +14,13 @@ import { CommonModule } from '@angular/common';
 
 export class DiagnosticoFormulario implements OnInit {
 
+  diagnosticoId?: number;
+
   private route = inject(ActivatedRoute);
   private dService = inject(DiagnosticoService);
   private router = inject(Router);
 
-  private base = this.route.snapshot.data['baseDiagnosticos'];
+  private base = this.route.snapshot.data['base'];
 
   diagnosticoModel = signal<DiagnosticoNuevo>({
     nombre: '',
@@ -38,6 +39,10 @@ export class DiagnosticoFormulario implements OnInit {
       message: 'El nombre debe tener al menos 3 caracteres.'
     });
 
+    maxLength(campo.nombre, 100, {
+      message: 'El nombre no puede superar los 100 caracteres.'
+    });
+
     required(campo.descripcion, {
       message: 'La descripción es obligatoria.'
     });
@@ -54,12 +59,37 @@ export class DiagnosticoFormulario implements OnInit {
       message: 'La fecha del diagnóstico es obligatoria.'
     });
 
+    min(campo.idHistoriaClinica, 1, {
+      message: 'Debe indicar una historia clínica válida.'
+    });
+
   });
 
   cargando = signal(false);
   error = signal('');
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (!id) return;
+
+    this.diagnosticoId = Number(id);
+
+    this.dService.getDiagnostico(this.diagnosticoId).subscribe({
+      next: (d) => {
+        this.diagnosticoModel.set({
+          nombre: d.nombre,
+          descripcion: d.descripcion,
+          fechaDiagnostico: d.fechaDiagnostico,
+          idHistoriaClinica: d.idHistoriaClinica
+        });
+      },
+      error: () => {
+        this.error.set('No se pudo cargar el diagnóstico.');
+      }
+    });
+  }
 
   onSubmit(event: Event): void {
 
@@ -75,11 +105,17 @@ export class DiagnosticoFormulario implements OnInit {
     this.cargando.set(true);
     this.error.set('');
 
-    this.dService.guardarDiagnostico(diagnosticoData).subscribe({
+    const peticion = this.diagnosticoId
+      ? this.dService.actualizarDiagnostico(this.diagnosticoId, diagnosticoData)
+      : this.dService.guardarDiagnostico(diagnosticoData);
+
+    peticion.subscribe({
 
       next: () => {
-        alert('Diagnóstico guardado correctamente.');
-        this.router.navigate([this.base]);
+        alert(this.diagnosticoId
+          ? 'Diagnóstico actualizado correctamente.'
+          : 'Diagnóstico guardado correctamente.');
+        this.router.navigate([this.base, 'diagnosticos']);
       },
 
       error: (e) => {
@@ -91,6 +127,10 @@ export class DiagnosticoFormulario implements OnInit {
 
     });
 
+  }
+
+  cancelar(): void {
+    this.router.navigate([this.base, 'diagnosticos']);
   }
 
 }

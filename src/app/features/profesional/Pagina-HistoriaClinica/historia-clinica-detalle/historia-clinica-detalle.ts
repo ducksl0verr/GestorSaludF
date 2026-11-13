@@ -18,7 +18,7 @@ export class HistoriaClinicaDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['baseHistoriasClinicas'];
+  private base = this.route.snapshot.data['base'];
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,7 +39,7 @@ export class HistoriaClinicaDetalle {
     if (!confirm('¿Eliminar esta historia clínica?')) return;
 
     this.hService.borrar(h.id).subscribe({
-      next: () => this.router.navigate([this.base]),
+      next: () => this.router.navigate([this.base, 'historiasclinicas']),
       error: () => this.error.set('No se pudo eliminar la historia clínica.')
     });
   }

@@ -2,49 +2,58 @@
 
     <p id="titulo">Historias Clínicas</p>
 
-    <button [routerLink]="[rutaHistoriasClinicas, 'nuevo']">
+    <button [routerLink]="[base, 'historiasclinicas', 'nuevo']">
         Nueva Historia Clínica
     </button>
 
-    <ul>
+    @if (cargando()) {
 
-        @for(h of historiasClinicas(); track h.id) {
+        <p>Cargando historias clínicas...</p>
 
-            <li>
+    } @else if (error()) {
 
-                <p>
-                    {{ h.id }} - {{ h.fecha }}
-                </p>
+        <p class="error">{{ error() }}</p>
 
-                <p>
-                    Paciente: {{ h.id_paciente }}
-                </p>
+    } @else {
 
-                <p>
-                    Observaciones: {{ h.observaciones }}
-                </p>
+        <ul>
 
-                <button [routerLink]="[rutaHistoriasClinicas, 'editar', h.id]">
-                    Editar
-                </button>
+            @for(h of historiasClinicas(); track h.id) {
 
-                <button [routerLink]="[rutaHistoriasClinicas, h.id]">
-                    Ver detalles
-                </button>
+                <li>
 
-                <button (click)="borrarHistoriaClinica(h.id)">
-                    Eliminar
-                </button>
+                    <p>
+                        {{ h.id }} - {{ h.fecha }}
+                    </p>
 
-            </li>
+                    <p>
+                        Paciente: {{ h.id_paciente }}
+                    </p>
 
-        } @empty {
-            <li>No hay historias clínicas registradas.</li>
-        }
+                    <p>
+                        Observaciones: {{ h.observaciones }}
+                    </p>
 
-    </ul>
+                    <button [routerLink]="[base, 'historiasclinicas', 'editar', h.id]">
+                        Editar
+                    </button>
+
+                    <button [routerLink]="[base, 'historiasclinicas', h.id]">
+                        Ver detalles
+                    </button>
+
+                    <button (click)="borrarHistoriaClinica(h.id)">
+                        Eliminar
+                    </button>
+
+                </li>
+
+            } @empty {
+                <li>No hay historias clínicas registradas.</li>
+            }
+
+        </ul>
+
+    }
 
 </div>
-
-
-

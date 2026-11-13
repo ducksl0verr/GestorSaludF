@@ -20,7 +20,7 @@ export class DiagnosticoDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['baseDiagnosticos'];
+  protected base = this.route.snapshot.data['base'];
 
   constructor() {
 
@@ -44,7 +44,7 @@ export class DiagnosticoDetalle {
     if (!confirm(`¿Eliminar el diagnóstico ${d.nombre}?`)) return;
 
     this.dService.borrar(d.id).subscribe({
-      next: () => this.router.navigate([this.base]),
+      next: () => this.router.navigate([this.base, 'diagnosticos']),
       error: () => this.error.set('No se pudo eliminar el diagnóstico.')
     });
 
