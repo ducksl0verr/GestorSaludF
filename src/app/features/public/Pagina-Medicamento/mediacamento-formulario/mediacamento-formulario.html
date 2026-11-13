@@ -104,9 +104,8 @@
     <div>
         <label>Fecha de vencimiento: </label>
             <input
-            type="text"
+            type="date"
             [formField]="medForm.fechaVencimiento"
-            placeholder="28/07/2030"
             />
         
             @if (medForm.fechaVencimiento().touched() &&

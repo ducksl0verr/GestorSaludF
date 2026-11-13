@@ -1,0 +1,589 @@
+:host {
+  display: block;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* ============================================================
+   Encabezado y selector de mes
+   ============================================================ */
+
+.dashboard__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.dashboard .dashboard__kicker {
+  margin: 0 0 4px;
+  color: var(--od-orange);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.dashboard__encabezado h2 {
+  margin: 0;
+}
+
+.dashboard__subtitulo {
+  margin: 4px 0 0;
+}
+
+.selector-mes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selector-mes label {
+  color: var(--od-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.selector-mes__controles {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+button.boton-mes {
+  width: 42px;
+  min-width: 42px;
+  padding: 0;
+  border: var(--od-btn-border);
+  border-radius: var(--od-btn-radius);
+  background-color: var(--od-aqua-light);
+  color: var(--od-teal-dark);
+  font-size: 1.25rem;
+  line-height: 1;
+  box-shadow: none;
+}
+
+button.boton-mes:hover {
+  background-color: var(--od-teal);
+  color: var(--od-white);
+  transform: none;
+  box-shadow: none;
+}
+
+input.mes-input[type="month"] {
+  width: 175px;
+  padding: 9px 12px;
+  border: 1px solid var(--od-border);
+  border-radius: 12px;
+  background-color: var(--od-white);
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   Tarjetas de resumen
+   ============================================================ */
+
+.tarjetas-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.tarjeta-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--od-border);
+  border-top: 4px solid var(--od-aqua);
+  border-radius: 18px;
+  background-color: var(--od-white);
+  box-shadow: var(--od-shadow-soft);
+}
+
+.tarjeta-resumen--pagos {
+  border-top-color: var(--od-teal);
+}
+
+.tarjeta-resumen--gastos {
+  border-top-color: var(--od-orange);
+}
+
+.tarjeta-resumen--balance {
+  border-top-color: var(--od-amber);
+}
+
+.tarjeta-resumen--dias {
+  border-top-color: var(--od-aqua);
+}
+
+.tarjeta-resumen__etiqueta {
+  color: var(--od-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tarjeta-resumen strong {
+  color: var(--od-teal-dark);
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.tarjeta-resumen small {
+  color: var(--od-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tarjeta-resumen--negativo strong {
+  color: var(--od-danger);
+}
+
+/* ============================================================
+   Paneles y gráficos
+   ============================================================ */
+
+.graficos {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(250px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--od-border);
+  border-radius: 20px;
+  background-color: var(--od-white);
+  box-shadow: var(--od-shadow-soft);
+}
+
+.panel__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.panel h3 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1rem;
+}
+
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--od-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.leyenda__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.punto {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.punto--pago {
+  background-color: var(--od-teal);
+}
+
+.punto--gasto {
+  background-color: var(--od-orange);
+}
+
+/* Gráfico de barras por mes */
+
+.grafico-barras {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  height: 260px;
+  padding-top: 6px;
+}
+
+button.columna-mes {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 6px 2px;
+  border: var(--od-btn-border);
+  border-radius: var(--od-btn-radius);
+  background-color: transparent;
+  color: inherit;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button.columna-mes:hover {
+  background-color: var(--od-aqua-light);
+  border-color: var(--od-border);
+  transform: none;
+  box-shadow: none;
+}
+
+button.columna-mes--activa {
+  background-color: rgba(143, 189, 184, 0.22);
+  border-color: var(--od-aqua);
+}
+
+.columna-mes__valores {
+  color: var(--od-muted);
+  font-size: 0.64rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.columna-mes__barras {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 0;
+}
+
+.barra {
+  width: min(16px, 40%);
+  min-height: 3px;
+  border-radius: 999px 999px 4px 4px;
+  transition: height 0.3s ease;
+}
+
+.barra--pago {
+  background-color: var(--od-teal);
+}
+
+.barra--gasto {
+  background-color: var(--od-orange);
+}
+
+.columna-mes__nombre {
+  color: var(--od-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+button.columna-mes--activa .columna-mes__nombre {
+  color: var(--od-teal-dark);
+}
+
+/* Distribución del mes */
+
+.dona-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.dona {
+  width: min(190px, 78%);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(23, 112, 108, 0.08);
+}
+
+.dona__centro {
+  width: 64%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--od-white);
+  box-shadow: 0 4px 14px rgba(23, 112, 108, 0.12);
+}
+
+.dona__centro strong {
+  color: var(--od-teal-dark);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.dona__centro span {
+  color: var(--od-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dona-leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.dona-leyenda__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background-color: var(--od-aqua-light);
+  color: var(--od-teal-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.dona-leyenda__item strong {
+  margin-left: auto;
+}
+
+/* ============================================================
+   Calendario mensual
+   ============================================================ */
+
+.calendario-panel__resumen {
+  color: var(--od-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.calendario {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calendario__semana,
+.calendario__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.calendario__semana span {
+  padding: 4px 0;
+  color: var(--od-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dia {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 72px;
+  padding: 6px;
+  border: 1px solid var(--od-border);
+  border-radius: 12px;
+  background-color: var(--od-white);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dia--vacio {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.dia--activo {
+  border-color: var(--od-aqua);
+  background-color: #F2FAF8;
+}
+
+.dia--hoy {
+  box-shadow: inset 0 0 0 2px var(--od-amber);
+}
+
+.dia__numero {
+  color: var(--od-teal-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.dia__marcas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: auto;
+}
+
+.marca {
+  min-width: 19px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  color: var(--od-white);
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.marca--pago {
+  background-color: var(--od-teal);
+}
+
+.marca--gasto {
+  background-color: var(--od-orange);
+}
+
+/* ============================================================
+   Estados
+   ============================================================ */
+
+.dashboard .estado {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background-color: var(--od-aqua-light);
+  color: var(--od-teal-dark);
+  font-weight: 600;
+}
+
+.dashboard .estado--info {
+  background-color: #FFF5E2;
+  color: #7A5200;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .graficos {
+    grid-template-columns: 1fr;
+  }
+
+  .dona-contenedor {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .dona-leyenda {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 720px) {
+  .dashboard__encabezado {
+    align-items: stretch;
+  }
+
+  .selector-mes {
+    width: 100%;
+  }
+
+  .selector-mes__controles {
+    width: 100%;
+  }
+
+  input.mes-input[type="month"] {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .grafico-barras {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  button.columna-mes {
+    flex: 0 0 46px;
+    min-width: 46px;
+  }
+
+  .calendario__semana,
+  .calendario__grid {
+    gap: 4px;
+  }
+
+  .dia {
+    min-height: 60px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 560px) {
+  .tarjetas-resumen {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tarjeta-resumen strong {
+    font-size: 1.5rem;
+  }
+
+  .dona-contenedor {
+    flex-direction: column;
+  }
+
+  .calendario__semana span {
+    font-size: 0.6rem;
+  }
+
+  .dia {
+    min-height: 54px;
+  }
+
+  .marca {
+    min-width: 16px;
+    padding: 1px 3px;
+    font-size: 0.58rem;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .tarjetas-resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .dia {
+    min-height: 48px;
+    padding: 4px;
+  }
+
+  .dia__numero {
+    font-size: 0.72rem;
+  }
+
+  .columna-mes__valores {
+    display: none;
+  }
+}

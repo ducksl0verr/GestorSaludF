@@ -1,1 +1,225 @@
-<p>dashboard works!</p>
+<section class="dashboard">
+
+  <header class="dashboard__encabezado">
+    <div>
+      <p class="dashboard__kicker">Resumen financiero</p>
+      <h2>Pagos y gastos</h2>
+      <p class="dashboard__subtitulo">
+        Consultá cuántos pagos y gastos se registraron en cada mes.
+      </p>
+    </div>
+
+    <div class="selector-mes">
+      <label for="mes-dashboard">Mes a consultar</label>
+
+      <div class="selector-mes__controles">
+        <button
+          type="button"
+          class="boton-mes"
+          (click)="irMes(-1)"
+          aria-label="Mes anterior"
+        >
+          ‹
+        </button>
+
+        <input
+          id="mes-dashboard"
+          class="mes-input"
+          type="month"
+          [value]="mesSeleccionado()"
+          (change)="cambiarMes($event)"
+          aria-label="Seleccionar mes"
+        >
+
+        <button
+          type="button"
+          class="boton-mes"
+          (click)="irMes(1)"
+          aria-label="Mes siguiente"
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  </header>
+
+  @if (cargando()) {
+
+    <p class="estado">Cargando información de pagos y gastos...</p>
+
+  } @else {
+
+    <div class="tarjetas-resumen">
+
+      <article class="tarjeta-resumen tarjeta-resumen--pagos">
+        <span class="tarjeta-resumen__etiqueta">Pagos del mes</span>
+        <strong>{{ pagosMes().length }}</strong>
+        <small>{{ formatearMonto(totalPagosMes()) }}</small>
+      </article>
+
+      <article class="tarjeta-resumen tarjeta-resumen--gastos">
+        <span class="tarjeta-resumen__etiqueta">Gastos del mes</span>
+        <strong>{{ gastosMes().length }}</strong>
+        <small>{{ formatearMonto(totalGastosMes()) }}</small>
+      </article>
+
+      <article
+        class="tarjeta-resumen tarjeta-resumen--balance"
+        [class.tarjeta-resumen--negativo]="balanceMes() < 0"
+      >
+        <span class="tarjeta-resumen__etiqueta">Balance del mes</span>
+        <strong>{{ formatearMonto(balanceMes()) }}</strong>
+        <small>Pagos menos gastos</small>
+      </article>
+
+      <article class="tarjeta-resumen tarjeta-resumen--dias">
+        <span class="tarjeta-resumen__etiqueta">Días con movimiento</span>
+        <strong>{{ diasConMovimiento() }}</strong>
+        <small>En {{ nombreMes() }}</small>
+      </article>
+
+    </div>
+
+    @if (sinRegistros()) {
+      <p class="estado estado--info">
+        Todavía no hay pagos ni gastos registrados. Cuando se carguen,
+        aparecerán reflejados en estos gráficos.
+      </p>
+    }
+
+    <div class="graficos">
+
+      <section class="panel">
+        <div class="panel__cabecera">
+          <h3>Comparativo mensual · {{ periodo().anio }}</h3>
+
+          <div class="leyenda" aria-hidden="true">
+            <span class="leyenda__item">
+              <span class="punto punto--pago"></span> Pagos
+            </span>
+            <span class="leyenda__item">
+              <span class="punto punto--gasto"></span> Gastos
+            </span>
+          </div>
+        </div>
+
+        <div class="grafico-barras">
+          @for (mes of porMes(); track mes.mes) {
+            <button
+              type="button"
+              class="columna-mes"
+              [class.columna-mes--activa]="mes.mes === periodo().mes"
+              (click)="seleccionarMes(mes.mes)"
+              [title]="mes.nombre + ': ' + mes.pagos + ' pagos y ' + mes.gastos + ' gastos'"
+              [attr.aria-label]="mes.nombre + ': ' + mes.pagos + ' pagos y ' + mes.gastos + ' gastos'"
+            >
+              <span class="columna-mes__valores">
+                {{ mes.pagos }} / {{ mes.gastos }}
+              </span>
+
+              <span class="columna-mes__barras">
+                <span
+                  class="barra barra--pago"
+                  [style.height.%]="mes.alturaPagos"
+                ></span>
+                <span
+                  class="barra barra--gasto"
+                  [style.height.%]="mes.alturaGastos"
+                ></span>
+              </span>
+
+              <span class="columna-mes__nombre">{{ mes.nombre }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <section class="panel panel--dona">
+        <div class="panel__cabecera">
+          <h3>Distribución de {{ nombreMes() }}</h3>
+        </div>
+
+        <div class="dona-contenedor">
+          <div
+            class="dona"
+            [style.background]="estiloDona()"
+            role="img"
+            [attr.aria-label]="pagosMes().length + ' pagos y ' + gastosMes().length + ' gastos en el mes'"
+          >
+            <div class="dona__centro">
+              <strong>{{ totalMovimientosMes() }}</strong>
+              <span>movimientos</span>
+            </div>
+          </div>
+
+          <div class="dona-leyenda">
+            <div class="dona-leyenda__item">
+              <span class="punto punto--pago"></span>
+              <span>Pagos</span>
+              <strong>{{ pagosMes().length }}</strong>
+            </div>
+
+            <div class="dona-leyenda__item">
+              <span class="punto punto--gasto"></span>
+              <span>Gastos</span>
+              <strong>{{ gastosMes().length }}</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="panel calendario-panel">
+      <div class="panel__cabecera">
+        <h3>Calendario de movimientos · {{ nombreMes() }}</h3>
+        <span class="calendario-panel__resumen">
+          {{ diasConMovimiento() }} días con movimientos
+        </span>
+      </div>
+
+      <div class="calendario">
+        <div class="calendario__semana" aria-hidden="true">
+          @for (dia of diasSemana; track dia) {
+            <span>{{ dia }}</span>
+          }
+        </div>
+
+        <div class="calendario__grid">
+          @for (celda of calendario(); track celda.key) {
+
+            @if (celda.vacio) {
+              <span class="dia dia--vacio" aria-hidden="true"></span>
+            } @else {
+              <div
+                class="dia"
+                [class.dia--activo]="celda.total > 0"
+                [class.dia--hoy]="celda.esHoy"
+                [attr.aria-label]="celda.dia + ': ' + celda.pagos + ' pagos y ' + celda.gastos + ' gastos'"
+              >
+                <span class="dia__numero">{{ celda.dia }}</span>
+
+                <span class="dia__marcas">
+                  @if (celda.pagos > 0) {
+                    <span class="marca marca--pago" [title]="celda.pagos + ' pago(s)'">
+                      {{ celda.pagos }}
+                    </span>
+                  }
+
+                  @if (celda.gastos > 0) {
+                    <span class="marca marca--gasto" [title]="celda.gastos + ' gasto(s)'">
+                      {{ celda.gastos }}
+                    </span>
+                  }
+                </span>
+              </div>
+            }
+
+          }
+        </div>
+      </div>
+    </section>
+
+  }
+
+</section>
