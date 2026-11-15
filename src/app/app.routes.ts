@@ -175,16 +175,16 @@ export const routes: Routes = [
         },
         children: [
           {
-            path: '', redirectTo: 'pacientes', pathMatch: 'full'
+                path: '', redirectTo: 'pacientes', pathMatch: 'full'
           },
           {
-            path:'diagnosticos', children:DIAGNOSTICO_ROUTES
+                path:'diagnosticos', children:DIAGNOSTICO_ROUTES
           },
           {
-            path:'historiasclinicas', children:HISTORIA_CLINICA_ROUTES
+                path:'historiasclinicas', children:HISTORIA_CLINICA_ROUTES
           },
           {
-            path:'recetas', children:RECETA_ROUTES
+                path:'recetas', children:RECETA_ROUTES
           },
           {
                 path: 'medicamentos',
@@ -194,9 +194,13 @@ export const routes: Routes = [
                 path: 'pacientes',
                 children: PACIENTE_ROUTES
           },
-            {
+          {
                 path: 'tratamientos',
                 children: TRATAMIENTOS_ROUTES
+            },
+            {
+                path: 'turnos',
+                children: TURNO_ROUTES
             }
         ]
     },

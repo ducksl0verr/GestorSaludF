@@ -1,7 +1,4 @@
-/* ============================================================
-   Oh, Doctor! - Sistema visual
-   Paleta inspirada en las diapositivas del proyecto.
-   ============================================================ */
+/* Declaración del estilo general */
 
 :root {
     --od-teal: #17706C;
@@ -213,9 +210,7 @@ app-footer footer {
     border-top: 3px solid var(--od-orange);
 }
 
-/* ============================================================
-   Estructura compartida de los paneles privados
-   ============================================================ */
+/* Estructura compartida de los paneles privados*/
 
 .od-layout {
     min-height: calc(100vh - 120px);
@@ -638,9 +633,7 @@ app-footer footer {
     margin-top: 4px;
 }
 
-/* ============================================================
-   Login, registro y recuperación de contraseña
-   ============================================================ */
+/* Login, registro y recuperación de contraseña*/
 
 app-login,
 app-registrar,
@@ -783,9 +776,7 @@ app-restablecer-contrasena .contenedor > a {
     font-weight: 600;
 }
 
-/* ============================================================
-   Home público
-   ============================================================ */
+/* Home*/
 
 app-home {
     display: block;
@@ -816,9 +807,7 @@ app-home #logo img {
     box-shadow: 0 12px 28px rgba(23, 112, 108, 0.18);
 }
 
-/* ============================================================
-   Utilidades de contenido
-   ============================================================ */
+/* Utilidades de contenido */
 
 html {
     -webkit-text-size-adjust: 100%;
