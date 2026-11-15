@@ -26,14 +26,17 @@
         <dd>{{ h.id_profesional }}</dd>
 
         <dt>Diagnósticos</dt>
-
-        @for (d of h.diagnosticos; track d.id) {
-            <dd>
-                {{ d.descripcion }}
-            </dd>
-        } @empty {
-            <dd>No hay diagnósticos registrados.</dd>
-        }
+        <dd>
+            @for (d of h.diagnosticos; track d.id) {
+                <article class="diagnostico-detalle">
+                    <p class="diagnostico-detalle__nombre">{{ d.nombre }}</p>
+                    <p>{{ d.descripcion }}</p>
+                    <p class="diagnostico-detalle__fecha">Fecha: {{ d.fechaDiagnostico }}</p>
+                </article>
+            } @empty {
+                <p>No hay diagnósticos registrados.</p>
+            }
+        </dd>
 
     </dl>
 

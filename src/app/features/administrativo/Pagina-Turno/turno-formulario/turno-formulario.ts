@@ -5,6 +5,7 @@ import { TurnoService } from '../services/turno-service';
 import { TurnoNuevo } from '../models/turno-nuevo';
 import { TurnoActualizar } from '../models/turno-actualizar';
 import { EstadoTurno } from '../models/estado-turno';
+import { Turno } from '../models/turno';
 
 import { PacienteService } from '../../Pagina-Paciente/services/paciente-service';
 import { Paciente } from '../../Pagina-Paciente/models/paciente';
@@ -37,6 +38,9 @@ export class TurnoFormulario implements OnInit {
     private usuarioService = inject(UsuarioService);
 
     protected base = this.route.snapshot.data['base'];
+    protected esVistaProfesional = this.base === '/profesional';
+
+    error = signal('');
 
     estadosTurno: EstadoTurno[] = [
         'PENDIENTE',
@@ -71,21 +75,45 @@ export class TurnoFormulario implements OnInit {
     ngOnInit(): void {
         const id = this.route.snapshot.params['id'];
 
+        if (this.esVistaProfesional && !id) {
+            this.error.set(
+                'Desde el perfil profesional solo podés consultar o editar tus turnos asignados.'
+            );
+            return;
+        }
+
         if (id) {
             this.turnoId.set(Number(id));
 
+            /// En el perfil profesional solo se permite editar un turno propio:
+            /// se busca dentro de los turnos que el backend asigna al usuario.
+            if (this.esVistaProfesional) {
+                this.turnoService.getMisTurnos().subscribe({
+                    next: (turnos) => {
+                        const turno = turnos.find((t) => t.id === Number(id));
+
+                        if (!turno) {
+                            this.error.set('No tenés permiso para editar este turno.');
+                            return;
+                        }
+
+                        this.cargarModeloDesdeTurno(turno);
+                    },
+                    error: (error) => {
+                        console.error('Error al obtener los turnos del profesional', error);
+                        this.error.set('No se pudo cargar el turno.');
+                    }
+                });
+
+                return;
+            }
+
             this.turnoService.getTurno(Number(id)).subscribe({
-                next: (turno) => {
-                    this.turnoModel.set({
-                        fechaHora: turno.fechaHora.slice(0, 16), ///formato: 2026-11-15T10:30
-                        id_paciente: turno.id_paciente.toString(),
-                        id_tratamiento: turno.id_tratamiento.toString(),
-                        id_consultorio: turno.id_consultorio.toString(),
-                        id_profesional: turno.id_profesional.toString(),
-                        estadoTurno: turno.estadoTurno
-                    });
-                },
-                error: (error) => console.error('Error al obtener el turno', error)
+                next: (turno) => this.cargarModeloDesdeTurno(turno),
+                error: (error) => {
+                    console.error('Error al obtener el turno', error);
+                    this.error.set('No se pudo cargar el turno.');
+                }
             });
 
         } else {
@@ -94,6 +122,17 @@ export class TurnoFormulario implements OnInit {
             this.cargarConsultorios();
             this.cargarProfesionales();
         }
+    }
+
+    private cargarModeloDesdeTurno(turno: Turno): void {
+        this.turnoModel.set({
+            fechaHora: turno.fechaHora.slice(0, 16), ///formato: 2026-11-15T10:30
+            id_paciente: turno.id_paciente.toString(),
+            id_tratamiento: turno.id_tratamiento.toString(),
+            id_consultorio: turno.id_consultorio.toString(),
+            id_profesional: turno.id_profesional.toString(),
+            estadoTurno: turno.estadoTurno
+        });
     }
 
     private cargarPacientes(): void {

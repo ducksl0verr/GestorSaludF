@@ -1,8 +1,23 @@
 <div id="contenedor">
     <p id="titulo">Proveedores</p>
     <button [routerLink]="[base, 'proveedores', 'nuevo']">Nuevo Proveedor</button>
+
+    <div class="buscador">
+        <label for="buscar-proveedor">Buscar</label>
+        <input
+            id="buscar-proveedor"
+            type="search"
+            placeholder="Buscar por nombre..."
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)"
+        />
+        <span class="buscador__conteo">
+            {{ proveedoresFiltrados().length }} de {{ proveedores().length }}
+        </span>
+    </div>
+
     <ul>
-        @for(pr of proveedores(); track pr.id){
+        @for(pr of proveedoresFiltrados(); track pr.id){
             <li>
                 <p>
                     {{ pr.id }} - {{ pr.nombre }}
@@ -10,6 +25,14 @@
                 <button [routerLink]="[base, 'proveedores', 'editar', pr.id]">Editar</button>
                 <button [routerLink]="[base, 'proveedores', pr.id]">Ver detalles</button>
                 <button [routerLink]="[base, 'proveedores', pr.id, 'mensaje']">Enviar mensaje</button>
+            </li>
+        } @empty {
+            <li>
+                @if (proveedores().length === 0) {
+                    No hay proveedores registrados.
+                } @else {
+                    No se encontraron proveedores con ese nombre.
+                }
             </li>
         }
     </ul>

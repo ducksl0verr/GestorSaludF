@@ -1,0 +1,9 @@
+:host .btn-secundario {
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+}
+
+:host .btn-secundario:hover:not(:disabled) {
+    background-color: var(--od-aqua);
+    color: var(--od-white);
+}

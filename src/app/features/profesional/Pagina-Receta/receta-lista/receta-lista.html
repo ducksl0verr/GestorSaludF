@@ -4,14 +4,35 @@
 
     <div>
       <h2>Listado de Recetas</h2>
-      <p>Administración de recetas médicas registradas.</p>
+
+      @if (pacienteId(); as id) {
+        <p>Recetas generadas para el paciente N° {{ id }}.</p>
+      } @else {
+        <p>Administración de recetas médicas registradas.</p>
+      }
     </div>
 
-    <button
-      class="btn-nuevo"
-      (click)="nuevaReceta()">
-      + Nueva Receta
-    </button>
+    <div class="acciones">
+
+      @if (pacienteId()) {
+        <button
+          type="button"
+          class="btn-secundario"
+          (click)="verTodas()">
+          Ver todas
+        </button>
+      }
+
+      @if (puedeCrear) {
+        <button
+          type="button"
+          class="btn-nuevo"
+          (click)="nuevaReceta()">
+          + Nueva Receta
+        </button>
+      }
+
+    </div>
 
   </div>
 
@@ -25,7 +46,13 @@
 
   } @else if (recetas().length === 0) {
 
-    <p class="mensaje">No hay recetas registradas.</p>
+    <p class="mensaje">
+      @if (pacienteId()) {
+        Este paciente no tiene recetas registradas.
+      } @else {
+        No hay recetas registradas.
+      }
+    </p>
 
   } @else {
 

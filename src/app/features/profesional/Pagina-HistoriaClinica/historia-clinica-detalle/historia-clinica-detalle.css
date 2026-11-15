@@ -1,0 +1,20 @@
+:host .diagnostico-detalle {
+    padding: 12px 14px;
+    border: 1px solid var(--od-border);
+    border-radius: 12px;
+    background-color: var(--od-cream);
+}
+
+:host .diagnostico-detalle + .diagnostico-detalle {
+    margin-top: 10px;
+}
+
+:host p.diagnostico-detalle__nombre {
+    color: var(--od-teal-dark);
+    font-weight: 800;
+}
+
+:host p.diagnostico-detalle__fecha {
+    color: var(--od-muted);
+    font-size: 0.85rem;
+}

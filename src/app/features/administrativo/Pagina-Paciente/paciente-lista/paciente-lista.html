@@ -10,7 +10,21 @@
         </button>
     </div>
 
-    @if (pacientes().length > 0) {
+    <div class="buscador">
+        <label for="buscar-paciente">Buscar</label>
+        <input
+            id="buscar-paciente"
+            type="search"
+            placeholder="Buscar por nombre o apellido..."
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)"
+        />
+        <span class="buscador__conteo">
+            {{ pacientesFiltrados().length }} de {{ pacientes().length }}
+        </span>
+    </div>
+
+    @if (pacientesFiltrados().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -26,7 +40,7 @@
             </thead>
 
             <tbody>
-                @for (p of pacientes(); track p.id) {
+                @for (p of pacientesFiltrados(); track p.id) {
                     <tr>
                         <td>{{ p.id }}</td>
                         <td>{{ p.nombre }}</td>
@@ -54,7 +68,13 @@
         </div>
 
     } @else {
-        <p>No hay pacientes registrados.</p>
+        <p class="mensaje">
+            @if (pacientes().length === 0) {
+                No hay pacientes registrados.
+            } @else {
+                No se encontraron pacientes con ese nombre.
+            }
+        </p>
     }
 
 </div>

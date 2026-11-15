@@ -89,63 +89,77 @@
 
   <h3>Diagnósticos</h3>
 
-  @if (!historiaClinicaId()) {
+  @if (historiaClinicaId()) {
 
-    <button type="button" (click)="agregarDiagnostico()">
-      Agregar diagnóstico
-    </button>
+    <div class="diagnosticos-registrados">
 
-    @for (diagnostico of historiaClinicaModel().diagnosticos; track $index; let i = $index) {
+      <h4>Diagnósticos registrados</h4>
 
-      <div class="diagnostico-item">
+      @for (d of diagnosticosExistentes(); track d.id) {
 
-        <div>
-          <label>Nombre</label>
-          <input
-            type="text"
-            [value]="diagnostico.nombre"
-            (input)="actualizarDiagnostico(i, 'nombre', $any($event.target).value)"
-            placeholder="Ingrese el nombre del diagnóstico"
-          />
-        </div>
+        <article class="diagnostico-item">
+          <p class="diagnostico-nombre">{{ d.nombre }}</p>
+          <p>{{ d.descripcion }}</p>
+          <p class="diagnostico-fecha">Fecha: {{ d.fechaDiagnostico }}</p>
+        </article>
 
-        <div>
-          <label>Descripción</label>
-          <input
-            type="text"
-            [value]="diagnostico.descripcion"
-            (input)="actualizarDiagnostico(i, 'descripcion', $any($event.target).value)"
-            placeholder="Ingrese la descripción del diagnóstico"
-          />
-        </div>
+      } @empty {
+        <p>Esta historia clínica no tiene diagnósticos asociados.</p>
+      }
 
-        <div>
-          <label>Fecha del diagnóstico</label>
-          <input
-            type="date"
-            [value]="diagnostico.fechaDiagnostico"
-            (input)="actualizarDiagnostico(i, 'fechaDiagnostico', $any($event.target).value)"
-          />
-        </div>
+    </div>
 
-        <button type="button" (click)="eliminarDiagnostico(i)">
-          Eliminar diagnóstico
-        </button>
+  }
 
+  <p class="ayuda-diagnostico">
+    Puede agregar nuevos diagnósticos a la historia clínica.
+  </p>
+
+  <button type="button" (click)="agregarDiagnostico()">
+    Agregar diagnóstico
+  </button>
+
+  @for (diagnostico of historiaClinicaModel().diagnosticos; track $index; let i = $index) {
+
+    <div class="diagnostico-item">
+
+      <div>
+        <label>Nombre</label>
+        <input
+          type="text"
+          [value]="diagnostico.nombre"
+          (input)="actualizarDiagnostico(i, 'nombre', $any($event.target).value)"
+          placeholder="Ingrese el nombre del diagnóstico"
+        />
       </div>
 
-    } @empty {
-      <p>No hay diagnósticos nuevos agregados.</p>
-    }
+      <div>
+        <label>Descripción</label>
+        <input
+          type="text"
+          [value]="diagnostico.descripcion"
+          (input)="actualizarDiagnostico(i, 'descripcion', $any($event.target).value)"
+          placeholder="Ingrese la descripción del diagnóstico"
+        />
+      </div>
 
-  } @else {
+      <div>
+        <label>Fecha del diagnóstico</label>
+        <input
+          type="date"
+          [value]="diagnostico.fechaDiagnostico"
+          (input)="actualizarDiagnostico(i, 'fechaDiagnostico', $any($event.target).value)"
+        />
+      </div>
 
-    @for (id of historiaClinicaModel().ids_diagnosticos; track id) {
-      <p>Diagnóstico ID: {{ id }}</p>
-    } @empty {
-      <p>Esta historia clínica no tiene diagnósticos asociados.</p>
-    }
+      <button type="button" (click)="eliminarDiagnostico(i)">
+        Eliminar diagnóstico
+      </button>
 
+    </div>
+
+  } @empty {
+    <p>No hay diagnósticos nuevos agregados.</p>
   }
 
   <hr>

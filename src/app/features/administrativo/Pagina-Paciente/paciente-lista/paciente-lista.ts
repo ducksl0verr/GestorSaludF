@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Paciente } from '../models/paciente';
 import { PacienteService } from '../services/paciente-service';
@@ -14,6 +14,19 @@ import { Router } from '@angular/router';
 export class PacienteLista implements OnInit {
 
 pacientes = signal<Paciente[]>([]);
+busqueda = signal('');
+
+pacientesFiltrados = computed(() => {
+  const termino = this.busqueda().trim().toLowerCase();
+
+  if (!termino) {
+    return this.pacientes();
+  }
+
+  return this.pacientes().filter(p =>
+    `${p.nombre} ${p.apellido}`.toLowerCase().includes(termino)
+  );
+});
 
 private route = inject(ActivatedRoute);
 protected base = this.route.snapshot.data['base'];  

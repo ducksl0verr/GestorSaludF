@@ -97,6 +97,25 @@ export class AuthService {
         return Array.isArray(p)?(p as string[]):[];
     }
 
+    getUsuarioId(): number | null {
+        const raw = this.getPayload()?.['idUsuario'];
+
+        if (typeof raw === 'number' && Number.isFinite(raw)) return raw;
+
+        if (typeof raw === 'string' && raw.trim() !== '') {
+            const id = Number(raw);
+            return Number.isFinite(id) ? id : null;
+        }
+
+        return null;
+    }
+
+    getMatricula(): string | null {
+        const raw = this.getPayload()?.['matricula'];
+
+        return typeof raw === 'string' && raw.trim() !== '' ? raw : null;
+    }
+
     tienePermiso(permiso: string) {
         return this.getPermisos().includes(permiso);
     }

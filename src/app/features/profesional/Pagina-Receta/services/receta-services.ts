@@ -15,6 +15,10 @@ export class RecetaService {
         return this.http.get<Receta[]>(this.API_URL);
     }
 
+    getRecetasPorPaciente(idPaciente: number) {
+        return this.http.get<Receta[]>(`${this.API_URL}/pacientes/${idPaciente}`);
+    }
+
     getReceta(id: number) {
         return this.http.get<Receta>(`${this.API_URL}/${id}`);
     }

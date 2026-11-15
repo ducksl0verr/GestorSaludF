@@ -12,8 +12,22 @@
         Nuevo {{ esProfesional ? 'profesional' : 'usuario' }}
     </button>
 
+    <div class="buscador">
+        <label for="buscar-usuario">Buscar</label>
+        <input
+            id="buscar-usuario"
+            type="search"
+            placeholder="Buscar por nombre o apellido..."
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)"
+        />
+        <span class="buscador__conteo">
+            {{ usuariosFiltrados().length }} de {{ usuarios().length }}
+        </span>
+    </div>
+
     <ul>
-        @for(usuario of usuarios(); track usuario.id) {
+        @for(usuario of usuariosFiltrados(); track usuario.id) {
             <li>
                 <p>
                     {{ usuario.id }} - {{ usuario.nombre }} {{ usuario.apellido }}
@@ -47,7 +61,13 @@
                 </button>
             </li>
         } @empty {
-            <li>No hay registros para mostrar.</li>
+            <li>
+                @if (usuarios().length === 0) {
+                    No hay registros para mostrar.
+                } @else {
+                    No se encontraron registros con ese nombre.
+                }
+            </li>
         }
     </ul>
 

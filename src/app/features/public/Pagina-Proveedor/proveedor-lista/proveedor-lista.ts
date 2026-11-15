@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Proveedor } from '../model/Proveedor';
 import { ProveedorService } from '../Service/proveedor-service';
@@ -13,6 +13,19 @@ import { ProveedorService } from '../Service/proveedor-service';
 export class ProveedorLista {
 
   proveedores = signal<Proveedor[]>([]);
+  busqueda = signal('');
+
+  proveedoresFiltrados = computed(() => {
+    const termino = this.busqueda().trim().toLowerCase();
+
+    if (!termino) {
+      return this.proveedores();
+    }
+
+    return this.proveedores().filter(p =>
+      p.nombre.toLowerCase().includes(termino)
+    );
+  });
 
   private route = inject(ActivatedRoute);
   protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas

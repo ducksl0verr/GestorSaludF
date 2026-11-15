@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Gasto } from '../models/gasto';
@@ -15,6 +15,32 @@ export class GastoLista implements OnInit {
 
     gastos = signal<Gasto[]>([]);
 
+    fechaDesde = signal('');
+    fechaHasta = signal('');
+
+    rangoInvalido = computed(
+        () => !!this.fechaDesde() && !!this.fechaHasta() && this.fechaDesde() > this.fechaHasta()
+    );
+
+    gastosFiltrados = computed(() => {
+        const desde = this.fechaDesde();
+        const hasta = this.fechaHasta();
+
+        if (!desde && !hasta) {
+            return this.gastos();
+        }
+
+        return this.gastos().filter(gasto => {
+            const dia = (gasto.fecha ?? '').slice(0, 10);
+
+            if (!dia) return false;
+            if (desde && dia < desde) return false;
+            if (hasta && dia > hasta) return false;
+
+            return true;
+        });
+    });
+
     private route = inject(ActivatedRoute);
     private gastoService = inject(GastoService);
 
@@ -22,6 +48,11 @@ export class GastoLista implements OnInit {
 
     ngOnInit(): void {
         this.cargarGastos();
+    }
+
+    limpiarFiltros(): void {
+        this.fechaDesde.set('');
+        this.fechaHasta.set('');
     }
 
     cargarGastos(): void {

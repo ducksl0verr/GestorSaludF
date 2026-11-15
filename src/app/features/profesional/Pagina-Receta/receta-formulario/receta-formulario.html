@@ -6,6 +6,12 @@
     <p>Complete los datos de la receta y los medicamentos indicados.</p>
   </div>
 
+  @if (pacientePrecargado()) {
+    <p class="nota">
+      Paciente precargado desde el detalle. Completá los medicamentos para guardar la receta.
+    </p>
+  }
+
   <form (submit)="guardar($event)" novalidate>
 
     <div class="tarjeta">
@@ -61,6 +67,16 @@
 
       </div>
 
+      @if (cargandoMedicamentos()) {
+        <p class="nota">Cargando medicamentos...</p>
+      } @else if (errorMedicamentos()) {
+        <p class="mensaje-error">{{ errorMedicamentos() }}</p>
+      } @else if (medicamentos().length === 0) {
+        <p class="nota">
+          No hay medicamentos cargados en el sistema. Cargá uno desde la sección Medicamentos.
+        </p>
+      }
+
       @for (detalle of formulario.detalles; track detalle; let i = $index) {
 
         <div class="medicamento">
@@ -83,17 +99,24 @@
           <div class="form-grid">
 
             <div class="campo">
-              <label>ID Medicamento</label>
+              <label>Medicamento</label>
 
-              <input
-                type="number"
-                [formField]="detalle.id_medicamento"
-                placeholder="ID del medicamento"
-              >
+              <select
+                [value]="modelo().detalles[i].id_medicamento"
+                (change)="cambiarMedicamento(i, $event)">
 
-              @if (detalle.id_medicamento().touched() &&
-                   detalle.id_medicamento().invalid()) {
-                <small>Ingrese un ID válido.</small>
+                <option value="0" disabled>Seleccionar medicamento</option>
+
+                @for (medicamento of medicamentos(); track medicamento.id) {
+                  <option [value]="medicamento.id">
+                    {{ medicamento.nombre }} - {{ medicamento.principioActivo }}
+                  </option>
+                }
+
+              </select>
+
+              @if (modelo().detalles[i].id_medicamento < 1) {
+                <small>Seleccione un medicamento.</small>
               }
             </div>
 

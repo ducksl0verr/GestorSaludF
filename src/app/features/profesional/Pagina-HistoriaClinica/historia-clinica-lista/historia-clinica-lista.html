@@ -2,7 +2,24 @@
 
     <p id="titulo">Historias Clínicas</p>
 
-    <button [routerLink]="[base, 'historiasclinicas', 'nuevo']">
+    @if (pacienteFiltro(); as pacienteId) {
+
+        <div class="filtro-paciente">
+            <p>
+                Mostrando las historias clínicas del paciente
+                <strong>#{{ pacienteId }}</strong>.
+            </p>
+
+            <button type="button" (click)="verTodas()">
+                Ver todas
+            </button>
+        </div>
+
+    }
+
+    <button
+        [routerLink]="[base, 'historiasclinicas', 'nuevo']"
+        [queryParams]="pacienteFiltro() ? { paciente: pacienteFiltro() } : {}">
         Nueva Historia Clínica
     </button>
 
@@ -18,7 +35,7 @@
 
         <ul>
 
-            @for(h of historiasClinicas(); track h.id) {
+            @for(h of historiasFiltradas(); track h.id) {
 
                 <li>
 
@@ -49,7 +66,15 @@
                 </li>
 
             } @empty {
-                <li>No hay historias clínicas registradas.</li>
+
+                <li>
+                    @if (pacienteFiltro()) {
+                        No hay historias clínicas registradas para este paciente.
+                    } @else {
+                        No hay historias clínicas registradas.
+                    }
+                </li>
+
             }
 
         </ul>

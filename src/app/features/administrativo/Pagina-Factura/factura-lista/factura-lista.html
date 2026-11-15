@@ -6,7 +6,40 @@
         Registrar factura
     </a>
 
-    @if (facturas().length > 0) {
+    <div class="filtro-fechas">
+        <div class="filtro-fechas__campo">
+            <label for="factura-fecha-desde">Desde (emisión)</label>
+            <input
+                id="factura-fecha-desde"
+                type="date"
+                [value]="fechaDesde()"
+                (input)="fechaDesde.set($any($event.target).value)"
+            />
+        </div>
+
+        <div class="filtro-fechas__campo">
+            <label for="factura-fecha-hasta">Hasta (emisión)</label>
+            <input
+                id="factura-fecha-hasta"
+                type="date"
+                [value]="fechaHasta()"
+                (input)="fechaHasta.set($any($event.target).value)"
+            />
+        </div>
+
+        <button
+            type="button"
+            class="filtro-fechas__limpiar"
+            (click)="limpiarFiltros()">
+            Limpiar filtros
+        </button>
+
+        <span class="filtro-fechas__conteo">
+            {{ facturasFiltradas().length }} de {{ facturas().length }}
+        </span>
+    </div>
+
+    @if (facturasFiltradas().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -23,7 +56,7 @@
             </thead>
 
             <tbody>
-                @for (factura of facturas(); track factura.id) {
+                @for (factura of facturasFiltradas(); track factura.id) {
                     <tr>
                         <td>{{ factura.id }}</td>
                         <td>{{ factura.numero_factura }}</td>
@@ -43,7 +76,15 @@
         </div>
 
     } @else {
-        <p>No hay facturas registradas.</p>
+        <p class="mensaje">
+            @if (facturas().length === 0) {
+                No hay facturas registradas.
+            } @else if (rangoInvalido()) {
+                La fecha "desde" no puede ser posterior a la fecha "hasta".
+            } @else {
+                No hay facturas emitidas en el rango de fechas seleccionado.
+            }
+        </p>
     }
 
 </div>

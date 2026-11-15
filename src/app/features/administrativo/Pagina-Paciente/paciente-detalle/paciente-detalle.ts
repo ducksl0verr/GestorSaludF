@@ -18,6 +18,7 @@ export class PacienteDetalle implements OnInit {
     obraSocial = signal<Obra_Social | undefined>(undefined);
     private route = inject(ActivatedRoute);
     protected base = this.route.snapshot.data['base'];  
+    protected esVistaProfesional = this.base === '/profesional';
 
 constructor(private pacienteService: PacienteService, private router: Router,private obraSocialService: ObraSocialService,) {}
 

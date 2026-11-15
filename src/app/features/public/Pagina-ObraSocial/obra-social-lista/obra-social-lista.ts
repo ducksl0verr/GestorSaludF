@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ObraSocialService } from '../Service/obra-social-service';
 import { Obra_Social } from '../Model/Obra_Social';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -15,6 +15,19 @@ import { isPlatformBrowser } from '@angular/common';
 
 export class ObraSocialLista {
   obras = signal<Obra_Social[]>([]);
+  busqueda = signal('');
+
+  obrasFiltradas = computed(() => {
+    const termino = this.busqueda().trim().toLowerCase();
+
+    if (!termino) {
+      return this.obras();
+    }
+
+    return this.obras().filter(o =>
+      o.nombre.toLowerCase().includes(termino)
+    );
+  });
 
   private route = inject(ActivatedRoute);
   protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas

@@ -1,0 +1,46 @@
+:host .diagnosticos-registrados {
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    border: 1px solid var(--od-border);
+    border-radius: 16px;
+    background-color: var(--od-aqua-light);
+}
+
+:host .diagnosticos-registrados h4 {
+    color: var(--od-teal-dark);
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+:host .diagnostico-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--od-border);
+    border-radius: 14px;
+    background-color: var(--od-white);
+}
+
+:host .diagnostico-item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+:host p.diagnostico-nombre {
+    color: var(--od-teal-dark);
+    font-weight: 800;
+}
+
+:host p.diagnostico-fecha {
+    color: var(--od-muted);
+    font-size: 0.85rem;
+}
+
+:host .ayuda-diagnostico {
+    margin-bottom: 4px;
+    color: var(--od-muted);
+    font-size: 0.9rem;
+}

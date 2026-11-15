@@ -6,7 +6,40 @@
         Registrar pago
     </a>
 
-    @if (pagos().length > 0) {
+    <div class="filtro-fechas">
+        <div class="filtro-fechas__campo">
+            <label for="pago-fecha-desde">Desde</label>
+            <input
+                id="pago-fecha-desde"
+                type="date"
+                [value]="fechaDesde()"
+                (input)="fechaDesde.set($any($event.target).value)"
+            />
+        </div>
+
+        <div class="filtro-fechas__campo">
+            <label for="pago-fecha-hasta">Hasta</label>
+            <input
+                id="pago-fecha-hasta"
+                type="date"
+                [value]="fechaHasta()"
+                (input)="fechaHasta.set($any($event.target).value)"
+            />
+        </div>
+
+        <button
+            type="button"
+            class="filtro-fechas__limpiar"
+            (click)="limpiarFiltros()">
+            Limpiar filtros
+        </button>
+
+        <span class="filtro-fechas__conteo">
+            {{ pagosFiltrados().length }} de {{ pagos().length }}
+        </span>
+    </div>
+
+    @if (pagosFiltrados().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -21,7 +54,7 @@
             </thead>
 
             <tbody>
-                @for (pago of pagos(); track pago.id) {
+                @for (pago of pagosFiltrados(); track pago.id) {
                     <tr>
                         <td>{{ pago.id }}</td>
                         <td>{{ pago.monto }}</td>
@@ -51,7 +84,15 @@
         </div>
 
     } @else {
-        <p>No hay pagos registrados.</p>
+        <p class="mensaje">
+            @if (pagos().length === 0) {
+                No hay pagos registrados.
+            } @else if (rangoInvalido()) {
+                La fecha "desde" no puede ser posterior a la fecha "hasta".
+            } @else {
+                No hay pagos en el rango de fechas seleccionado.
+            }
+        </p>
     }
 
 </div>

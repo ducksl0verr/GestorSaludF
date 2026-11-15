@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Factura } from '../models/factura';
@@ -15,6 +15,32 @@ export class FacturaLista implements OnInit {
 
     facturas = signal<Factura[]>([]);
 
+    fechaDesde = signal('');
+    fechaHasta = signal('');
+
+    rangoInvalido = computed(
+        () => !!this.fechaDesde() && !!this.fechaHasta() && this.fechaDesde() > this.fechaHasta()
+    );
+
+    facturasFiltradas = computed(() => {
+        const desde = this.fechaDesde();
+        const hasta = this.fechaHasta();
+
+        if (!desde && !hasta) {
+            return this.facturas();
+        }
+
+        return this.facturas().filter(factura => {
+            const dia = (factura.fechaEmision ?? '').slice(0, 10);
+
+            if (!dia) return false;
+            if (desde && dia < desde) return false;
+            if (hasta && dia > hasta) return false;
+
+            return true;
+        });
+    });
+
     private route = inject(ActivatedRoute);
     private facturaService = inject(FacturaService);
 
@@ -22,6 +48,11 @@ export class FacturaLista implements OnInit {
 
     ngOnInit(): void {
         this.cargarFacturas();
+    }
+
+    limpiarFiltros(): void {
+        this.fechaDesde.set('');
+        this.fechaHasta.set('');
     }
 
     cargarFacturas(): void {

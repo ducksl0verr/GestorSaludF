@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { Pago } from '../models/pago';
@@ -15,6 +15,32 @@ export class PagoLista implements OnInit {
 
     pagos = signal<Pago[]>([]);
 
+    fechaDesde = signal('');
+    fechaHasta = signal('');
+
+    rangoInvalido = computed(
+        () => !!this.fechaDesde() && !!this.fechaHasta() && this.fechaDesde() > this.fechaHasta()
+    );
+
+    pagosFiltrados = computed(() => {
+        const desde = this.fechaDesde();
+        const hasta = this.fechaHasta();
+
+        if (!desde && !hasta) {
+            return this.pagos();
+        }
+
+        return this.pagos().filter(pago => {
+            const dia = (pago.fecha ?? '').slice(0, 10);
+
+            if (!dia) return false;
+            if (desde && dia < desde) return false;
+            if (hasta && dia > hasta) return false;
+
+            return true;
+        });
+    });
+
     private route = inject(ActivatedRoute);
     private pagoService = inject(PagoService);
 
@@ -22,6 +48,11 @@ export class PagoLista implements OnInit {
 
     ngOnInit(): void {
         this.cargarPagos();
+    }
+
+    limpiarFiltros(): void {
+        this.fechaDesde.set('');
+        this.fechaHasta.set('');
     }
 
     cargarPagos(): void {

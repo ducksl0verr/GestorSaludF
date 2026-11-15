@@ -14,24 +14,60 @@ export class TurnoDetalles implements OnInit {
 
   turnoId = signal<number | undefined>(undefined);
   turno = signal<Turno | undefined>(undefined);
+  cargando = signal(false);
+  error = signal('');
 
   private route = inject(ActivatedRoute);
 
   private base = this.route.snapshot.data['base'];
+  private esVistaProfesional = this.base === '/profesional';
 
 
-constructor(private turnoService : TurnoService, private router : Router){}
+constructor(
+    private turnoService : TurnoService,
+    private router : Router
+){}
 
  ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.turnoId.set(id);
+    this.cargando.set(true);
+
+    /// En el perfil profesional solo se puede ver un turno propio:
+    /// se busca dentro de los turnos que el backend asigna al usuario.
+    if (this.esVistaProfesional) {
+      this.turnoService.getMisTurnos().subscribe({
+        next: (turnos) => {
+          const turno = turnos.find((t) => t.id === id);
+
+          if (!turno) {
+            this.error.set('No tenés permiso para ver este turno.');
+          } else {
+            this.turno.set(turno);
+          }
+
+          this.cargando.set(false);
+        },
+        error: (error) => {
+          console.error('Error al obtener los turnos del profesional', error);
+          this.error.set('No se pudo cargar el turno.');
+          this.cargando.set(false);
+        }
+      });
+
+      return;
+    }
 
     this.turnoService.getTurno(id).subscribe({
       next: (turno) => {
         this.turno.set(turno);
-        console.log('Turno obtenido:', turno);
+        this.cargando.set(false);
       },
-      error: (error) => console.error('Error al obtener el turno', error)
+      error: (error) => {
+        console.error('Error al obtener el turno', error);
+        this.error.set('No se pudo cargar el turno.');
+        this.cargando.set(false);
+      }
     });
   }
 

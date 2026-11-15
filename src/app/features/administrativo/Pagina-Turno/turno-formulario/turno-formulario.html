@@ -3,6 +3,14 @@
 
     <h2>{{ turnoId() ? 'Editar turno' : 'Registrar turno' }}</h2>
 
+    @if (error()) {
+
+        <p class="error">{{ error() }}</p>
+
+        <a [routerLink]="[base, 'turnos']">Atras</a>
+
+    } @else {
+
     <form (submit)="$event.preventDefault(); guardarTurno()">
 
         <!-- FECHA Y HORA -->
@@ -97,5 +105,7 @@
         </div>
 
     </form>
+
+    }
 
 </div>

@@ -2,7 +2,17 @@
 
     <h2>Detalles del turno</h2>
 
-    @if (turno()) {
+    @if (error()) {
+
+        <p class="error">{{ error() }}</p>
+
+        <a [routerLink]="[base, 'turnos']">Atras</a>
+
+    } @else if (cargando()) {
+
+        <p>Cargando turno...</p>
+
+    } @else if (turno()) {
 
         <div class="detalle">
 

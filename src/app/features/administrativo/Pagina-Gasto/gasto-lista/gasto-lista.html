@@ -6,7 +6,40 @@
         Registrar gasto
     </a>
 
-    @if (gastos().length > 0) {
+    <div class="filtro-fechas">
+        <div class="filtro-fechas__campo">
+            <label for="gasto-fecha-desde">Desde</label>
+            <input
+                id="gasto-fecha-desde"
+                type="date"
+                [value]="fechaDesde()"
+                (input)="fechaDesde.set($any($event.target).value)"
+            />
+        </div>
+
+        <div class="filtro-fechas__campo">
+            <label for="gasto-fecha-hasta">Hasta</label>
+            <input
+                id="gasto-fecha-hasta"
+                type="date"
+                [value]="fechaHasta()"
+                (input)="fechaHasta.set($any($event.target).value)"
+            />
+        </div>
+
+        <button
+            type="button"
+            class="filtro-fechas__limpiar"
+            (click)="limpiarFiltros()">
+            Limpiar filtros
+        </button>
+
+        <span class="filtro-fechas__conteo">
+            {{ gastosFiltrados().length }} de {{ gastos().length }}
+        </span>
+    </div>
+
+    @if (gastosFiltrados().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -24,7 +57,7 @@
             </thead>
 
             <tbody>
-                @for (gasto of gastos(); track gasto.id) {
+                @for (gasto of gastosFiltrados(); track gasto.id) {
                     <tr>
                         <td>{{ gasto.id }}</td>
                         <td>{{ gasto.fecha | date:'dd/MM/yyyy' }}</td>
@@ -53,7 +86,15 @@
         </div>
 
     } @else {
-        <p>No hay gastos registrados.</p>
+        <p class="mensaje">
+            @if (gastos().length === 0) {
+                No hay gastos registrados.
+            } @else if (rangoInvalido()) {
+                La fecha "desde" no puede ser posterior a la fecha "hasta".
+            } @else {
+                No hay gastos en el rango de fechas seleccionado.
+            }
+        </p>
     }
 
 </div>

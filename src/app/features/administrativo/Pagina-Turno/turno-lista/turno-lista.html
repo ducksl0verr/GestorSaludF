@@ -2,11 +2,65 @@
 
     <h2>Listado de turnos</h2>
 
-    <a [routerLink]="[base, 'turnos', 'nuevo']" class="boton-agregar">
-        Registrar turno
-    </a>
+    @if (esVistaProfesional) {
+        <p class="turnos-filtro">
+            @if (matriculaProfesional) {
+                Mostrando únicamente los turnos asignados a la matrícula
+                <strong>{{ matriculaProfesional }}</strong>.
+            } @else {
+                Mostrando únicamente los turnos asignados a tu usuario.
+            }
+        </p>
+    }
 
-    @if (turnos().length > 0) {
+    @if (!esVistaProfesional) {
+        <a [routerLink]="[base, 'turnos', 'nuevo']" class="boton-agregar">
+            Registrar turno
+        </a>
+    }
+
+    <div class="filtro-fechas">
+        <div class="filtro-fechas__campo">
+            <label for="turno-fecha-desde">Desde</label>
+            <input
+                id="turno-fecha-desde"
+                type="date"
+                [value]="fechaDesde()"
+                (input)="fechaDesde.set($any($event.target).value)"
+            />
+        </div>
+
+        <div class="filtro-fechas__campo">
+            <label for="turno-fecha-hasta">Hasta</label>
+            <input
+                id="turno-fecha-hasta"
+                type="date"
+                [value]="fechaHasta()"
+                (input)="fechaHasta.set($any($event.target).value)"
+            />
+        </div>
+
+        <button
+            type="button"
+            class="filtro-fechas__limpiar"
+            (click)="limpiarFiltros()">
+            Limpiar filtros
+        </button>
+
+        <span class="filtro-fechas__conteo">
+            {{ turnosFiltrados().length }} de {{ turnos().length }}
+        </span>
+    </div>
+
+    @if (cargando()) {
+
+        <p>Cargando turnos...</p>
+
+    } @else if (error()) {
+
+        <p class="error">{{ error() }}</p>
+
+    } @else if (turnosFiltrados().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -25,7 +79,7 @@
             </thead>
 
             <tbody>
-                @for (turno of turnos(); track turno.id) {
+                @for (turno of turnosFiltrados(); track turno.id) {
                     <tr>
                         <td>{{ turno.id }}</td>
                         <td>{{ turno.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
@@ -47,7 +101,21 @@
         </div>
 
     } @else {
-        <p>No hay turnos registrados.</p>
+
+        <p class="mensaje">
+            @if (rangoInvalido()) {
+                La fecha "desde" no puede ser posterior a la fecha "hasta".
+            } @else if (turnos().length === 0) {
+                {{ esVistaProfesional
+                    ? 'No tenés turnos asignados.'
+                    : 'No hay turnos registrados.' }}
+            } @else if (esVistaProfesional) {
+                No tenés turnos asignados en el rango de fechas seleccionado.
+            } @else {
+                No hay turnos en el rango de fechas seleccionado.
+            }
+        </p>
+
     }
 
 </div>

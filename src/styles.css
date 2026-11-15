@@ -292,30 +292,37 @@ app-footer footer {
     gap: 9px;
 }
 
+/* Los botones del menú mantienen siempre el turquesa, sin importar
+   el fondo (tarjetas de salas/económicas) que tengan por detrás. */
+
 .od-sidebar nav a {
     display: block;
     padding: 11px 14px;
-    border: 1px solid rgba(217, 112, 31, 0.34);
+    border: 1px solid var(--od-teal-dark);
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.56);
-    color: #15433F;
+    background-color: var(--od-teal);
+    color: var(--od-white);
     font-size: 0.95rem;
     font-weight: 700;
     text-decoration: none;
+    box-shadow: 0 3px 8px rgba(13, 79, 75, 0.16);
     transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.od-sidebar nav a:hover {
-    background-color: rgba(255, 255, 255, 0.88);
-    color: var(--od-teal-deep);
+.od-sidebar nav a:hover:not(.activo) {
+    background-color: var(--od-teal-dark);
+    color: var(--od-white);
     transform: translateX(3px);
+    box-shadow: 0 8px 18px rgba(13, 79, 75, 0.26);
 }
 
 .od-sidebar nav a.activo {
-    background-color: var(--od-teal);
-    border-color: var(--od-teal);
+    background-color: var(--od-teal-deep);
+    border-color: #0B403D;
     color: var(--od-white);
-    box-shadow: 0 8px 18px rgba(23, 112, 108, 0.22);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.55),
+        0 8px 18px rgba(13, 79, 75, 0.28);
 }
 
 .od-main {
@@ -631,6 +638,89 @@ app-footer footer {
 
 .od-main .encabezado p {
     margin-top: 4px;
+}
+
+/* Buscador de los listados */
+
+.od-main .buscador {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 20px;
+    padding: 12px 16px;
+    border: 1px solid var(--od-border);
+    border-radius: 16px;
+    background-color: rgba(220, 235, 232, 0.4);
+}
+
+.od-main .buscador label {
+    color: var(--od-teal-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.od-main .buscador input {
+    flex: 1 1 240px;
+    width: auto;
+    min-width: 0;
+    max-width: 440px;
+}
+
+.od-main .buscador__conteo {
+    margin-left: auto;
+    color: var(--od-muted);
+    font-size: 0.85rem;
+}
+
+/* Filtro por rango de fechas de los listados */
+
+.od-main .filtro-fechas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 16px 0 20px;
+    padding: 12px 16px;
+    border: 1px solid var(--od-border);
+    border-radius: 16px;
+    background-color: rgba(220, 235, 232, 0.4);
+}
+
+.od-main .filtro-fechas__campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.od-main .filtro-fechas label {
+    color: var(--od-teal-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.od-main .filtro-fechas input {
+    width: auto;
+    min-width: 150px;
+}
+
+.od-main .filtro-fechas__limpiar {
+    padding: 9px 16px;
+    border: 1px solid var(--od-border);
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal-dark);
+    box-shadow: none;
+}
+
+.od-main .filtro-fechas__limpiar:hover:not(:disabled) {
+    background-color: var(--od-aqua);
+    color: var(--od-white);
+}
+
+.od-main .filtro-fechas__conteo {
+    margin-left: auto;
+    color: var(--od-muted);
+    font-size: 0.85rem;
 }
 
 /* Login, registro y recuperación de contraseña*/

@@ -4,11 +4,31 @@
       + Nueva obra social
     </button>
 
-  @if (obras().length === 0) {
-    <div class="alert alert-info">No hay obras sociales cargadas.</div>
+    <div class="buscador">
+        <label for="buscar-obra-social">Buscar</label>
+        <input
+            id="buscar-obra-social"
+            type="search"
+            placeholder="Buscar por nombre..."
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)"
+        />
+        <span class="buscador__conteo">
+            {{ obrasFiltradas().length }} de {{ obras().length }}
+        </span>
+    </div>
+
+  @if (obrasFiltradas().length === 0) {
+    <div class="alert alert-info">
+      @if (obras().length === 0) {
+        No hay obras sociales cargadas.
+      } @else {
+        No se encontraron obras sociales con ese nombre.
+      }
+    </div>
   } @else {
         <ul>
-            @for (obra of obras(); track obra.id) {
+            @for (obra of obrasFiltradas(); track obra.id) {
                 <li>
                   <p>
                     {{ obra.id }} - {{ obra.nombre }}

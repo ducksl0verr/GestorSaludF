@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, computed, inject, Input, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { UsuarioService } from '../service/usuario-service';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,19 @@ export class UsuarioLista {
 
   esProfesional = false;
   usuarios = signal<(Usuario | Profesional)[]>([]);
+  busqueda = signal('');
+
+  usuariosFiltrados = computed(() => {
+    const termino = this.busqueda().trim().toLowerCase();
+
+    if (!termino) {
+      return this.usuarios();
+    }
+
+    return this.usuarios().filter(u =>
+      `${u.nombre} ${u.apellido}`.toLowerCase().includes(termino)
+    );
+  });
 
   constructor(
     private UService: UsuarioService,

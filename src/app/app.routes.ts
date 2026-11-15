@@ -131,6 +131,10 @@ export const routes: Routes = [
                 children: PACIENTE_ROUTES
             },
             {
+                path: 'recetas',
+                children: RECETA_ROUTES
+            },
+            {
                 path: 'prescripciones',
                 children: PRESCRIPCIONES_ROUTES
             },
@@ -161,6 +165,18 @@ export const routes: Routes = [
             {
                 path: 'facturas',
                 children: FACTURA_ROUTES
+            },
+            {
+                path: 'profesionales',
+                children: PROFESIONAL_ROUTES
+            },
+            {
+                path: 'proveedores',
+                children: PROVEEDOR_ROUTES
+            },
+            {
+                path:'obrasSociales',
+                children: OBRAS_SOCIALES_ROUTES
             }
             
         ]

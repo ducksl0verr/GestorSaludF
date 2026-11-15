@@ -17,6 +17,10 @@ export class TurnoService {
         return this.http.get<Turno[]>(this.API_URL);
     }
 
+    getMisTurnos() {
+        return this.http.get<Turno[]>(`${this.API_URL}/mis-turnos`);
+    }
+
     getTurno(id: number) {
         return this.http.get<Turno>(`${this.API_URL}/${id}`);
     }

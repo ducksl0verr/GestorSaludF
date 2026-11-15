@@ -4,6 +4,10 @@ import { HistoriaClinicaService } from '../services/historia-clinica-services';
 import { DiagnosticoDeHistoriaNueva, HistoriaClinicaNueva } from '../model/historia-clinica';
 import { form, FormField, maxLength, min, minLength, required, disabled } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth-service';
+import { DiagnosticoService } from '../../Pagina-Diagnostico/services/diagnostico-services';
+import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
 
 @Component({
   imports: [FormField,CommonModule,RouterModule],
@@ -12,13 +16,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './historia-clinica-formulario.html',
 })export class HistoriaClinicaFormulario implements OnInit {
 
-  historiaClinicaId = signal<number | undefined>(undefined);
-
   private route = inject(ActivatedRoute);
   private hService = inject(HistoriaClinicaService);
+  private dService = inject(DiagnosticoService);
   private router = inject(Router);
+  private auth = inject(AuthService);
 
   private base = this.route.snapshot.data['base'];
+
+  historiaClinicaId = signal<number | undefined>(undefined);
+  diagnosticosExistentes = signal<Diagnostico[]>([]);
 
   historiaClinicaModel = signal<HistoriaClinicaNueva>({
     fecha: '',
@@ -114,6 +121,7 @@ import { CommonModule } from '@angular/common';
       this.hService.getHistoriaClinica(this.historiaClinicaId()!)
         .subscribe({
           next: (data) => {
+            this.diagnosticosExistentes.set(data.diagnosticos ?? []);
             this.historiaClinicaModel.set({
               fecha: data.fecha,
               observaciones: data.observaciones,
@@ -130,6 +138,25 @@ import { CommonModule } from '@angular/common';
             );
           }
         });
+    } else {
+      /// Alta iniciada desde el detalle de un paciente:
+      /// se precargan el paciente y el profesional logueado.
+      const paciente = Number(this.route.snapshot.queryParamMap.get('paciente'));
+      const profesional = this.auth.getUsuarioId();
+
+      if (Number.isInteger(paciente) && paciente > 0) {
+        this.historiaClinicaModel.update(historia => ({
+          ...historia,
+          id_paciente: paciente
+        }));
+      }
+
+      if (profesional) {
+        this.historiaClinicaModel.update(historia => ({
+          ...historia,
+          id_profesional: profesional
+        }));
+      }
     }
   }
 
@@ -144,7 +171,6 @@ import { CommonModule } from '@angular/common';
     const historiaData = this.historiaClinicaModel();
 
     if (
-      !this.historiaClinicaId() &&
       historiaData.diagnosticos.some(
         d => !d.nombre.trim() || !d.descripcion.trim() || !d.fechaDiagnostico
       )
@@ -167,10 +193,7 @@ import { CommonModule } from '@angular/common';
           evolucion: historiaData.evolucion
         }
       ).subscribe({
-        next: () => {
-          alert('Historia clínica actualizada correctamente.');
-          this.router.navigate([this.base, 'historiasclinicas']);
-        },
+        next: () => this.guardarDiagnosticosNuevos(historiaData.diagnosticos),
         error: (e) => {
           this.error.set(
             e.error?.message || 'No se pudo actualizar la historia clínica.'
@@ -195,6 +218,39 @@ import { CommonModule } from '@angular/common';
       });
 
     }
+  }
+
+  private guardarDiagnosticosNuevos(
+    diagnosticos: DiagnosticoDeHistoriaNueva[]
+  ): void {
+
+    if (diagnosticos.length === 0) {
+      alert('Historia clínica actualizada correctamente.');
+      this.router.navigate([this.base, 'historiasclinicas']);
+      return;
+    }
+
+    const idHistoriaClinica = this.historiaClinicaId()!;
+
+    forkJoin(
+      diagnosticos.map(d => this.dService.guardarDiagnostico({
+        nombre: d.nombre.trim(),
+        descripcion: d.descripcion.trim(),
+        fechaDiagnostico: d.fechaDiagnostico,
+        idHistoriaClinica
+      }))
+    ).subscribe({
+      next: () => {
+        alert('Historia clínica y diagnósticos guardados correctamente.');
+        this.router.navigate([this.base, 'historiasclinicas']);
+      },
+      error: (e) => {
+        this.error.set(
+          e.error?.message || 'No se pudieron guardar los diagnósticos.'
+        );
+        this.cargando.set(false);
+      }
+    });
   }
 
   cancelar(): void {

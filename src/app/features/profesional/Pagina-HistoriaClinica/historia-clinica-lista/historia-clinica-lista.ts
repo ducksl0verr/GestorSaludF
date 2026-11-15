@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HistoriaClinica } from '../model/historia-clinica';
 import { HistoriaClinicaService } from '../services/historia-clinica-services';
 
@@ -18,14 +19,46 @@ export class HistoriaClinicaLista implements OnInit {
   error = signal('');
 
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   protected base = this.route.snapshot.data['base'];
+
+  /// Cuando se llega desde el detalle de un paciente
+  /// (/profesional/historiasclinicas?paciente=7) se muestran solo sus historias.
+  protected pacienteFiltro = signal<number | null>(null);
+
+  protected historiasFiltradas = computed(() => {
+    const pacienteId = this.pacienteFiltro();
+    const historias = this.historiasClinicas();
+
+    return pacienteId === null
+      ? historias
+      : historias.filter((h) => h.id_paciente === pacienteId);
+  });
 
   constructor(
     private hService: HistoriaClinicaService
-  ) {}
+  ) {
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed())
+      .subscribe(params => {
+        this.pacienteFiltro.set(this.parsePaciente(params.get('paciente')));
+      });
+  }
 
   ngOnInit() {
     this.cargarHistoriasClinicas();
+  }
+
+  private parsePaciente(raw: string | null): number | null {
+    if (!raw) return null;
+
+    const id = Number(raw);
+
+    return Number.isInteger(id) && id > 0 ? id : null;
+  }
+
+  verTodas(): void {
+    this.router.navigate([this.base, 'historiasclinicas']);
   }
 
   cargarHistoriasClinicas() {

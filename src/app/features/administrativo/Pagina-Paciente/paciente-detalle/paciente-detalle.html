@@ -14,9 +14,35 @@
             <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado }}</p>
         </section>
 
-        <button [routerLink]="[base, 'prescripciones', p.id]">
-        Ver prescripciones
-        </button>
+        @if (esVistaProfesional) {
+
+            <section>
+                <h3>Acciones del profesional</h3>
+
+                <button [routerLink]="[base, 'historiasclinicas']" [queryParams]="{ paciente: p.id }">
+                    Ver historia clínica
+                </button>
+
+                <button [routerLink]="[base, 'recetas', 'nuevo']" [queryParams]="{ paciente: p.id }">
+                    Generar receta
+                </button>
+
+                <button [routerLink]="[base, 'recetas']" [queryParams]="{ paciente: p.id }">
+                    Ver recetas
+                </button>
+            </section>
+
+        } @else {
+
+            <button [routerLink]="[base, 'prescripciones', p.id]">
+                Ver prescripciones
+            </button>
+
+            <button [routerLink]="[base, 'recetas']" [queryParams]="{ paciente: p.id }">
+                Ver recetas
+            </button>
+
+        }
 
         <section>
             <h3>Contacto</h3>
