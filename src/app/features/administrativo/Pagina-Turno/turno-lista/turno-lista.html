@@ -26,6 +26,7 @@
                 id="turno-fecha-desde"
                 type="date"
                 [value]="fechaDesde()"
+                [max]="fechaHasta() || null"
                 (input)="fechaDesde.set($any($event.target).value)"
             />
         </div>
@@ -36,6 +37,7 @@
                 id="turno-fecha-hasta"
                 type="date"
                 [value]="fechaHasta()"
+                [min]="fechaDesde() || null"
                 (input)="fechaHasta.set($any($event.target).value)"
             />
         </div>
