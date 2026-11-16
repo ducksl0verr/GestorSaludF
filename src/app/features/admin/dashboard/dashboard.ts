@@ -6,25 +6,8 @@ import { Gasto } from '../../administrativo/Pagina-Gasto/models/gasto';
 import { GastoService } from '../../administrativo/Pagina-Gasto/services/gasto-service';
 import { Pago } from '../../administrativo/Pagina-Pago/models/pago';
 import { PagoService } from '../../administrativo/Pagina-Pago/services/pago-service';
-
-interface ResumenMes {
-  mes: number;
-  nombre: string;
-  pagos: number;
-  gastos: number;
-  alturaPagos: number;
-  alturaGastos: number;
-}
-
-interface DiaCalendario {
-  key: string;
-  vacio: boolean;
-  dia: number;
-  pagos: number;
-  gastos: number;
-  total: number;
-  esHoy: boolean;
-}
+import { DiaCalendario } from './Model/DiaCalendario';
+import { ResumenMes } from './Model/ResumenMes';
 
 @Component({
   selector: 'app-dashboard',

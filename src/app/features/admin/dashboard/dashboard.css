@@ -9,10 +9,6 @@
   min-width: 0;
 }
 
-/* ============================================================
-   Encabezado y selector de mes
-   ============================================================ */
-
 .dashboard__encabezado {
   display: flex;
   flex-wrap: wrap;
@@ -87,10 +83,6 @@ input.mes-input[type="month"] {
   font-size: 0.9rem;
 }
 
-/* ============================================================
-   Tarjetas de resumen
-   ============================================================ */
-
 .tarjetas-resumen {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -148,10 +140,6 @@ input.mes-input[type="month"] {
 .tarjeta-resumen--negativo strong {
   color: var(--od-danger);
 }
-
-/* ============================================================
-   Paneles y gráficos
-   ============================================================ */
 
 .graficos {
   display: grid;
@@ -369,10 +357,6 @@ button.columna-mes--activa .columna-mes__nombre {
   margin-left: auto;
 }
 
-/* ============================================================
-   Calendario mensual
-   ============================================================ */
-
 .calendario-panel__resumen {
   color: var(--od-muted);
   font-size: 0.78rem;
@@ -459,10 +443,6 @@ button.columna-mes--activa .columna-mes__nombre {
   background-color: var(--od-orange);
 }
 
-/* ============================================================
-   Estados
-   ============================================================ */
-
 .dashboard .estado {
   padding: 14px 16px;
   border-radius: 12px;
@@ -475,10 +455,6 @@ button.columna-mes--activa .columna-mes__nombre {
   background-color: #FFF5E2;
   color: #7A5200;
 }
-
-/* ============================================================
-   Responsive
-   ============================================================ */
 
 @media (max-width: 1024px) {
   .graficos {
