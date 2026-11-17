@@ -27,8 +27,14 @@ export class DiagnosticoFormulario implements OnInit {
     nombre: '',
     descripcion: '',
     fechaDiagnostico: this.fechaDeHoy(),
-    idHistoriaClinica: 0
+    idHistoriaClinica: this.historiaDesdeQuery()
   });
+
+  private historiaDesdeQuery(): number {
+    const historia = Number(this.route.snapshot.queryParamMap.get('historia'));
+
+    return Number.isInteger(historia) && historia > 0 ? historia : 0;
+  }
 
   private fechaDeHoy(): string {
     const hoy = new Date();
@@ -79,9 +85,9 @@ export class DiagnosticoFormulario implements OnInit {
 
   ngOnInit(): void {
 
-    const historia = Number(this.route.snapshot.queryParamMap.get('historia'));
+    const historia = this.historiaDesdeQuery();
 
-    if (Number.isInteger(historia) && historia > 0) {
+    if (historia > 0) {
       this.volverAHistoria = historia;
     }
 

@@ -42,6 +42,11 @@
             } @empty {
                 <p>No hay diagnósticos registrados.</p>
             }
+            <button type="button"
+                [routerLink]="[base, 'diagnosticos', 'nuevo']"
+                [queryParams]="{ historia: h.id }">
+                Agregar diagnóstico
+            </button>
         </dd>
 
     </dl>
