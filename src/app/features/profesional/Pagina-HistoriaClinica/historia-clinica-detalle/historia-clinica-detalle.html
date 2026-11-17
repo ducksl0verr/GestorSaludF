@@ -1,12 +1,12 @@
-<a [routerLink]="[base, 'historiasclinicas']">Atras</a>
-
 @if (cargando()) {
     <p>Cargando...</p>
 } @else if (error()) {
     <p class="error">{{ error() }}</p>
 } @else if (historiaClinica(); as h) {
 
-    <h2>Historia Clínica N° {{ h.id }}</h2>
+    <a [routerLink]="[base, 'pacientes', h.id_paciente]">Volver al paciente</a>
+
+    <h2>Historia Clínica de {{ pacienteNombre() || 'cargando...' }}</h2>
 
     <dl>
 
@@ -19,11 +19,11 @@
         <dt>Evolución</dt>
         <dd>{{ h.evolucion }}</dd>
 
-        <dt>ID Paciente</dt>
-        <dd>{{ h.id_paciente }}</dd>
+        <dt>Paciente</dt>
+        <dd>{{ pacienteNombre() || 'Cargando...' }}</dd>
 
-        <dt>ID Profesional</dt>
-        <dd>{{ h.id_profesional }}</dd>
+        <dt>Profesional</dt>
+        <dd>{{ profesionalNombre() || 'Cargando...' }}</dd>
 
         <dt>Diagnósticos</dt>
         <dd>
@@ -32,6 +32,12 @@
                     <p class="diagnostico-detalle__nombre">{{ d.nombre }}</p>
                     <p>{{ d.descripcion }}</p>
                     <p class="diagnostico-detalle__fecha">Fecha: {{ d.fechaDiagnostico }}</p>
+
+                    <button type="button"
+                            [routerLink]="[base, 'diagnosticos', 'editar', d.id]"
+                            [queryParams]="{ historia: h.id }">
+                        Editar diagnóstico
+                    </button>
                 </article>
             } @empty {
                 <p>No hay diagnósticos registrados.</p>
@@ -39,6 +45,10 @@
         </dd>
 
     </dl>
+
+    <button type="button" [routerLink]="[base, 'historiasclinicas', 'editar', h.id]">
+        Editar historia clínica
+    </button>
 
     <button type="button" (click)="eliminar(h)">
         Eliminar historia clínica

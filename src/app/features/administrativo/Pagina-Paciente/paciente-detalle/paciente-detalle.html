@@ -19,9 +19,28 @@
             <section>
                 <h3>Acciones del profesional</h3>
 
-                <button [routerLink]="[base, 'historiasclinicas']" [queryParams]="{ paciente: p.id }">
-                    Ver historia clínica
+                <button type="button" (click)="abrirHistoriaClinica(p)" [disabled]="abriendoHistoria()">
+                    {{ abriendoHistoria() ? 'Abriendo historia clínica...' : 'Ver historia clínica' }}
                 </button>
+
+                @if (historiaNoEncontrada()) {
+                    <div class="aviso-historia">
+                        <p><strong>Este paciente todavía no tiene una historia clínica.</strong></p>
+                        <p>¿Querés crear una ahora?</p>
+
+                        <button type="button" (click)="crearHistoriaClinica(p)">
+                            Crear historia clínica
+                        </button>
+
+                        <button type="button" (click)="cerrarAvisoHistoria()">
+                            Cancelar
+                        </button>
+                    </div>
+                }
+
+                @if (errorHistoria()) {
+                    <p class="error">{{ errorHistoria() }}</p>
+                }
 
                 <button [routerLink]="[base, 'recetas', 'nuevo']" [queryParams]="{ paciente: p.id }">
                     Generar receta

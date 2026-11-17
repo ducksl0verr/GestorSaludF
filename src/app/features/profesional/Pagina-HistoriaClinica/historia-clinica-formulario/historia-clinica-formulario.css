@@ -44,3 +44,8 @@
     color: var(--od-muted);
     font-size: 0.9rem;
 }
+
+:host .ayuda-campo {
+    color: var(--od-muted);
+    font-size: 0.85rem;
+}

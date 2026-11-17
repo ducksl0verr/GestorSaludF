@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DiagnosticoService } from '../services/diagnostico-services';
 import { DiagnosticoNuevo } from '../model/diagnostico';
-import { form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
+import { form, FormField, maxLength, min, minLength, required, disabled } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 
 export class DiagnosticoFormulario implements OnInit {
 
-  diagnosticoId?: number;
+  diagnosticoId = signal<number | undefined>(undefined);
+  volverAHistoria?: number;
 
   private route = inject(ActivatedRoute);
   private dService = inject(DiagnosticoService);
@@ -25,9 +26,17 @@ export class DiagnosticoFormulario implements OnInit {
   diagnosticoModel = signal<DiagnosticoNuevo>({
     nombre: '',
     descripcion: '',
-    fechaDiagnostico: '',
+    fechaDiagnostico: this.fechaDeHoy(),
     idHistoriaClinica: 0
   });
+
+  private fechaDeHoy(): string {
+    const hoy = new Date();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+
+    return `${hoy.getFullYear()}-${mes}-${dia}`;
+  }
 
   diagnosticoForm = form(this.diagnosticoModel, (campo) => {
 
@@ -55,13 +64,13 @@ export class DiagnosticoFormulario implements OnInit {
       message: 'La descripción no puede superar los 500 caracteres.'
     });
 
-    required(campo.fechaDiagnostico, {
-      message: 'La fecha del diagnóstico es obligatoria.'
-    });
-
+    // La fecha se registra automáticamente con el día de creación.
     min(campo.idHistoriaClinica, 1, {
       message: 'Debe indicar una historia clínica válida.'
     });
+
+    // Al editar un diagnóstico no se puede cambiar la historia clínica asociada.
+    disabled(campo.idHistoriaClinica, { when: () => !!this.diagnosticoId() });
 
   });
 
@@ -70,13 +79,19 @@ export class DiagnosticoFormulario implements OnInit {
 
   ngOnInit(): void {
 
+    const historia = Number(this.route.snapshot.queryParamMap.get('historia'));
+
+    if (Number.isInteger(historia) && historia > 0) {
+      this.volverAHistoria = historia;
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) return;
 
-    this.diagnosticoId = Number(id);
+    this.diagnosticoId.set(Number(id));
 
-    this.dService.getDiagnostico(this.diagnosticoId).subscribe({
+    this.dService.getDiagnostico(this.diagnosticoId()!).subscribe({
       next: (d) => {
         this.diagnosticoModel.set({
           nombre: d.nombre,
@@ -105,17 +120,17 @@ export class DiagnosticoFormulario implements OnInit {
     this.cargando.set(true);
     this.error.set('');
 
-    const peticion = this.diagnosticoId
-      ? this.dService.actualizarDiagnostico(this.diagnosticoId, diagnosticoData)
+    const peticion = this.diagnosticoId()
+      ? this.dService.actualizarDiagnostico(this.diagnosticoId()!, diagnosticoData)
       : this.dService.guardarDiagnostico(diagnosticoData);
 
     peticion.subscribe({
 
       next: () => {
-        alert(this.diagnosticoId
+        alert(this.diagnosticoId()
           ? 'Diagnóstico actualizado correctamente.'
           : 'Diagnóstico guardado correctamente.');
-        this.router.navigate([this.base, 'diagnosticos']);
+        this.volver();
       },
 
       error: (e) => {
@@ -130,6 +145,15 @@ export class DiagnosticoFormulario implements OnInit {
   }
 
   cancelar(): void {
+    this.volver();
+  }
+
+  private volver(): void {
+    if (this.volverAHistoria) {
+      this.router.navigate([this.base, 'historiasclinicas', this.volverAHistoria]);
+      return;
+    }
+
     this.router.navigate([this.base, 'diagnosticos']);
   }
 

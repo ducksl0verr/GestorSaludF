@@ -1,0 +1,10 @@
+:host .ayuda-campo {
+    color: var(--od-muted);
+    font-size: 0.85rem;
+}
+
+:host .fecha-diagnostico {
+    margin: 0;
+    font-weight: 600;
+    color: var(--od-teal-dark);
+}

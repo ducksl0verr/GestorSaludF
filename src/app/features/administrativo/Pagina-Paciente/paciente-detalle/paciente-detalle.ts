@@ -5,6 +5,7 @@ import { Paciente } from '../models/paciente';
 import { PacienteService } from '../services/paciente-service';
 import { Obra_Social } from '../../../public/Pagina-ObraSocial/Model/Obra_Social';
 import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obra-social-service';
+import { HistoriaClinicaService } from '../../../profesional/Pagina-HistoriaClinica/services/historia-clinica-services';
 
 @Component({
   imports: [RouterLink],
@@ -16,7 +17,11 @@ export class PacienteDetalle implements OnInit {
 
     paciente = signal<Paciente | undefined>(undefined);
     obraSocial = signal<Obra_Social | undefined>(undefined);
+    abriendoHistoria = signal(false);
+    historiaNoEncontrada = signal(false);
+    errorHistoria = signal('');
     private route = inject(ActivatedRoute);
+    private historiaClinicaService = inject(HistoriaClinicaService);
     protected base = this.route.snapshot.data['base'];  
     protected esVistaProfesional = this.base === '/profesional';
 
@@ -38,6 +43,48 @@ ngOnInit(): void {
         },
         error: (error) => console.error('Error al obtener el paciente', error)
     });
+}
+
+
+abrirHistoriaClinica(p: Paciente): void {
+    if (this.abriendoHistoria()) return;
+
+    this.abriendoHistoria.set(true);
+    this.historiaNoEncontrada.set(false);
+    this.errorHistoria.set('');
+
+    this.historiaClinicaService.getHistoriasClinicas().subscribe({
+        next: (historias) => {
+            this.abriendoHistoria.set(false);
+
+            const historia = historias.find(h => h.id_paciente === p.id);
+
+            if (historia) {
+                this.router.navigate([this.base, 'historiasclinicas', historia.id]);
+            } else {
+                this.historiaNoEncontrada.set(true);
+            }
+        },
+        error: () => {
+            this.abriendoHistoria.set(false);
+            this.errorHistoria.set(
+                'No se pudo consultar la historia clínica del paciente.'
+            );
+        }
+    });
+}
+
+crearHistoriaClinica(p: Paciente): void {
+    this.historiaNoEncontrada.set(false);
+
+    this.router.navigate(
+        [this.base, 'historiasclinicas', 'nuevo'],
+        { queryParams: { paciente: p.id } }
+    );
+}
+
+cerrarAvisoHistoria(): void {
+    this.historiaNoEncontrada.set(false);
 }
 
 

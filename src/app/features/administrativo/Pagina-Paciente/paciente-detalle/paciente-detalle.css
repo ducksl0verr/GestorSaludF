@@ -1,0 +1,19 @@
+:host .aviso-historia {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--od-border);
+    border-radius: 14px;
+    background-color: var(--od-cream);
+}
+
+:host .aviso-historia p {
+    margin-bottom: 6px;
+}
+
+:host .aviso-historia p:first-child {
+    color: var(--od-teal-dark);
+}
+
+:host .aviso-historia button + button {
+    margin-left: 8px;
+}

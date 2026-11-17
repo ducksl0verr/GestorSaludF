@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Receta } from '../model/receta';
 import { RecetaService } from '../services/receta-services';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NumberSymbol } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth-service';
 
 @Component({
@@ -64,6 +64,10 @@ export class RecetaLista implements OnInit {
     this.pacienteId.set(null);
     this.router.navigate([this.base, 'recetas']);
     this.listarRecetas();
+  }
+
+  verPaciente(): void{
+    this.router.navigate([this.base, 'pacientes', this.pacienteId]);
   }
 
   verDetalle(id: number): void {

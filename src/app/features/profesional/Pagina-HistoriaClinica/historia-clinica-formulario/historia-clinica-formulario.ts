@@ -25,10 +25,11 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
   private base = this.route.snapshot.data['base'];
 
   historiaClinicaId = signal<number | undefined>(undefined);
+  private idPacienteActual = signal<number | undefined>(undefined);
   diagnosticosExistentes = signal<Diagnostico[]>([]);
 
   historiaClinicaModel = signal<HistoriaClinicaNueva>({
-    fecha: '',
+    fecha: this.fechaDeHoy(),
     observaciones: '',
     evolucion: '',
     id_paciente: 0,
@@ -36,6 +37,14 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
     ids_diagnosticos: [],
     diagnosticos: []
   });
+
+  private fechaDeHoy(): string {
+    const hoy = new Date();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+
+    return `${hoy.getFullYear()}-${mes}-${dia}`;
+  }
 
   historiaClinicaForm = form(this.historiaClinicaModel, (campo) => {
 
@@ -71,8 +80,9 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
       message: 'Debe indicar un profesional válido.'
     });
 
-    // En edición solo se actualizan observaciones y evolución.
-    disabled(campo.fecha, { when: () => !!this.historiaClinicaId() });
+    // La fecha se registra automáticamente al crear la historia clínica.
+    // En edición tampoco puede modificarse.
+    disabled(campo.fecha, { when: () => true });
     disabled(campo.id_paciente, { when: () => !!this.historiaClinicaId() });
     disabled(campo.id_profesional, { when: () => !!this.historiaClinicaId() });
 
@@ -86,7 +96,7 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
       ...historia,
       diagnosticos: [
         ...historia.diagnosticos,
-        { nombre: '', descripcion: '', fechaDiagnostico: '' }
+        { nombre: '', descripcion: '', fechaDiagnostico: this.fechaDeHoy() }
       ]
     }));
   }
@@ -122,6 +132,7 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
         .subscribe({
           next: (data) => {
             this.diagnosticosExistentes.set(data.diagnosticos ?? []);
+            this.idPacienteActual.set(data.id_paciente);
             this.historiaClinicaModel.set({
               fecha: data.fecha,
               observaciones: data.observaciones,
@@ -145,6 +156,7 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
       const profesional = this.auth.getUsuarioId();
 
       if (Number.isInteger(paciente) && paciente > 0) {
+        this.idPacienteActual.set(paciente);
         this.historiaClinicaModel.update(historia => ({
           ...historia,
           id_paciente: paciente
@@ -168,15 +180,17 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
       return;
     }
 
-    const historiaData = this.historiaClinicaModel();
+    const historiaData = this.historiaClinicaId()
+      ? this.historiaClinicaModel()
+      : { ...this.historiaClinicaModel(), fecha: this.fechaDeHoy() };
 
     if (
       historiaData.diagnosticos.some(
-        d => !d.nombre.trim() || !d.descripcion.trim() || !d.fechaDiagnostico
+        d => !d.nombre.trim() || !d.descripcion.trim()
       )
     ) {
       this.error.set(
-        'Complete el nombre, la descripción y la fecha de todos los diagnósticos.'
+        'Complete el nombre y la descripción de todos los diagnósticos.'
       );
       return;
     }
@@ -205,9 +219,9 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
     } else {
 
       this.hService.guardarHistoriaClinica(historiaData).subscribe({
-        next: () => {
+        next: (creada) => {
           alert('Historia clínica guardada correctamente.');
-          this.router.navigate([this.base, 'historiasclinicas']);
+          this.router.navigate([this.base, 'historiasclinicas', creada.id]);
         },
         error: (e) => {
           this.error.set(
@@ -226,7 +240,7 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
 
     if (diagnosticos.length === 0) {
       alert('Historia clínica actualizada correctamente.');
-      this.router.navigate([this.base, 'historiasclinicas']);
+      this.router.navigate([this.base, 'historiasclinicas', this.historiaClinicaId()]);
       return;
     }
 
@@ -242,7 +256,7 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
     ).subscribe({
       next: () => {
         alert('Historia clínica y diagnósticos guardados correctamente.');
-        this.router.navigate([this.base, 'historiasclinicas']);
+        this.router.navigate([this.base, 'historiasclinicas', this.historiaClinicaId()]);
       },
       error: (e) => {
         this.error.set(
@@ -254,7 +268,17 @@ import { Diagnostico } from '../../Pagina-Diagnostico/model/diagnostico';
   }
 
   cancelar(): void {
-    this.router.navigate([this.base, 'historiasclinicas']);
+    if (this.historiaClinicaId()) {
+      this.router.navigate([this.base, 'historiasclinicas', this.historiaClinicaId()]);
+      return;
+    }
+
+    if (this.idPacienteActual()) {
+      this.router.navigate([this.base, 'pacientes', this.idPacienteActual()]);
+      return;
+    }
+
+    this.router.navigate([this.base, 'pacientes']);
   }
 
 }

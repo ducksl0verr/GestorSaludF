@@ -1,7 +1,7 @@
 <form (submit)="onSubmit($event)" novalidate>
 
   <h2>
-    {{ diagnosticoId ? 'Editar diagnóstico' : 'Datos del diagnóstico' }}
+    {{ diagnosticoId() ? 'Editar diagnóstico' : 'Datos del diagnóstico' }}
   </h2>
 
   @if (error()) {
@@ -41,33 +41,13 @@
 
   <div>
     <label>Fecha del diagnóstico</label>
-    <input
-      type="date"
-      [formField]="diagnosticoForm.fechaDiagnostico"
-    />
+    <p class="fecha-diagnostico">{{ diagnosticoModel().fechaDiagnostico }}</p>
 
-    @if (diagnosticoForm.fechaDiagnostico().touched() &&
-         diagnosticoForm.fechaDiagnostico().invalid()) {
-      @for (error of diagnosticoForm.fechaDiagnostico().errors(); track error) {
-        <small>{{ error.message }}</small>
-      }
-    }
-  </div>
-
-  <div>
-    <label>ID Historia Clínica</label>
-    <input
-      type="number"
-      [formField]="diagnosticoForm.idHistoriaClinica"
-      placeholder="Ingrese el ID de la historia clínica"
-    />
-
-    @if (diagnosticoForm.idHistoriaClinica().touched() &&
-         diagnosticoForm.idHistoriaClinica().invalid()) {
-      @for (error of diagnosticoForm.idHistoriaClinica().errors(); track error) {
-        <small>{{ error.message }}</small>
-      }
-    }
+    <small class="ayuda-campo">
+      {{ diagnosticoId()
+        ? 'La fecha corresponde al día en que se creó el diagnóstico.'
+        : 'Se asigna automáticamente con la fecha de hoy.' }}
+    </small>
   </div>
 
   <hr>

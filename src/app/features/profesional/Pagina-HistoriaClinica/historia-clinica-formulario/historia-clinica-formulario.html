@@ -7,21 +7,6 @@
   }
 
   <div>
-    <label>Fecha</label>
-    <input
-      type="date"
-      [formField]="historiaClinicaForm.fecha"
-    />
-
-    @if (historiaClinicaForm.fecha().touched() &&
-         historiaClinicaForm.fecha().invalid()) {
-      @for (error of historiaClinicaForm.fecha().errors(); track error) {
-        <small>{{ error.message }}</small>
-      }
-    }
-  </div>
-
-  <div>
     <label>Observaciones</label>
     <textarea
       [formField]="historiaClinicaForm.observaciones"
@@ -50,42 +35,6 @@
       }
     }
   </div>
-
-  <hr>
-
-  <h3>Datos del paciente y profesional</h3>
-
-  <div>
-    <label>ID Paciente</label>
-    <input
-      type="number"
-      [formField]="historiaClinicaForm.id_paciente"
-    />
-
-    @if (historiaClinicaForm.id_paciente().touched() &&
-         historiaClinicaForm.id_paciente().invalid()) {
-      @for (error of historiaClinicaForm.id_paciente().errors(); track error) {
-        <small>{{ error.message }}</small>
-      }
-    }
-  </div>
-
-  <div>
-    <label>ID Profesional</label>
-    <input
-      type="number"
-      [formField]="historiaClinicaForm.id_profesional"
-    />
-
-    @if (historiaClinicaForm.id_profesional().touched() &&
-         historiaClinicaForm.id_profesional().invalid()) {
-      @for (error of historiaClinicaForm.id_profesional().errors(); track error) {
-        <small>{{ error.message }}</small>
-      }
-    }
-  </div>
-
-  <hr>
 
   <h3>Diagnósticos</h3>
 
@@ -145,11 +94,9 @@
 
       <div>
         <label>Fecha del diagnóstico</label>
-        <input
-          type="date"
-          [value]="diagnostico.fechaDiagnostico"
-          (input)="actualizarDiagnostico(i, 'fechaDiagnostico', $any($event.target).value)"
-        />
+        <p class="diagnostico-fecha">
+          {{ diagnostico.fechaDiagnostico }} (se asigna automáticamente)
+        </p>
       </div>
 
       <button type="button" (click)="eliminarDiagnostico(i)">

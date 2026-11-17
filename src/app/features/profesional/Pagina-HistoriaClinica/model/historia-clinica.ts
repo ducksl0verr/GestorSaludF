@@ -6,7 +6,11 @@ export interface HistoriaClinica {
     observaciones: string,
     evolucion: string,
     id_paciente: number,
+    nombre_paciente?: string,
+    apellido_paciente?: string,
     id_profesional: number,
+    nombre_profesional?: string,
+    apellido_profesional?: string,
     diagnosticos: Diagnostico[]
 }
 
