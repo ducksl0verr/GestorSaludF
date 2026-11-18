@@ -25,6 +25,7 @@ import { FACTURA_ROUTES } from './features/administrativo/Pagina-Factura/factura
 import { RECETA_ROUTES } from './features/profesional/Pagina-Receta/receta.routes';
 import { HISTORIA_CLINICA_ROUTES } from './features/profesional/Pagina-HistoriaClinica/historia-clinica.routes';
 import { DIAGNOSTICO_ROUTES } from './features/profesional/Pagina-Diagnostico/diagnostico.routes';
+import { Nosotros } from './features/public/nosotros/nosotros';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,11 @@ export const routes: Routes = [
                 .then(m=>m.Home)
             }
         ]
+    },
+    {
+        path:'nosotros',
+        component: Nosotros,
+        canActivate: [publicoGuard]
     },
     {
         path:'login', component: Login, canActivate: [publicoGuard]
