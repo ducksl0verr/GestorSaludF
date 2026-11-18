@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, Service } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Medicamento, MedicamentoActualizar, MedicamentoNuevo } from '../Model/Medicamento';
 
 @Injectable({
@@ -25,7 +25,8 @@ export class MedicamentoService {
         return this.http.put<Medicamento>(`${this.API_URL}/${id}`, me);
     }
 
-    borrarMedicamento(id: number){
-        return this.http.delete<void>(`${this.API_URL}/${id}`);
+    // Baja lógica: el backend deja el stock en 0, no elimina el registro.
+    darDeBajaMedicamento(id: number){
+        return this.http.patch<Medicamento>(`${this.API_URL}/${id}/baja`, {});
     }
 }

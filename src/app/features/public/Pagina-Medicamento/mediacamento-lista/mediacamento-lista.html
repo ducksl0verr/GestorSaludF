@@ -4,24 +4,38 @@
       Nuevo medicamento
     </button>
 
+  <div class="buscador">
+    <label for="buscarMedicamento">Buscar por nombre:</label>
+    <input
+      id="buscarMedicamento"
+      type="search"
+      placeholder="Escribí el nombre del medicamento"
+      [value]="busqueda()"
+      (input)="onBusqueda($event)"
+    />
+  </div>
+
+  @if (mensajeError()) {
+      <p class="error">{{ mensajeError() }}</p>
+  }
+
   @if (medicamentos().length === 0) {
     <div class="alert alert-info">No hay medicamentos cargados.</div>
+  } @else if (medicamentosFiltrados().length === 0) {
+    <div class="alert alert-info">No se encontraron medicamentos con ese nombre.</div>
   } @else {
         <ul>
-            @for (med of medicamentos(); track med.id) {
+            @for (med of medicamentosFiltrados(); track med.id) {
                 <li>
                   <p>
-                    {{ med.id }} - {{ med.nombre }}
+                    {{ med.id }} - {{ med.nombre }} - {{ med.descripcion }} - {{ med.precio }} - {{ med.stock }}
                   </p>
                   
                   <button [routerLink]="[base, 'medicamentos', 'editar', med.id]">Editar</button>
                   <button [routerLink]="[base, 'medicamentos', med.id]">Ver detalles</button>
-                  <button (click)="borrarMedicamento(med.id)">Eliminar</button>
+                  <button (click)="darDeBaja(med.id)">Eliminar</button>
                   
                 </li>
-            }
-            @if (mensajeError()) {
-                <p class="error">{{ mensajeError() }}</p>
             }
         </ul>
     }

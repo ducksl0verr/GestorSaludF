@@ -36,11 +36,13 @@ export class MediacamentoDetalle {
   }
 
   eliminar(m : Medicamento): void {
-        if (!confirm(`¿Eliminar a ${m.nombre}?`)) return;
+        if (!confirm(`¿Dar de baja a ${m.nombre}?`)) return;
     
-        this.mService.borrarMedicamento(m.id).subscribe({
+        this.mService.darDeBajaMedicamento(m.id).subscribe({
           next: () => this.router.navigate([this.base, 'medicamentos']),
-          error: () => this.error.set('No se pudo eliminar la medicación.'),
+          error: (e) => this.error.set(
+            e.error?.mensaje ?? e.error?.message ?? 'No se pudo dar de baja la medicación.'
+          ),
         });
       }
 }

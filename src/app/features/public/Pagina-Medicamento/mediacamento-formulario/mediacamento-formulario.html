@@ -105,8 +105,10 @@
         <label>Fecha de vencimiento: </label>
             <input
             type="date"
+            [min]="fechaMinima"
             [formField]="medForm.fechaVencimiento"
             />
+            <small>La fecha debe ser posterior a hoy (mínimo {{ fechaMinima }}).</small>
         
             @if (medForm.fechaVencimiento().touched() &&
                 medForm.fechaVencimiento().invalid()) {
