@@ -4,6 +4,7 @@ import { Receta } from '../model/receta';
 import { RecetaService } from '../services/receta-services';
 import { CommonModule, NumberSymbol } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth-service';
+import { PacienteService } from '../../../administrativo/Pagina-Paciente/services/paciente-service';
 
 @Component({
   imports: [RouterModule, CommonModule],
@@ -14,6 +15,7 @@ import { AuthService } from '../../../../core/services/auth-service';
 export class RecetaLista implements OnInit {
 
   private recetasService = inject(RecetaService);
+  private pacienteService = inject(PacienteService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private auth = inject(AuthService);
@@ -24,6 +26,7 @@ export class RecetaLista implements OnInit {
   cargando = signal(false);
   error = signal('');
   pacienteId = signal<number | null>(null);
+  pacienteNombre = signal('');
   puedeCrear = this.auth.tienePermiso('CREAR_RECETA');
 
   ngOnInit(): void {
@@ -31,9 +34,19 @@ export class RecetaLista implements OnInit {
 
     if (Number.isInteger(paciente) && paciente > 0) {
       this.pacienteId.set(paciente);
+      this.cargarNombrePaciente(paciente);
     }
 
     this.listarRecetas();
+  }
+
+  private cargarNombrePaciente(id: number): void {
+    this.pacienteService.getPaciente(id).subscribe({
+      next: (paciente) => {
+        this.pacienteNombre.set(`${paciente.nombre} ${paciente.apellido}`.trim());
+      },
+      error: () => this.pacienteNombre.set(`Paciente #${id}`)
+    });
   }
 
   listarRecetas(): void {
@@ -60,18 +73,40 @@ export class RecetaLista implements OnInit {
     });
   }
 
-  verTodas(): void {
-    this.pacienteId.set(null);
-    this.router.navigate([this.base, 'recetas']);
-    this.listarRecetas();
-  }
-
   verPaciente(): void{
-    this.router.navigate([this.base, 'pacientes', this.pacienteId]);
+    const paciente = this.pacienteId();
+
+    if (paciente) {
+      this.router.navigate([this.base, 'pacientes', paciente]);
+    }
   }
 
   verDetalle(id: number): void {
-    this.router.navigate([this.base, 'recetas', id]);
+    const paciente = this.pacienteId();
+
+    this.router.navigate(
+      [this.base, 'recetas', id],
+      paciente ? { queryParams: { paciente } } : {}
+    );
+  }
+
+  // Eliminación visual: solo se quita de la vista, sin llamar al backend.
+  eliminarReceta(receta: Receta): void {
+    if (!confirm('¿Quitar esta receta de la lista? No se eliminará de la base de datos.')) return;
+
+    this.recetasService.ocultarReceta(receta.id);
+    this.recetas.update(lista => lista.filter(r => r.id !== receta.id));
+  }
+
+  nombrePaciente(receta: Receta): string {
+    return `${receta.nombre_paciente ?? ''} ${receta.apellido_paciente ?? ''}`.trim()
+      || this.pacienteNombre()
+      || 'Paciente';
+  }
+
+  nombreProfesional(receta: Receta): string {
+    return `${receta.nombre_profesional ?? ''} ${receta.apellido_profesional ?? ''}`.trim()
+      || 'Profesional';
   }
 
   nuevaReceta(): void {

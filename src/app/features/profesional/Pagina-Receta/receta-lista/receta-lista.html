@@ -5,8 +5,8 @@
     <div>
       <h2>Listado de Recetas</h2>
 
-      @if (pacienteId(); as id) {
-        <p>Recetas generadas para el paciente N° {{ id }}.</p>
+      @if (pacienteId()) {
+        <p>Recetas generadas para el paciente {{ pacienteNombre() || 'cargando...' }}</p>
       } @else {
         <p>Administración de recetas médicas registradas.</p>
       }
@@ -64,8 +64,8 @@
           <tr>
             <th>ID</th>
             <th>Fecha</th>
-            <th>ID Paciente</th>
-            <th>ID Profesional</th>
+            <th>Paciente</th>
+            <th>Profesional</th>
             <th>Medicamentos</th>
             <th>Acciones</th>
           </tr>
@@ -81,13 +81,17 @@
 
               <td>{{ receta.fecha }}</td>
 
-              <td>{{ receta.id_paciente }}</td>
+              <td>
+                {{ nombrePaciente(receta) }}
+              </td>
 
-              <td>{{ receta.id_profesional }}</td>
+              <td>
+                {{ nombreProfesional(receta) }}
+              </td>
 
               <td>
                 <span class="cantidad">
-                  {{ receta.detalles.length }}
+                  Cantidad: {{ receta.detalles.length }}
                 </span>
               </td>
 
@@ -97,6 +101,13 @@
                   class="btn-ver"
                   (click)="verDetalle(receta.id)">
                   Ver detalle
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-secundario"
+                  (click)="eliminarReceta(receta)">
+                  Eliminar
                 </button>
 
               </td>

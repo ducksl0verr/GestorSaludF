@@ -34,13 +34,13 @@
         </div>
 
         <div class="dato">
-          <span>ID Paciente</span>
-          <p>{{ r.id_paciente }}</p>
+          <span>Paciente</span>
+          <p>{{ pacienteNombre() || 'Cargando...' }}</p>
         </div>
 
         <div class="dato">
-          <span>ID Profesional</span>
-          <p>{{ r.id_profesional }}</p>
+          <span>Profesional</span>
+          <p>{{ profesionalNombre() || 'Cargando...' }}</p>
         </div>
 
       </div>
@@ -93,9 +93,19 @@
 
       <div class="acciones">
 
-        <a [routerLink]="[base, 'recetas']" class="btn-volver">
-          Atras
+        <a [routerLink]="[base, 'recetas']"
+           [queryParams]="{ paciente: r.id_paciente }"
+           class="btn-volver">
+          Atrás
         </a>
+
+        <a [routerLink]="[base, 'pacientes', r.id_paciente]" class="btn-volver">
+          Ver paciente
+        </a>
+
+        <button type="button" class="btn-secundario" (click)="eliminarReceta()">
+          Eliminar receta
+        </button>
 
       </div>
 

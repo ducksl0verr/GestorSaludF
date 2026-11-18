@@ -21,33 +21,14 @@
       <div class="form-grid">
 
         <div class="campo">
-          <label>ID Paciente</label>
-
-          <input
-            type="number"
-            [formField]="formulario.id_paciente"
-            placeholder="Ingrese el ID del paciente"
-          >
-
-          @if (formulario.id_paciente().touched() &&
-               formulario.id_paciente().invalid()) {
-            <small>Ingrese un ID de paciente válido.</small>
-          }
+          <label>Paciente</label>
+          <p>{{ nombrePaciente() || (pacientePrecargado() ? 'Cargando...' : 'No seleccionado') }}</p>
         </div>
+        
 
         <div class="campo">
-          <label>ID Profesional</label>
-
-          <input
-            type="number"
-            [formField]="formulario.id_profesional"
-            placeholder="Ingrese el ID del profesional"
-          >
-
-          @if (formulario.id_profesional().touched() &&
-               formulario.id_profesional().invalid()) {
-            <small>Ingrese un ID de profesional válido.</small>
-          }
+          <label>Profesional</label>
+          <p>{{ nombreProfesional() || 'Cargando...' }}</p>
         </div>
 
       </div>
