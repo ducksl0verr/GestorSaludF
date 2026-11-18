@@ -30,20 +30,20 @@
                 {{ turno()!.estadoFacturacionDeTurno }}
             </p>
 
-            <p><strong>ID del paciente:</strong>
-                {{ turno()!.id_paciente }}
+            <p><strong>Paciente:</strong>
+                {{ turno()!.nombrePaciente }}
             </p>
 
-            <p><strong>ID del tratamiento:</strong>
-                {{ turno()!.id_tratamiento }}
+            <p><strong>Tratamiento:</strong>
+                {{ turno()!.nombreTratamiento }}
             </p>
 
-            <p><strong>ID del consultorio:</strong>
-                {{ turno()!.id_consultorio }}
+            <p><strong>Consultorio:</strong>
+                {{ turno()!.nombreConsultorio }}
             </p>
 
-            <p><strong>ID del profesional:</strong>
-                {{ turno()!.id_profesional }}
+            <p><strong>Profesional:</strong>
+                {{ turno()!.nombreProfesional }}
             </p>
 
         </div>
@@ -54,9 +54,11 @@
                 Atras
             </button>
 
-            <button (click)="eliminar(turno()!)">
-                Eliminar turno
-            </button>
+            @if (!esVistaProfesional) {
+                <button (click)="eliminar(turno()!)">
+                    Eliminar turno
+                </button>
+            }
 
         </div>
 

@@ -1,0 +1,19 @@
+.advertencia {
+    color: #8a5300;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    padding: 0.6rem 0.8rem;
+    margin: 0.75rem 0;
+}
+
+.verificando {
+    color: #555;
+    font-style: italic;
+    margin: 0.75rem 0 0;
+}
+
+button[disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

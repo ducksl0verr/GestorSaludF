@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required } from '@angular/forms/signals';
 import { TurnoService } from '../services/turno-service';
@@ -41,6 +41,10 @@ export class TurnoFormulario implements OnInit {
     protected esVistaProfesional = this.base === '/profesional';
 
     error = signal('');
+    conflicto = signal('');
+    verificando = signal(false);
+
+    private verificacionActual = 0;
 
     estadosTurno: EstadoTurno[] = [
         'PENDIENTE',
@@ -49,13 +53,31 @@ export class TurnoFormulario implements OnInit {
         'FINALIZADO'
     ];
 
+    /// Horarios disponibles: de 08:00 a 20:00, cada media hora.
+    horasDisponibles: string[] = (() => {
+        const horas: string[] = [];
+        for (let minutos = 8 * 60; minutos <= 20 * 60; minutos += 30) {
+            const hora = String(Math.floor(minutos / 60)).padStart(2, '0');
+            const minuto = String(minutos % 60).padStart(2, '0');
+            horas.push(`${hora}:${minuto}`);
+        }
+        return horas;
+    })();
+
+    private readonly hoy = new Date();
+    readonly fechaMinima = this.formatearFecha(this.hoy);
+    readonly fechaMaxima = this.formatearFecha(
+        new Date(this.hoy.getFullYear(), this.hoy.getMonth() + 2, this.hoy.getDate())
+    );
+
     pacientes = signal<Paciente[]>([]);
     tratamientos = signal<Tratamiento[]>([]);
     consultorios = signal<Consultorio[]>([]);
     profesionales = signal<Profesional[]>([]);
 
     turnoModel = signal({
-        fechaHora: '',
+        fecha: '',
+        hora: '',
         id_paciente: '0',
         id_tratamiento: '0',
         id_consultorio: '0',
@@ -64,55 +86,74 @@ export class TurnoFormulario implements OnInit {
     });
 
     turnoForm = form(this.turnoModel, (campo) => {
-        required(campo.fechaHora);
-        required(campo.id_paciente);
-        required(campo.id_tratamiento);
-        required(campo.id_consultorio);
-        required(campo.id_profesional);
-        required(campo.estadoTurno);
+        required(campo.fecha, {message: "La fecha es obligatoria."});
+        required(campo.hora, {message: "La hora es obligatoria."});
+        required(campo.id_paciente, {message: "El paciente es obligatorio."});
+        required(campo.id_consultorio, {message: "El consultorio es obligatorio."});
+        required(campo.id_profesional, {message: "El profesional es obligatorio."});
+        required(campo.estadoTurno, {message: "El estado del turno es obligatorio."});
     });
 
-    ngOnInit(): void {
-        const id = this.route.snapshot.params['id'];
+    constructor() {
+        /// Cada vez que cambian fecha, horario, profesional o sala se consulta
+        /// la disponibilidad al backend, igual que al registrar el turno.
+        effect(() => {
+            const datos = this.turnoModel();
+            const idExcluido = this.turnoId();
 
-        if (this.esVistaProfesional && !id) {
-            this.error.set(
-                'Desde el perfil profesional solo podés consultar o editar tus turnos asignados.'
-            );
+            if (this.esVistaProfesional
+                || !datos.fecha
+                || !datos.hora
+                || Number(datos.id_profesional) < 1
+                || Number(datos.id_consultorio) < 1) {
+                this.verificacionActual++;
+                this.conflicto.set('');
+                this.verificando.set(false);
+                return;
+            }
+
+            const fechaHora = `${datos.fecha}T${datos.hora}:00`;
+            const numero = ++this.verificacionActual;
+
+            this.verificando.set(true);
+            this.turnoService.verificarDisponibilidad(
+                fechaHora,
+                Number(datos.id_profesional),
+                Number(datos.id_consultorio),
+                idExcluido
+            ).subscribe({
+                next: (respuesta) => {
+                    if (numero !== this.verificacionActual) return;
+                    this.conflicto.set(respuesta.disponible ? '' : respuesta.mensaje);
+                    this.verificando.set(false);
+                },
+                error: () => {
+                    if (numero !== this.verificacionActual) return;
+                    this.conflicto.set('');
+                    this.verificando.set(false);
+                }
+            });
+        });
+    }
+
+    ngOnInit(): void {
+        /// El panel profesional no puede crear ni editar turnos: solo cambiar el estado
+        /// desde el listado (CANCELADO / FINALIZADO).
+        if (this.esVistaProfesional) {
+            this.error.set('Desde el panel profesional no se pueden crear ni editar turnos. Solo podés cambiar el estado a CANCELADO o FINALIZADO desde el listado.');
             return;
         }
 
+        const id = this.route.snapshot.params['id'];
+
         if (id) {
             this.turnoId.set(Number(id));
-
-            /// En el perfil profesional solo se permite editar un turno propio:
-            /// se busca dentro de los turnos que el backend asigna al usuario.
-            if (this.esVistaProfesional) {
-                this.turnoService.getMisTurnos().subscribe({
-                    next: (turnos) => {
-                        const turno = turnos.find((t) => t.id === Number(id));
-
-                        if (!turno) {
-                            this.error.set('No tenés permiso para editar este turno.');
-                            return;
-                        }
-
-                        this.cargarModeloDesdeTurno(turno);
-                    },
-                    error: (error) => {
-                        console.error('Error al obtener los turnos del profesional', error);
-                        this.error.set('No se pudo cargar el turno.');
-                    }
-                });
-
-                return;
-            }
 
             this.turnoService.getTurno(Number(id)).subscribe({
                 next: (turno) => this.cargarModeloDesdeTurno(turno),
                 error: (error) => {
                     console.error('Error al obtener el turno', error);
-                    this.error.set('No se pudo cargar el turno.');
+                    this.error.set(this.mensajeError(error, 'No se pudo cargar el turno.'));
                 }
             });
 
@@ -124,13 +165,23 @@ export class TurnoFormulario implements OnInit {
         }
     }
 
+    private formatearFecha(fecha: Date): string {
+        const anio = fecha.getFullYear();
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+        const dia = String(fecha.getDate()).padStart(2, '0');
+        return `${anio}-${mes}-${dia}`;
+    }
+
     private cargarModeloDesdeTurno(turno: Turno): void {
+        const fechaHora = turno.fechaHora ?? '';
+
         this.turnoModel.set({
-            fechaHora: turno.fechaHora.slice(0, 16), ///formato: 2026-11-15T10:30
-            id_paciente: turno.id_paciente.toString(),
-            id_tratamiento: turno.id_tratamiento.toString(),
-            id_consultorio: turno.id_consultorio.toString(),
-            id_profesional: turno.id_profesional.toString(),
+            fecha: fechaHora.slice(0, 10),
+            hora: fechaHora.slice(11, 16),
+            id_paciente: '0',
+            id_tratamiento: '0',
+            id_consultorio: '0',
+            id_profesional: '0',
             estadoTurno: turno.estadoTurno
         });
     }
@@ -164,50 +215,77 @@ export class TurnoFormulario implements OnInit {
     }
 
     guardarTurno(): void {
+        this.error.set('');
 
         if (this.turnoForm().invalid()) {
             this.turnoForm().markAsTouched();
+            this.error.set('Completá todos los campos obligatorios.');
+            return;
+        }
+
+        if (this.verificando()) {
+            this.error.set('Esperá a que se verifique la disponibilidad.');
+            return;
+        }
+
+        if (this.conflicto()) {
+            this.error.set(this.conflicto());
             return;
         }
 
         const datos = this.turnoModel();
 
-        const idPaciente = Number(datos.id_paciente);
-        const idTratamiento = Number(datos.id_tratamiento);
-        const idConsultorio = Number(datos.id_consultorio);
-        const idProfesional = Number(datos.id_profesional);
+        if (datos.fecha < this.fechaMinima || datos.fecha > this.fechaMaxima) {
+            this.error.set('La fecha debe estar entre hoy y los próximos 2 meses.');
+            return;
+        }
+
+        const fechaHora = `${datos.fecha}T${datos.hora}`;
 
         if (this.turnoId()) {
-
             const turnoActualizar: TurnoActualizar = {
-                fechaHora: datos.fechaHora,
+                fechaHora,
                 estadoTurno: datos.estadoTurno
             };
 
             this.turnoService.actualizarTurno(this.turnoId()!, turnoActualizar).subscribe({
                 next: () => this.router.navigate([this.base, 'turnos']),
-                error: (error) => console.error('Error al actualizar el turno', error)
+                error: (error) => {
+                    console.error('Error al actualizar el turno', error);
+                    this.error.set(this.mensajeError(error, 'No se pudo actualizar el turno.'));
+                }
             });
 
         } else {
+            const idPaciente = Number(datos.id_paciente);
+            const idTratamiento = Number(datos.id_tratamiento);
+            const idConsultorio = Number(datos.id_consultorio);
+            const idProfesional = Number(datos.id_profesional);
 
-            if (idPaciente < 1 || idTratamiento < 1 || idConsultorio < 1 || idProfesional < 1) {
-                alert('Debe seleccionar el paciente, el tratamiento, la sala y el profesional.');
+            if (idPaciente < 1 || idConsultorio < 1 || idProfesional < 1) {
+                this.error.set('Debe seleccionar el paciente, la sala y el profesional.');
                 return;
             }
 
             const turnoNuevo: TurnoNuevo = {
-                fechaHora: datos.fechaHora,
+                fechaHora,
                 id_paciente: idPaciente,
-                id_tratamiento: idTratamiento,
+                id_tratamiento: idTratamiento > 0 ? idTratamiento : null,
                 id_consultorio: idConsultorio,
                 id_profesional: idProfesional
             };
 
             this.turnoService.registrarTurno(turnoNuevo).subscribe({
                 next: () => this.router.navigate([this.base, 'turnos']),
-                error: (error) => console.error('Error al registrar el turno', error)
+                error: (error) => {
+                    console.error('Error al registrar el turno', error);
+                    this.error.set(this.mensajeError(error, 'No se pudo registrar el turno.'));
+                }
             });
         }
+    }
+
+    private mensajeError(error: any, porDefecto: string): string {
+        return error?.error?.mensaje || porDefecto;
     }
 }

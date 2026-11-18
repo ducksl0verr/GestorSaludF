@@ -19,8 +19,8 @@ export class TurnoDetalles implements OnInit {
 
   private route = inject(ActivatedRoute);
 
-  private base = this.route.snapshot.data['base'];
-  private esVistaProfesional = this.base === '/profesional';
+  protected base = this.route.snapshot.data['base'];
+  protected esVistaProfesional = this.base === '/profesional';
 
 
 constructor(

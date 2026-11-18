@@ -1,0 +1,7 @@
+.descripcion-receta {
+    margin-top: 1rem;
+}
+
+.descripcion-receta p {
+    white-space: pre-wrap;
+}

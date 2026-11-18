@@ -33,6 +33,30 @@
 
       </div>
 
+      <div class="campo descripcion">
+        <label for="descripcion-receta">Descripción (opcional)</label>
+
+        <textarea
+          id="descripcion-receta"
+          [formField]="formulario.descripcion"
+          rows="4"
+          placeholder="Escribí aquí las indicaciones o aclaraciones que consideres necesarias..."
+        ></textarea>
+
+        <div class="pie-campo">
+          @if (formulario.descripcion().touched() &&
+               formulario.descripcion().invalid()) {
+            @for (error of formulario.descripcion().errors(); track error) {
+              <small class="mensaje-error">{{ error.message }}</small>
+            }
+          } @else {
+            <small>Opcional. Máximo 200 caracteres.</small>
+          }
+
+          <small class="contador">{{ modelo().descripcion.length }}/200</small>
+        </div>
+      </div>
+
       <div class="separador"></div>
 
       <div class="titulo-detalles">
