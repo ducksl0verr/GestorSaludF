@@ -1,0 +1,33 @@
+<div class="contenedor">
+
+    <h2>Detalle del quirófano</h2>
+
+    @if (quirofano(); as q) {
+
+        <div class="detalle">
+
+            <p><strong>ID:</strong> {{ q.id }}</p>
+
+            <p><strong>Nombre:</strong> {{ q.nombre }}</p>
+
+            <p>
+                <strong>Estado:</strong>
+
+                @if (q.disponible) {
+                    <span class="disponible">Disponible</span>
+                } @else {
+                    <span class="ocupado">Ocupado</span>
+                }
+            </p>
+
+        </div>
+
+        <a routerLink="/administrativo/quirofanos">
+            Volver al listado
+        </a>
+
+    } @else {
+        <p>Cargando información del quirófano...</p>
+    }
+
+</div>

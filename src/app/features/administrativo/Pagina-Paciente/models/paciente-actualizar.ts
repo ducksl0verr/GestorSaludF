@@ -1,11 +1,12 @@
-import { ContactoNuevo, DomicilioNuevo } from "./paciente-nuevo";
+import { Contacto } from "../../../public/contacto/models/Contacto";
+import { Domicilio } from "../../../public/Pagina-Domicilio/Model/Domicilio";
 
 export interface PacienteActualizar {
     nombre: string;
     apellido: string;
     dni: string;
     numeroAfiliado: number;
-    domicilio: DomicilioNuevo;
+    domicilio: Domicilio;
     id_obraSocial: number;
-    contacto: ContactoNuevo;
+    contacto: Contacto;
 }

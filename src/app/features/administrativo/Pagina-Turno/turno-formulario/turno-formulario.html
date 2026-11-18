@@ -1,0 +1,81 @@
+
+<div class="contenedor">
+
+    <h2>{{ turnoId() ? 'Editar turno' : 'Registrar turno' }}</h2>
+
+    <form (submit)="$event.preventDefault(); guardarTurno()">
+
+        <!-- FECHA Y HORA -->
+        <div class="campo">
+            <label>Fecha y hora:</label>
+            <input
+                type="datetime-local"
+                [formField]="turnoForm.fechaHora"
+            >
+        </div>
+
+        @if (!turnoId()) {
+
+            <!-- DATOS PARA REGISTRAR -->
+
+            <h3>Datos del turno</h3>
+
+            <div class="campo">
+                <label>ID del paciente:</label>
+                <input
+                    type="number" [formField]="turnoForm.id_paciente"
+                >
+            </div>
+
+            <div class="campo">
+                <label>ID del tratamiento:</label>
+                <input
+                    type="number" [formField]="turnoForm.id_tratamiento"
+                >
+            </div>
+
+            <div class="campo">
+                <label>ID del consultorio:</label>
+                <input
+                    type="number" [formField]="turnoForm.id_consultorio"
+                >
+            </div>
+
+            <div class="campo">
+                <label>ID del profesional:</label>
+                <input
+                    type="number" [formField]="turnoForm.id_profesional"
+                >
+            </div>
+
+        } @else {
+
+            <!-- DATOS PARA EDITAR -->
+
+            <div class="campo">
+                <label>Estado del turno:</label>
+
+                <select [formField]="turnoForm.estadoTurno">
+                    @for (estado of estadosTurno; track estado) {
+                        <option [value]="estado">
+                            {{ estado }}
+                        </option>
+                    }
+                </select>
+            </div>
+
+        }
+
+        <div class="acciones">
+            <button type="submit">
+                {{ turnoId() ? 'Guardar cambios' : 'Registrar turno' }}
+            </button>
+
+            <button type="button" routerLink="/administrativo/turno">
+                Volver
+            </button>
+        </div>
+
+    </form>
+
+</div>

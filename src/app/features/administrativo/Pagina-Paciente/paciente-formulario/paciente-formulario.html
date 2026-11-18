@@ -120,14 +120,6 @@
             }
         </div>
 
-        <div class="campo">
-            <label>País:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.pais">
-
-            @if (pacienteForm.domicilio.pais().invalid() && pacienteForm.domicilio.pais().touched()) {
-                <p>{{ pacienteForm.domicilio.pais().errors()[0]?.message }}</p>
-            }
-        </div>
 
 
         <!-- CONTACTO -->

@@ -1,0 +1,63 @@
+
+<div class="contenedor">
+
+    @if (paciente(); as p) {
+
+        <h2>Prescripciones de {{ p.nombre }} {{ p.apellido }}</h2>
+
+        <p><strong>DNI:</strong> {{ p.dni }}</p>
+
+        <div class="acciones">
+           <button [routerLink]="['/administrativo/prescripciones', p.id, 'nueva']">
+    Agregar prescripción
+</button>
+
+            <button [routerLink]="['/administrativo/paciente', p.id]">
+                Volver al paciente
+            </button>
+        </div>
+
+        <section>
+            <h3>Listado de prescripciones</h3>
+
+            @if (prescripciones().length > 0) {
+
+                @for (prescripcion of prescripciones(); track prescripcion.id) {
+
+                    <div class="prescripcion">
+
+                        <p>
+                            <strong>Tratamiento:</strong>
+                            {{ prescripcion.nombre_tratamiento }}
+                        </p>
+
+                        <p>
+                            <strong>Estado:</strong>
+                            {{ prescripcion.activo ? 'Activo' : 'Inactivo' }}
+                        </p>
+
+                        <p>
+                            <strong>Fecha de inicio:</strong>
+                            {{ prescripcion.fecha_inicio }}
+                        </p>
+
+                        <p>
+                            <strong>Fecha de finalización:</strong>
+                            {{ prescripcion.fecha_final ?? 'Sin fecha de finalización' }}
+                        </p>
+
+                    </div>
+
+                }
+
+            } @else {
+                <p>Este paciente no tiene prescripciones registradas.</p>
+            }
+
+        </section>
+
+    } @else {
+        <p>Cargando prescripciones...</p>
+    }
+
+</div>

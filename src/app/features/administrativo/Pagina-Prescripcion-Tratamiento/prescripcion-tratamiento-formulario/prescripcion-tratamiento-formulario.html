@@ -1,0 +1,72 @@
+<div class="contenedor">
+
+    <h2>Registrar prescripción</h2>
+
+    @if (paciente(); as p) {
+        <p>
+            <strong>Paciente:</strong>
+            {{ p.nombre }} {{ p.apellido }}
+        </p>
+    }
+
+    <form (submit)="$event.preventDefault(); guardarPrescripcion()">
+
+        <div class="campo">
+            <label>Tratamiento:</label>
+
+            <select [formField]="prescripcionForm.id_tratamiento">
+                <option value="0" disabled>Seleccionar tratamiento</option>
+
+        @for (tratamiento of tratamientos(); track tratamiento.id) {
+            <option [value]="tratamiento.id.toString()">
+            {{ tratamiento.nombre }}
+            </option>}
+
+            </select>
+
+        </div>
+
+        <div class="campo">
+            <label>Profesional:</label>
+
+            <select [formField]="prescripcionForm.id_profesional">
+                <option value="0" disabled>Seleccionar profesional</option>
+
+        @for (profesional of profesionales(); track profesional.id) {
+            <option [value]="profesional.id.toString()">
+            {{ profesional.nombre }} {{ profesional.apellido }}
+            </option>
+        }
+        </select>
+
+        </div>
+
+        <div class="campo">
+            <label>Fecha de inicio:</label>
+
+            <input
+                type="date"
+                [formField]="prescripcionForm.fecha_inicio"
+            >
+        </div>
+
+        <div class="campo">
+            <label>Fecha de finalización:</label>
+
+            <input
+                type="date"
+                [formField]="prescripcionForm.fecha_final"
+            >
+        </div>
+
+        <button type="submit">
+            Guardar prescripción
+        </button>
+
+        <button type="button" [routerLink]="['/administrativo/prescripciones', idPaciente]">
+        Cancelar
+        </button>
+
+    </form>
+
+</div>

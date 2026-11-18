@@ -1,0 +1,28 @@
+<div class="container">
+    <h2 class="mb-0">Obras sociales</h2>
+    <button [routerLink]="[base, 'obrasSociales', 'nuevo']">
+      + Nueva obra social
+    </button>
+
+  @if (obras().length === 0) {
+    <div class="alert alert-info">No hay obras sociales cargadas.</div>
+  } @else {
+        <ul>
+            @for (obra of obras(); track obra.id) {
+                <li>
+                  <p>
+                    {{ obra.id }} - {{ obra.nombre }}
+                  </p>
+                  
+                  <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
+                  <button [routerLink]="[base, 'obrasSociales', obra.id]">Ver detalles</button>
+                  <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  
+                </li>
+            }
+            @if (mensajeError()) {
+                <p class="error">{{ mensajeError() }}</p>
+            }
+        </ul>
+    }
+</div>
