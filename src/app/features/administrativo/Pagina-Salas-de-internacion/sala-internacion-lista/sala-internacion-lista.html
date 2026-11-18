@@ -24,7 +24,7 @@
                     <tr>
                         <td>{{ sala.id }}</td>
                         <td>{{ sala.capacidad_maxima }}</td>
-                        <td>{{ sala.pacientes.length }}</td>
+                        <td>{{ sala.pacientes?.length ?? 0 }}</td>
                         <td>
                             <a [routerLink]="[base, 'salas-internacion', sala.id]">
                                 Ver detalle

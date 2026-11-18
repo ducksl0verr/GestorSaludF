@@ -22,6 +22,7 @@
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>DNI</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
 
@@ -32,6 +33,15 @@
                             <td>{{ paciente.nombre }}</td>
                             <td>{{ paciente.apellido }}</td>
                             <td>{{ paciente.dni }}</td>
+                            <td>
+                                <button
+                                    type="button"
+                                    (click)="egresarPaciente(paciente)"
+                                    [disabled]="egresando() === paciente.id"
+                                >
+                                    {{ egresando() === paciente.id ? 'Dando de alta...' : 'Dar de alta' }}
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -44,28 +54,32 @@
         <h3>Internar paciente</h3>
 
         @if (s.pacientes.length < s.capacidad_maxima) {
-            <div class="campo">
-                <label for="paciente">Seleccionar paciente:</label>
+            @if (pacientesParaInternar().length > 0) {
+                <div class="campo">
+                    <label for="paciente">Seleccionar paciente:</label>
 
-                <select
-                    id="paciente"
-                    [value]="pacienteSeleccionado() ?? ''"
-                    (change)="seleccionarPaciente($event)"
-                >
-                    <option value="">Seleccione un paciente</option>
+                    <select
+                        id="paciente"
+                        [value]="pacienteSeleccionado() ?? ''"
+                        (change)="seleccionarPaciente($event)"
+                    >
+                        <option value="">Seleccione un paciente</option>
 
-                    @for (paciente of pacientes(); track paciente.id) {
-                        <option [value]="paciente.id">
-                            {{ paciente.nombre }} {{ paciente.apellido }}
-                            - DNI: {{ paciente.dni }}
-                        </option>
-                    }
-                </select>
-            </div>
+                        @for (paciente of pacientesParaInternar(); track paciente.id) {
+                            <option [value]="paciente.id">
+                                {{ paciente.nombre }} {{ paciente.apellido }}
+                                - DNI: {{ paciente.dni }}
+                            </option>
+                        }
+                    </select>
+                </div>
 
-            <button type="button" (click)="internarPaciente()">
-                Internar paciente
-            </button>
+                <button type="button" (click)="internarPaciente()">
+                    Internar paciente
+                </button>
+            } @else {
+                <p>No hay pacientes disponibles para internar: todos ya están internados.</p>
+            }
         } @else {
             <p>La sala alcanzó su capacidad máxima.</p>
         }

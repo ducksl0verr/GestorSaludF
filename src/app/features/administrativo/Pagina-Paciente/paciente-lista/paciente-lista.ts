@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Paciente } from '../models/paciente';
 import { PacienteService } from '../services/paciente-service';
 import { Router } from '@angular/router';
+import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 
 @Component({
   imports: [CommonModule, RouterModule],
@@ -63,6 +64,7 @@ ngOnInit(): void {
             },
             error: (error) => {
                 console.error('No se pudo eliminar el paciente', error);
+                alert(mensajeDeError(error, 'No se pudo eliminar el paciente.'));
             }
         });
     }

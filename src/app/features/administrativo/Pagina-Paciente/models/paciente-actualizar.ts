@@ -4,6 +4,7 @@ import { Domicilio } from "../../../public/Pagina-Domicilio/Model/Domicilio";
 export interface PacienteActualizar {
     nombre: string;
     apellido: string;
+    fecha_nacimiento: string;
     dni: string;
     numeroAfiliado: number;
     domicilio: Domicilio;

@@ -1,5 +1,9 @@
 <div class="contenedor">
 
+    @if (error()) {
+        <p class="error">{{ error() }}</p>
+    }
+
     @if (paciente(); as p) {
 
         <h2>Detalle del paciente</h2>

@@ -6,6 +6,7 @@ import { PacienteService } from '../services/paciente-service';
 import { Obra_Social } from '../../../public/Pagina-ObraSocial/Model/Obra_Social';
 import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obra-social-service';
 import { HistoriaClinicaService } from '../../../profesional/Pagina-HistoriaClinica/services/historia-clinica-services';
+import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 
 @Component({
   imports: [RouterLink],
@@ -20,6 +21,7 @@ export class PacienteDetalle implements OnInit {
     abriendoHistoria = signal(false);
     historiaNoEncontrada = signal(false);
     errorHistoria = signal('');
+    error = signal('');
     private route = inject(ActivatedRoute);
     private historiaClinicaService = inject(HistoriaClinicaService);
     protected base = this.route.snapshot.data['base'];  
@@ -41,7 +43,10 @@ ngOnInit(): void {
                 error: (error) => console.error('Error al obtener la obra social', error)
             });
         },
-        error: (error) => console.error('Error al obtener el paciente', error)
+        error: (error) => {
+            console.error('Error al obtener el paciente', error);
+            this.error.set(mensajeDeError(error, 'No se pudo cargar el paciente.'));
+        }
     });
 }
 
@@ -93,7 +98,10 @@ eliminar(p: Paciente): void {
 
     this.pacienteService.borrarPaciente(p.id).subscribe({
       next: () => this.router.navigate([this.base, 'pacientes']),
-      error: () => console.error('No se pudo eliminar el paciente.'),
+      error: (error) => {
+        console.error('No se pudo eliminar el paciente.', error);
+        alert(mensajeDeError(error, 'No se pudo eliminar el paciente.'));
+      },
     });
   }
 

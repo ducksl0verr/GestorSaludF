@@ -37,4 +37,9 @@ export class SalaInternacionService {
     internarPaciente(idSala: number, idPaciente: number) {
         return this.http.put<SalaInternacion>(`${this.API_URL}/${idSala}/internar/${idPaciente}`,{});
     }
+
+    // Dar de alta a un paciente de una sala
+    egresarPaciente(idSala: number, idPaciente: number) {
+        return this.http.put<SalaInternacion>(`${this.API_URL}/${idSala}/egresar/${idPaciente}`,{});
+    }
 }

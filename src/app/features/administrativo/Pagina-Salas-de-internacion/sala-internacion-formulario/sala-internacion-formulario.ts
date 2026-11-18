@@ -5,6 +5,7 @@ import { form, FormField, required, min } from '@angular/forms/signals';
 import { SalaInternacionService } from '../services/sala-internacion-service';
 import { SalaInternacionNueva } from '../models/sala-internacion-nueva';
 import { SalaInternacionActualizar } from '../models/sala-internacion-actualizar';
+import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 
 @Component({
     selector: 'app-sala-internacion-formulario',
@@ -24,6 +25,8 @@ export class SalaInternacionFormulario implements OnInit {
     salaModel = signal({
         capacidad_maxima: 1
     });
+
+    error = signal('');
 
     salaForm = form(this.salaModel, (campo) => {
         required(campo.capacidad_maxima);
@@ -52,11 +55,19 @@ export class SalaInternacionFormulario implements OnInit {
         },
             error: (error) => {
                 console.error('Error al cargar la sala', error);
+                this.error.set(mensajeDeError(error, 'No se pudo cargar la sala.'));
             }
   });
     }
 
     guardar(): void {
+
+        if (this.salaForm().invalid()) {
+            this.salaForm().markAsTouched();
+            return;
+        }
+
+        this.error.set('');
 
         if (this.id === null) {
 
@@ -71,6 +82,7 @@ export class SalaInternacionFormulario implements OnInit {
                 },
                 error: (error) => {
                     console.error('Error al registrar la sala', error);
+                    this.error.set(mensajeDeError(error, 'No se pudo registrar la sala.'));
                 }
             });
 
@@ -90,6 +102,7 @@ export class SalaInternacionFormulario implements OnInit {
                 },
                 error: (error) => {
                     console.error('Error al actualizar la sala', error);
+                    this.error.set(mensajeDeError(error, 'No se pudo actualizar la sala.'));
                 }
             });
         }
