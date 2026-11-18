@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Paciente } from "../models/paciente";
 import { PacienteNuevo } from "../models/paciente-nuevo";
 import { PacienteActualizar } from "../models/paciente-actualizar";
@@ -7,6 +7,7 @@ import { PacienteActualizar } from "../models/paciente-actualizar";
 @Injectable({
     providedIn: 'root'
 })
+
 export class PacienteService {
 
 private http:HttpClient = inject(HttpClient);
