@@ -44,7 +44,7 @@ export class PagoFormulario implements OnInit {
     });
 
     pagoForm = form(this.pagoModel, (campo) => {
-        min(campo.monto, 1, { message: 'El monto debe ser mayor a cero.' });
+        min(campo.monto, 0, { message: 'El monto debe ser mayor o igual a cero.' });
 
         required(campo.fecha, { message: 'La fecha es obligatoria.' });
 
@@ -189,7 +189,6 @@ export class PagoFormulario implements OnInit {
 
             const pagoNuevo: PagoNuevo = {
                 monto: datos.monto,
-                fecha: fechaActual,
                 idsPacientes: [Number(datos.idPaciente)],
                 idsTurnos: datos.idsTurnos
             };

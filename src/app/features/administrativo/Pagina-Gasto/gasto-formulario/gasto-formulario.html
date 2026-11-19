@@ -9,15 +9,20 @@
     <form (submit)="$event.preventDefault(); guardar()">
 
         <div class="campo">
-            <label for="fecha">Fecha:</label>
+            @if (id === null) {
+                <p><strong>Fecha:</strong> {{ gastoModel().fecha }}</p>
+                <small class="ayuda">Se registra automáticamente con la fecha actual.</small>
+            } @else {
+                <label for="fecha">Fecha:</label>
 
-            <input
-                id="fecha"
-                type="date"
-                [formField]="gastoForm.fecha">
+                <input
+                    id="fecha"
+                    type="date"
+                    [formField]="gastoForm.fecha">
 
-            @if (gastoForm.fecha().invalid() && gastoForm.fecha().touched()) {
-                <p class="error">La fecha es obligatoria.</p>
+                @if (gastoForm.fecha().invalid() && gastoForm.fecha().touched()) {
+                    <p class="error">La fecha es obligatoria.</p>
+                }
             }
         </div>
 

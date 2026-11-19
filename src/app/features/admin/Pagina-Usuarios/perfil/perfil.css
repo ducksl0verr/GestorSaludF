@@ -1,0 +1,50 @@
+.perfil {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e6e4;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.perfil h2 {
+  margin: 0 0 20px;
+  color: var(--od-teal-deep, #0d4f4b);
+}
+
+.perfil-datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 24px;
+}
+
+.dato dt {
+  font-weight: 600;
+  color: #2f5e5a;
+  margin-bottom: 4px;
+}
+
+.dato dd {
+  margin: 0;
+  color: #1f2d2b;
+  word-break: break-word;
+}
+
+.error {
+  color: #b42318;
+  margin: 0 0 16px;
+}
+
+.volver {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--od-teal-deep, #0d4f4b);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}

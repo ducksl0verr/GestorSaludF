@@ -20,7 +20,7 @@ export class ObraSocialFormulario {
     obraModel= signal<Obra_SocialNueva>({
       nombre: '',
       cobertura:'',
-      domicilios: [],
+      domicilios: [this.domicilioVacio()],
     });
 
     /** True cuando se está editando la obra social predeterminada "Sin obra social". */
@@ -39,14 +39,14 @@ export class ObraSocialFormulario {
       minLength(campo.domicilios, 1, { message: 'La obra social debe tener al menos un domicilio.'});
   
       applyEach(campo.domicilios, (domicilio)=>{
-        required(domicilio.calle);
+        required(domicilio.calle, { message: 'La calle es obligatoria.' });
         minLength(domicilio.calle, 2, {
           message: 'La calle debe tener al menos 2 caracteres.'
         });
         
-        required(domicilio.numero);
+        required(domicilio.numero, { message: 'El número es obligatorio.' });
   
-        required(domicilio.codigo_postal);
+        required(domicilio.codigo_postal, { message: 'El código postal es obligatorio.' });
         pattern(domicilio.codigo_postal, /^[A-Z]?\d{4}[A-Z]{0,3}$/i, {
         message: 'El código postal no tiene un formato válido.'
         });
@@ -55,9 +55,9 @@ export class ObraSocialFormulario {
         message: 'El departamento no puede superar los 10 caracteres.'
         });
         
-        required(domicilio.provincia);
+        required(domicilio.provincia, { message: 'La provincia es obligatoria.' });
               
-        required(domicilio.localidad);
+        required(domicilio.localidad, { message: 'La localidad es obligatoria.' });
 
         readonly(domicilio.calle, { when: () => this.esPredeterminada() });
         readonly(domicilio.numero, { when: () => this.esPredeterminada() });
@@ -73,21 +73,22 @@ export class ObraSocialFormulario {
     cargando = signal(false);
     error = signal('');
   
+    private domicilioVacio() {
+      return {
+        calle: "",
+        numero: "",
+        codigo_postal: "",
+        depto: "",
+        piso: "",
+        provincia: "",
+        localidad: ""
+      };
+    }
+
     agregarDomicilio() {
       this.obraModel.update(obra => ({
         ...obra,
-        domicilios: [
-          ...obra.domicilios,
-          {
-            calle: "",
-            numero: "",
-            codigo_postal: "",
-            depto:"",
-            piso:"",
-            provincia:"",
-            localidad: ""
-          }
-        ]
+        domicilios: [...obra.domicilios, this.domicilioVacio()]
       }));
     }
   
@@ -119,9 +120,9 @@ export class ObraSocialFormulario {
             this.obraModel.set({
             nombre: data.nombre,
             cobertura: data.cobertura,
-            domicilios: data.domicilios.map(dom=>({
-              ...dom
-            }))
+            domicilios: data.domicilios?.length
+              ? data.domicilios.map(dom => ({ ...dom }))
+              : [this.domicilioVacio()]
           });
         },
         error: (e)=>{

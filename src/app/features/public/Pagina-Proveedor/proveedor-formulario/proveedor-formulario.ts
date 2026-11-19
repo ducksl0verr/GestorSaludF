@@ -29,7 +29,7 @@ export class ProveedorFormulario {
       telefono: ''
     },
     cuil: '',
-    direccion: [],
+    direccion: [this.domicilioVacio()],
     tipo: TipoProveedor.MEDICAMENTOS
   });
 
@@ -51,14 +51,14 @@ export class ProveedorFormulario {
     minLength(campo.direccion, 1, { message: 'El proveedor debe tener al menos un domicilio.'});
 
     applyEach(campo.direccion, (domicilio)=>{
-      required(domicilio.calle);
+      required(domicilio.calle, { message: 'La calle es obligatoria.' });
       minLength(domicilio.calle, 2, {
         message: 'La calle debe tener al menos 2 caracteres.'
       });
       
-      required(domicilio.numero);
+      required(domicilio.numero, { message: 'El número es obligatorio.' });
 
-      required(domicilio.codigo_postal);
+      required(domicilio.codigo_postal, { message: 'El código postal es obligatorio.' });
       pattern(domicilio.codigo_postal, /^[A-Z]?\d{4}[A-Z]{0,3}$/i, {
       message: 'El código postal no tiene un formato válido.'
       });
@@ -67,9 +67,9 @@ export class ProveedorFormulario {
       message: 'El departamento no puede superar los 10 caracteres.'
       });
       
-      required(domicilio.provincia);
+      required(domicilio.provincia, { message: 'La provincia es obligatoria.' });
             
-      required(domicilio.localidad);
+      required(domicilio.localidad, { message: 'La localidad es obligatoria.' });
     })
 
     required(campo.tipo, { message: 'El proveedor debe tener un tipo.' });
@@ -80,21 +80,22 @@ export class ProveedorFormulario {
   cargando = signal(false);
   error = signal('');
 
+  private domicilioVacio() {
+    return {
+      calle: "",
+      numero: "",
+      codigo_postal: "",
+      depto: "",
+      piso: "",
+      provincia: "",
+      localidad: ""
+    };
+  }
+
   agregarDomicilio() {
     this.proveedorModel.update(proveedor => ({
       ...proveedor,
-      direccion: [
-        ...proveedor.direccion,
-        {
-          calle: "",
-          numero: "",
-          codigo_postal: "",
-          depto:"",
-          piso:"",
-          provincia:"",
-          localidad: ""
-        }
-      ]
+      direccion: [...proveedor.direccion, this.domicilioVacio()]
     }));
   }
 
@@ -128,9 +129,9 @@ export class ProveedorFormulario {
             ...data.contacto
           },
           cuil: data.cuil,
-          direccion: data.direccion.map(dom=>({
-            ...dom
-          })),
+          direccion: data.direccion?.length
+            ? data.direccion.map(dom => ({ ...dom }))
+            : [this.domicilioVacio()],
           tipo: data.tipo
         });
       },

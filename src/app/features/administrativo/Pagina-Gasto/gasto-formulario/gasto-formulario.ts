@@ -62,6 +62,11 @@ export class GastoFormulario implements OnInit {
         if (idParametro) {
             this.id = Number(idParametro);
             this.cargarGasto(this.id);
+        } else {
+            this.gastoModel.update((gasto) => ({
+                ...gasto,
+                fecha: this.fechaLocalParaInput(new Date())
+            }));
         }
     }
 
@@ -107,7 +112,6 @@ export class GastoFormulario implements OnInit {
         if (this.id === null) {
 
             const gastoNuevo: GastoNuevo = {
-                fecha: datos.fecha,
                 descripcion: datos.descripcion,
                 monto: datos.monto,
                 tipoGasto: datos.tipoGasto as TipoGasto,
@@ -147,5 +151,13 @@ export class GastoFormulario implements OnInit {
                 }
             });
         }
+    }
+
+    private fechaLocalParaInput(fecha: Date): string {
+        const anio = fecha.getFullYear();
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+        const dia = String(fecha.getDate()).padStart(2, '0');
+
+        return `${anio}-${mes}-${dia}`;
     }
 }
