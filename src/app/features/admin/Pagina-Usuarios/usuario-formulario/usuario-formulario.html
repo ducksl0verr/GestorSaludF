@@ -17,13 +17,15 @@
     }
   </div>
 
-  <div>
-    <label for="dni">DNI</label>
-    <input id="dni" type="text" inputmode="numeric" [formField]="usuarioForm.dni" />
-    @if (usuarioForm.dni().touched() && usuarioForm.dni().invalid()) {
-      @for (e of usuarioForm.dni().errors(); track e) { <small>{{ e.message }}</small> }
-    }
-  </div>
+  @if (!esEdicion) {
+    <div>
+      <label for="dni">DNI</label>
+      <input id="dni" type="text" inputmode="numeric" [formField]="usuarioForm.dni" />
+      @if (usuarioForm.dni().touched() && usuarioForm.dni().invalid()) {
+        @for (e of usuarioForm.dni().errors(); track e) { <small>{{ e.message }}</small> }
+      }
+    </div>
+  }
 
   @if (esEdicion) {
     <p><strong>Rol:</strong> {{ model().role }}</p>
