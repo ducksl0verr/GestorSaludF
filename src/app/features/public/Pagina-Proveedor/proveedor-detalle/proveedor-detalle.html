@@ -35,6 +35,8 @@
   <div class="acciones">
     <a [routerLink]="[base, 'proveedores', 'editar', p.id]">Editar</a>
     <a [routerLink]="[base, 'proveedores', p.id, 'mensaje']">Enviar mensaje</a>
-    <button type="button" (click)="eliminar(p)">Eliminar</button>
+    @if (esAdmin) {
+      <button type="button" (click)="eliminar(p)">Eliminar</button>
+    }
   </div>
 }

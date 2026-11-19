@@ -29,9 +29,12 @@ export class UsuarioLista {
     );
   });
 
+  private route = inject(ActivatedRoute);
+  protected base = this.route.snapshot.data['base'];
+  protected esAdmin = this.base === '/admin';
+
   constructor(
-    private UService: UsuarioService,
-    private route: ActivatedRoute
+    private UService: UsuarioService
   ){}
 
   ngOnInit(): void{

@@ -36,8 +36,9 @@
                   
                   <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
                   <button [routerLink]="[base, 'obrasSociales', obra.id]">Ver detalles</button>
-                  <button (click)="borrarObra(obra.id)">Eliminar</button>
-                  
+                  @if (esAdmin) {
+                    <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  }
                 </li>
             }
             @if (mensajeError()) {

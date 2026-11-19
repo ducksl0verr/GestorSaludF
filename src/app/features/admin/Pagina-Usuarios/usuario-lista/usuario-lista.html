@@ -9,6 +9,12 @@
         <button [routerLink]="['/admin/usuarios/nuevo']">
             Nuevo usuario
         </button>
+    } @else {
+        @if (!esProfesional || esAdmin) {
+        <button [routerLink]="['/admin/profesionales/nuevo']">
+            Nuevo profesional
+        </button>
+        }
     }
 
     <div class="buscador">
@@ -36,11 +42,11 @@
                     <p>Matrícula: {{ $any(usuario).matricula }}</p>
                 }
 
-                @if (!esProfesional) {
+                @if (!esProfesional || esAdmin) {
                     <button
                         [routerLink]="[
-                            '/admin',
-                            'usuarios',
+                            base,
+                            esProfesional ? 'profesionales' : 'usuarios',
                             'editar',
                             usuario.id
                         ]">
@@ -50,16 +56,18 @@
 
                 <button
                     [routerLink]="[
-                        '/admin',
+                        base,
                         esProfesional ? 'profesionales' : 'usuarios',
                         usuario.id
                     ]">
                     Ver detalles
                 </button>
 
-                <button (click)="borrarUsuario(usuario.id)">
-                    Eliminar
-                </button>
+                @if (!esProfesional || esAdmin) {
+                    <button (click)="borrarUsuario(usuario.id)">
+                        Eliminar
+                    </button>
+                }
             </li>
         } @empty {
             <li>

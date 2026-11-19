@@ -36,13 +36,15 @@
     </div>
   }
 
-  @if (model().role === Roles.ROLE_PROFESIONAL) {
-    <div>
-      <label for="matricula">Matrícula</label>
-      <input id="matricula" type="text" [formField]="usuarioForm.matricula" />
-    </div>
+  @if(!esEdicion) {
+    @if (model().role === Roles.ROLE_PROFESIONAL) {
+      <div>
+        <label for="matricula">Matrícula</label>
+        <input id="matricula" type="text" [formField]="usuarioForm.matricula" />
+      </div>
+    }
   }
-
+  
   <fieldset>
     <legend>Contacto</legend>
 
