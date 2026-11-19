@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ObraSocialService } from '../Service/obra-social-service';
-import { Obra_Social } from '../Model/Obra_Social';
+import { NOMBRE_SIN_OBRA_SOCIAL, Obra_Social } from '../Model/Obra_Social';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
@@ -55,6 +55,11 @@ export class ObraSocialLista {
 
 
   protected mensajeError = signal<string | null> (null);
+
+  /** La obra social "Sin obra social" es predeterminada y no se edita ni elimina. */
+  esPredeterminada(obra: Obra_Social): boolean {
+    return (obra.nombre ?? '').trim().toLowerCase() === NOMBRE_SIN_OBRA_SOCIAL.toLowerCase();
+  }
 
   borrarObra(id: number){
     this.mensajeError.set(null);

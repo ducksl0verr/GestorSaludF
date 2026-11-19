@@ -1,0 +1,7 @@
+.aviso-predeterminada {
+    padding: 10px 14px;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal);
+    font-weight: bold;
+}

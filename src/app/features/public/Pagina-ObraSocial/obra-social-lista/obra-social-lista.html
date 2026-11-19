@@ -34,8 +34,15 @@
                     {{ obra.id }} - {{ obra.nombre }}
                   </p>
                   
-                  <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
                   <button [routerLink]="[base, 'obrasSociales', obra.id]">Ver detalles</button>
+
+                  @if (esPredeterminada(obra)) {
+                    <span class="etiqueta-predeterminada">Predeterminada</span>
+                  } @else {
+                    <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
+                    <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  }
+                  
                   @if (esAdmin) {
                     <button (click)="borrarObra(obra.id)">Eliminar</button>
                   }

@@ -38,13 +38,11 @@
                             Ver detalle
                             </a>
 
-                            <a [routerLink]="[base, 'quirofanos', 'editar', quirofano.id]">
-                                Editar
-                            </a>
-
                             @if (quirofano.disponible) {
-                            <button type="button" (click)="ocuparQuirofano(quirofano.id)">Ocupar</button>
-    }
+                                <button type="button" (click)="ocuparQuirofano(quirofano.id)">Ocupar</button>
+                            } @else {
+                                <button type="button" class="boton-desocupar" (click)="desocuparQuirofano(quirofano.id)">Desocupar</button>
+                            }
                         </td>
                     </tr>
                 }

@@ -32,4 +32,8 @@ export class QuirofanoService {
     ocuparQuirofano(id: number) {
         return this.http.put<Quirofano>(`${this.API_URL}/${id}/ocupar`,null);
     }
+
+    desocuparQuirofano(id: number) {
+        return this.http.put<Quirofano>(`${this.API_URL}/${id}/desocupar`,null);
+    }
 }
