@@ -159,7 +159,7 @@
         } @else {
             <div class="campo">
                 <label>Número de afiliado:</label>
-                <input type="number" [formField]="pacienteForm.numeroAfiliado">
+                <input type="number" [formField]="pacienteForm.numeroAfiliado" (input)="limitarAfiliado($event)">
 
                 @if (pacienteForm.numeroAfiliado().invalid() && pacienteForm.numeroAfiliado().touched()) {
                     <p class="error-campo">{{ pacienteForm.numeroAfiliado().errors()[0]?.message }}</p>

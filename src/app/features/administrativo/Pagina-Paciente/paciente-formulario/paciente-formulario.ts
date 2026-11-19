@@ -58,21 +58,63 @@ export class PacienteFormulario implements OnInit{
   };
 
   /**
-   * Elimina del input los caracteres que el campo no admite
-   * y sincroniza la señal del formulario con el valor ya filtrado.
+   * Longitud máxima permitida por campo. Coincide con las validaciones del
+   * backend y con los tamaños de columna de la base de datos.
+   */
+  private readonly longitudes: Record<string, number> = {
+    'nombre':                    50,
+    'apellido':                  50,
+    'dni':                       20,
+    'contacto.telefono':         20,
+    'contacto.email':            100,
+    'domicilio.calle':           50,
+    'domicilio.numero':          50,
+    'domicilio.piso':            50,
+    'domicilio.depto':           50,
+    'domicilio.localidad':       50,
+    'domicilio.provincia':       50,
+    'domicilio.codigo_postal':   50,
+  };
+
+  /**
+   * Elimina del input los caracteres que el campo no admite, recorta el
+   * valor a la longitud máxima y sincroniza la señal del formulario con el
+   * valor ya filtrado.
    */
   restringir(event: Event, ruta: string): void {
     const patron = this.patrones[ruta];
-    if (!patron) return;
+    const maximo = this.longitudes[ruta];
+    if (!patron && !maximo) return;
 
     const input = event.target as HTMLInputElement;
-    const limpio = input.value.replace(patron, '');
+    let limpio = patron ? input.value.replace(patron, '') : input.value;
+
+    if (maximo && limpio.length > maximo) {
+      limpio = limpio.slice(0, maximo);
+    }
 
     if (limpio !== input.value) {
       input.value = limpio;
     }
 
     this.escribir(ruta, limpio);
+  }
+
+  /**
+   * El número de afiliado es un <input type="number">, donde `maxlength` no
+   * tiene efecto. Se limita manualmente a 19 dígitos (máximo de un BIGINT) y
+   * se guarda como número, o null si el campo queda vacío.
+   */
+  limitarAfiliado(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const soloDigitos = input.value.replace(/[^0-9]/g, '').slice(0, 19);
+
+    if (soloDigitos !== input.value) {
+      input.value = soloDigitos;
+    }
+
+    const numero = soloDigitos === '' ? null : Number(soloDigitos);
+    this.pacienteModel.update(model => ({ ...model, numeroAfiliado: numero }));
   }
 
   private escribir(ruta: string, valor: string): void {
@@ -192,6 +234,13 @@ export class PacienteFormulario implements OnInit{
             return {
                 kind: 'afiliadoInvalido',
                 message: 'El número de afiliado debe ser un número entero mayor a cero',
+            };
+        }
+
+        if (numero >= 1e19) {
+            return {
+                kind: 'afiliadoLargo',
+                message: 'El número de afiliado no puede superar los 19 dígitos',
             };
         }
 
