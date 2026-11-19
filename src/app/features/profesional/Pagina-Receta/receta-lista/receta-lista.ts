@@ -90,14 +90,6 @@ export class RecetaLista implements OnInit {
     );
   }
 
-  // Eliminación visual: solo se quita de la vista, sin llamar al backend.
-  eliminarReceta(receta: Receta): void {
-    if (!confirm('¿Quitar esta receta de la lista? No se eliminará de la base de datos.')) return;
-
-    this.recetasService.ocultarReceta(receta.id);
-    this.recetas.update(lista => lista.filter(r => r.id !== receta.id));
-  }
-
   nombrePaciente(receta: Receta): string {
     return `${receta.nombre_paciente ?? ''} ${receta.apellido_paciente ?? ''}`.trim()
       || this.pacienteNombre()

@@ -10,7 +10,7 @@
 
         <div class="campo">
             <label>Nombre:</label>
-            <input type="text" [formField]="pacienteForm.nombre">
+            <input type="text" [formField]="pacienteForm.nombre" (input)="restringir($event, 'nombre')">
 
             @if (pacienteForm.nombre().invalid() && pacienteForm.nombre().touched()) {
                 <p>{{ pacienteForm.nombre().errors()[0]?.message }}</p>
@@ -19,7 +19,7 @@
 
         <div class="campo">
             <label>Apellido:</label>
-            <input type="text" [formField]="pacienteForm.apellido">
+            <input type="text" [formField]="pacienteForm.apellido" (input)="restringir($event, 'apellido')">
 
             @if (pacienteForm.apellido().invalid() && pacienteForm.apellido().touched()) {
                 <p>{{ pacienteForm.apellido().errors()[0]?.message }}</p>
@@ -37,19 +37,10 @@
 
         <div class="campo">
             <label>DNI:</label>
-            <input type="text" [formField]="pacienteForm.dni">
+            <input type="text" [formField]="pacienteForm.dni" (input)="restringir($event, 'dni')">
 
             @if (pacienteForm.dni().invalid() && pacienteForm.dni().touched()) {
                 <p>{{ pacienteForm.dni().errors()[0]?.message }}</p>
-            }
-        </div>
-
-        <div class="campo">
-            <label>Número de afiliado:</label>
-            <input type="number" [formField]="pacienteForm.numeroAfiliado">
-
-            @if (pacienteForm.numeroAfiliado().invalid() && pacienteForm.numeroAfiliado().touched()) {
-                <p>{{ pacienteForm.numeroAfiliado().errors()[0]?.message }}</p>
             }
         </div>
 
@@ -59,7 +50,7 @@
 
         <div class="campo">
             <label>Calle:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.calle">
+            <input type="text" [formField]="pacienteForm.domicilio.calle" (input)="restringir($event, 'domicilio.calle')">
 
             @if (pacienteForm.domicilio.calle().invalid() && pacienteForm.domicilio.calle().touched()) {
                 <p>{{ pacienteForm.domicilio.calle().errors()[0]?.message }}</p>
@@ -68,7 +59,7 @@
 
         <div class="campo">
             <label>Número:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.numero">
+            <input type="text" [formField]="pacienteForm.domicilio.numero" (input)="restringir($event, 'domicilio.numero')">
 
             @if (pacienteForm.domicilio.numero().invalid() && pacienteForm.domicilio.numero().touched()) {
                 <p>{{ pacienteForm.domicilio.numero().errors()[0]?.message }}</p>
@@ -77,7 +68,7 @@
 
         <div class="campo">
             <label>Piso (opcional):</label>
-            <input type="text" [formField]="pacienteForm.domicilio.piso">
+            <input type="text" [formField]="pacienteForm.domicilio.piso" (input)="restringir($event, 'domicilio.piso')">
 
             @if (pacienteForm.domicilio.piso().invalid() && pacienteForm.domicilio.piso().touched()) {
                 <p>{{ pacienteForm.domicilio.piso().errors()[0]?.message }}</p>
@@ -86,7 +77,7 @@
 
         <div class="campo">
             <label>Departamento (opcional):</label>
-            <input type="text" [formField]="pacienteForm.domicilio.depto">
+            <input type="text" [formField]="pacienteForm.domicilio.depto" (input)="restringir($event, 'domicilio.depto')">
 
             @if (pacienteForm.domicilio.depto().invalid() && pacienteForm.domicilio.depto().touched()) {
                 <p>{{ pacienteForm.domicilio.depto().errors()[0]?.message }}</p>
@@ -95,7 +86,7 @@
 
         <div class="campo">
             <label>Localidad:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.localidad">
+            <input type="text" [formField]="pacienteForm.domicilio.localidad" (input)="restringir($event, 'domicilio.localidad')">
 
             @if (pacienteForm.domicilio.localidad().invalid() && pacienteForm.domicilio.localidad().touched()) {
                 <p>{{ pacienteForm.domicilio.localidad().errors()[0]?.message }}</p>
@@ -104,7 +95,7 @@
 
         <div class="campo">
             <label>Provincia:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.provincia">
+            <input type="text" [formField]="pacienteForm.domicilio.provincia" (input)="restringir($event, 'domicilio.provincia')">
 
             @if (pacienteForm.domicilio.provincia().invalid() && pacienteForm.domicilio.provincia().touched()) {
                 <p>{{ pacienteForm.domicilio.provincia().errors()[0]?.message }}</p>
@@ -113,7 +104,7 @@
 
         <div class="campo">
             <label>Código postal:</label>
-            <input type="text" [formField]="pacienteForm.domicilio.codigo_postal">
+            <input type="text" [formField]="pacienteForm.domicilio.codigo_postal" (input)="restringir($event, 'domicilio.codigo_postal')">
 
             @if (pacienteForm.domicilio.codigo_postal().invalid() && pacienteForm.domicilio.codigo_postal().touched()) {
                 <p>{{ pacienteForm.domicilio.codigo_postal().errors()[0]?.message }}</p>
@@ -127,7 +118,7 @@
 
         <div class="campo">
             <label>Teléfono:</label>
-            <input type="tel" [formField]="pacienteForm.contacto.telefono">
+            <input type="tel" [formField]="pacienteForm.contacto.telefono" (input)="restringir($event, 'contacto.telefono')">
 
             @if (pacienteForm.contacto.telefono().invalid() && pacienteForm.contacto.telefono().touched()) {
                 <p>{{ pacienteForm.contacto.telefono().errors()[0]?.message }}</p>
@@ -136,7 +127,7 @@
 
         <div class="campo">
             <label>Email:</label>
-            <input type="email" [formField]="pacienteForm.contacto.email">
+            <input type="email" [formField]="pacienteForm.contacto.email" (input)="restringir($event, 'contacto.email')">
 
             @if (pacienteForm.contacto.email().invalid() && pacienteForm.contacto.email().touched()) {
                 <p>{{ pacienteForm.contacto.email().errors()[0]?.message }}</p>
@@ -148,11 +139,27 @@
         <h3>Obra social</h3>
 
         <div class="campo">
-            <label>ID de obra social:</label>
-            <input type="number" [formField]="pacienteForm.id_obraSocial">
+            <label>Obra social:</label>
+            <select [formField]="pacienteForm.id_obraSocial">
+                <option value="0" disabled>Seleccionar obra social</option>
+                @for (obra of obrasSociales(); track obra.id) {
+                    <option [value]="obra.id.toString()">
+                        {{ obra.nombre }} — {{ obra.cobertura }}
+                    </option>
+                }
+            </select>
 
             @if (pacienteForm.id_obraSocial().invalid() && pacienteForm.id_obraSocial().touched()) {
                 <p>{{ pacienteForm.id_obraSocial().errors()[0]?.message }}</p>
+            }
+        </div>
+
+        <div class="campo">
+            <label>Número de afiliado:</label>
+            <input type="number" [formField]="pacienteForm.numeroAfiliado">
+
+            @if (pacienteForm.numeroAfiliado().invalid() && pacienteForm.numeroAfiliado().touched()) {
+                <p>{{ pacienteForm.numeroAfiliado().errors()[0]?.message }}</p>
             }
         </div>
 

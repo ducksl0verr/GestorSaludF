@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { form, FormField, required, min } from '@angular/forms/signals';
+import { form, FormField, max, required, min } from '@angular/forms/signals';
 
 import { SalaInternacionService } from '../services/sala-internacion-service';
 import { SalaInternacionNueva } from '../models/sala-internacion-nueva';
@@ -17,7 +17,8 @@ export class SalaInternacionFormulario implements OnInit {
 
     id: number | null = null;
 
-    
+    internados = signal(0);
+
     private route= inject(ActivatedRoute);
     
     private base = this.route.snapshot.data['base'];
@@ -30,7 +31,8 @@ export class SalaInternacionFormulario implements OnInit {
 
     salaForm = form(this.salaModel, (campo) => {
         required(campo.capacidad_maxima);
-        min(campo.capacidad_maxima, 1);
+        min(campo.capacidad_maxima, () => Math.max(1, this.internados()));
+        max(campo.capacidad_maxima, 20, { message: 'La capacidad no puede superar 20.' });
     });
 
     constructor(
@@ -49,6 +51,7 @@ export class SalaInternacionFormulario implements OnInit {
     cargarSala(id: number): void {
         this.salaService.getSalaInternacion(id).subscribe({
           next: (datos) => {
+              this.internados.set(datos.pacientes?.length ?? 0);
               this.salaModel.set({
                     capacidad_maxima: datos.capacidad_maxima
           });
