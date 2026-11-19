@@ -129,11 +129,10 @@ p {
     line-height: 1;
     cursor: pointer;
     box-shadow: var(--od-shadow-soft);
-    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .flecha:hover {
-    background-color: var(--od-orange);
+    background-color: var(--od-orange-dark);
     color: var(--od-white);
 }
 
@@ -198,7 +197,6 @@ p {
 @media (prefers-reduced-motion: reduce) {
     .slide,
     .botones a,
-    .flecha,
     .puntos button {
         animation: none;
         transition: none;
