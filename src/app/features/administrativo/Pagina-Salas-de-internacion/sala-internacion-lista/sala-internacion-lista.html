@@ -2,11 +2,23 @@
 
     <h2>Listado de salas de internación</h2>
 
-    <a [routerLink]="[base, 'salas-internacion', 'nuevo']" class="boton-agregar">
-        Registrar sala
-    </a>
+    <div class="fila-superior">
+        <input
+            type="search"
+            class="buscador"
+            placeholder="Buscar por ID o capacidad..."
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)"
+            aria-label="Buscar salas">
+
+        <a [routerLink]="[base, 'salas-internacion', 'nuevo']" class="boton-agregar">
+            Registrar sala
+        </a>
+    </div>
 
     @if (salas().length > 0) {
+
+        @if (salasFiltradas().length > 0) {
 
         <div class="tabla-responsive">
         <table>
@@ -20,7 +32,7 @@
             </thead>
 
             <tbody>
-                @for (sala of salas(); track sala.id) {
+                @for (sala of salasFiltradas(); track sala.id) {
                     <tr>
                         <td>{{ sala.id }}</td>
                         <td>{{ sala.capacidad_maxima }}</td>
@@ -39,6 +51,10 @@
             </tbody>
         </table>
         </div>
+
+        } @else {
+            <p>No se encontraron salas para "{{ busqueda() }}".</p>
+        }
 
     } @else {
         <p>No hay salas de internación registradas.</p>

@@ -8,7 +8,7 @@ export interface Paciente { ///vendria a ser el paciente Respuesta, verificar si
     apellido: string;
     fecha_nacimiento: string;
     dni: string;
-    numeroAfiliado: number;
+    numeroAfiliado: number | null;
     contacto: Contacto;
     domicilio: Domicilio;
     id_obraSocial: number;

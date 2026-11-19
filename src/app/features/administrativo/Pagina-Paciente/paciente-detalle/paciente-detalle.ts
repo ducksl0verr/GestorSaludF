@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { Paciente } from '../models/paciente';
@@ -18,6 +18,9 @@ export class PacienteDetalle implements OnInit {
 
     paciente = signal<Paciente | undefined>(undefined);
     obraSocial = signal<Obra_Social | undefined>(undefined);
+    esSinObraSocial = computed(() =>
+        (this.paciente()?.nombreObraSocial ?? '').trim().toLowerCase() === 'sin obra social'
+    );
     abriendoHistoria = signal(false);
     historiaNoEncontrada = signal(false);
     errorHistoria = signal('');
@@ -36,12 +39,14 @@ ngOnInit(): void {
         next: (paciente) => {
             this.paciente.set(paciente);
 
-            this.obraSocialService.getObraSocial(paciente.id_obraSocial).subscribe({
-                next: (obraSocial) => {
-                    this.obraSocial.set(obraSocial);
-                },
-                error: (error) => console.error('Error al obtener la obra social', error)
-            });
+            if (!this.esSinObraSocial() && paciente.id_obraSocial != null) {
+                this.obraSocialService.getObraSocial(paciente.id_obraSocial).subscribe({
+                    next: (obraSocial) => {
+                        this.obraSocial.set(obraSocial);
+                    },
+                    error: (error) => console.error('Error al obtener la obra social', error)
+                });
+            }
         },
         error: (error) => {
             console.error('Error al obtener el paciente', error);

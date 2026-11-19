@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { SalaInternacion } from '../models/sala-internacion';
@@ -13,6 +13,19 @@ import { SalaInternacionService } from '../services/sala-internacion-service';
 export class SalaInternacionLista implements OnInit {
 
     salas = signal<SalaInternacion[]>([]);
+    busqueda = signal('');
+
+    salasFiltradas = computed(() => {
+        const texto = this.busqueda().trim().toLowerCase();
+
+        if (!texto) return this.salas();
+
+        return this.salas().filter(sala =>
+            String(sala.id).includes(texto) ||
+            String(sala.capacidad_maxima).includes(texto)
+        );
+    });
+
      private route = inject(ActivatedRoute);
     protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
 

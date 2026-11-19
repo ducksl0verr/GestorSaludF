@@ -6,7 +6,7 @@ export interface PacienteActualizar {
     apellido: string;
     fecha_nacimiento: string;
     dni: string;
-    numeroAfiliado: number;
+    numeroAfiliado: number | null;
     domicilio: Domicilio;
     id_obraSocial: number;
     contacto: Contacto;
