@@ -31,6 +31,7 @@ export class ObraSocialLista {
 
   private route = inject(ActivatedRoute);
   protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
+  protected esAdmin = this.base === '/admin';
 
   private platformId = inject(PLATFORM_ID);
   

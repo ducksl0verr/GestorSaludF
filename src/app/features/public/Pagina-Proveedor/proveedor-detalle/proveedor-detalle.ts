@@ -19,7 +19,8 @@ export class ProveedorDetalle {
   cargando = signal(true);
   error = signal('');
 
-  private base = this.route.snapshot.data['base'];
+  protected base = this.route.snapshot.data['base'];
+  protected esAdmin = this.base === '/admin';
 
   constructor() {
       const id = Number(this.route.snapshot.paramMap.get('id'));

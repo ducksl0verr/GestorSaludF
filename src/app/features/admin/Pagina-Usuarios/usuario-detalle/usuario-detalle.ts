@@ -15,6 +15,9 @@ export class UsuarioDetalle {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  protected base = this.route.snapshot.data['base'];
+  protected esAdmin = this.base === '/admin';
+
   usuario = signal<Usuario | null>(null);
   cargando = signal(true);
   error = signal('');
@@ -24,7 +27,7 @@ export class UsuarioDetalle {
 
   listaUrl = computed(() => {
     const u = this.usuario();
-    return ['/admin', u && esProfesional(u) ? 'profesionales' : 'usuarios'];
+    return [this.base, u && esProfesional(u) ? 'profesionales' : 'usuarios'];
   });
 
   constructor() {
@@ -46,7 +49,7 @@ export class UsuarioDetalle {
     if (!confirm(`¿Eliminar a ${u.nombre} ${u.apellido}?`)) return;
 
     this.servicio.borrar(u.id).subscribe({
-      next: () => this.router.navigate(['/admin', esProfesional(u) ? 'profesionales' : 'usuarios']),
+      next: () => this.router.navigate([this.base, esProfesional(u) ? 'profesionales' : 'usuarios']),
       error: () => this.error.set('No se pudo eliminar el usuario.'),
     });
   }

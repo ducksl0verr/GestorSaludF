@@ -55,9 +55,11 @@ export class UsuarioFormulario {
     required(campo.apellido, { message: 'El apellido es obligatorio.'});
     minLength(campo.apellido, 3, { message: 'El apellido debe tener al menos 3 caracteres.'});
 
-    required(campo.dni, { message: 'El DNI es obligatorio.'});
-    minLength(campo.dni, 7, { message: 'El DNI debe tener 7 u 8 dígitos.'});
-    maxLength(campo.dni, 8, { message: 'El DNI debe tener 7 u 8 dígitos.'});
+    if (!this.esEdicion) {
+      required(campo.dni, { message: 'El DNI es obligatorio.'});
+      minLength(campo.dni, 7, { message: 'El DNI debe tener 7 u 8 dígitos.'});
+      maxLength(campo.dni, 8, { message: 'El DNI debe tener 7 u 8 dígitos.'});
+    }
 
     required(campo.contacto.email, { message: 'El email es obligatorio.'});
     email(campo.contacto.email, { message: 'Ingrese un email válido.'});

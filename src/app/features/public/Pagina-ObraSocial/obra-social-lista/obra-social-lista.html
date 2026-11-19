@@ -43,6 +43,9 @@
                     <button (click)="borrarObra(obra.id)">Eliminar</button>
                   }
                   
+                  @if (esAdmin) {
+                    <button (click)="borrarObra(obra.id)">Eliminar</button>
+                  }
                 </li>
             }
             @if (mensajeError()) {
