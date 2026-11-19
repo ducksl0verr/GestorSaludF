@@ -1,0 +1,9 @@
+.etiqueta-predeterminada {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-aqua-light);
+    color: var(--od-teal);
+    font-size: 13px;
+    font-weight: bold;
+}

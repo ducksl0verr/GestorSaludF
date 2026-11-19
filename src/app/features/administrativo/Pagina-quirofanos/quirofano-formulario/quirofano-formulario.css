@@ -41,6 +41,12 @@ button {
     font-size: 14px;
 }
 
+.ayuda {
+    color: var(--od-text-muted, #6b7280);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
 @media (max-width: 560px) {
     .contenedor {
         padding: 14px 10px;

@@ -45,4 +45,16 @@ export class QuirofanoLista implements OnInit {
             }
         });
     }
+
+    desocuparQuirofano(id: number): void {
+        this.quirofanoService.desocuparQuirofano(id).subscribe({
+            next: () => {
+                alert('Quirófano desocupado correctamente');
+                this.cargarQuirofanos();
+            },
+            error: (error) => {
+                console.error('Error al desocupar el quirófano', error);
+            }
+        });
+    }
 }

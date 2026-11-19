@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { applyEach, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
+import { applyEach, form, FormField, maxLength, minLength, pattern, readonly, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Obra_SocialNueva } from '../Model/Obra_Social';
+import { NOMBRE_SIN_OBRA_SOCIAL, Obra_SocialNueva } from '../Model/Obra_Social';
 import { ObraSocialService } from '../Service/obra-social-service';
 
 @Component({
@@ -22,13 +22,19 @@ export class ObraSocialFormulario {
       cobertura:'',
       domicilios: [],
     });
-  
+
+    /** True cuando se está editando la obra social predeterminada "Sin obra social". */
+    esPredeterminada = signal(false);
+
     obraForm = form(this.obraModel, (campo)=>{
       required(campo.nombre, { message: 'El nombre es obligatorio.'});
       minLength(campo.nombre, 3, { message: 'El nombre debe tener al menos 3 caracteres.'});
       
       required(campo.cobertura, { message: 'La cobertura es obligatoria.'});
       minLength(campo.cobertura, 3, { message: 'Por favor, ingrese una descripcipón mayor a 3 caracteres.'});
+
+      readonly(campo.nombre, { when: () => this.esPredeterminada() });
+      readonly(campo.cobertura, { when: () => this.esPredeterminada() });
 
       minLength(campo.domicilios, 1, { message: 'La obra social debe tener al menos un domicilio.'});
   
@@ -52,6 +58,14 @@ export class ObraSocialFormulario {
         required(domicilio.provincia);
               
         required(domicilio.localidad);
+
+        readonly(domicilio.calle, { when: () => this.esPredeterminada() });
+        readonly(domicilio.numero, { when: () => this.esPredeterminada() });
+        readonly(domicilio.codigo_postal, { when: () => this.esPredeterminada() });
+        readonly(domicilio.provincia, { when: () => this.esPredeterminada() });
+        readonly(domicilio.localidad, { when: () => this.esPredeterminada() });
+        readonly(domicilio.piso, { when: () => this.esPredeterminada() });
+        readonly(domicilio.depto, { when: () => this.esPredeterminada() });
       })
 
     });
@@ -100,6 +114,8 @@ export class ObraSocialFormulario {
         this.oService.getObraSocial(this.obraId)
           .subscribe({
             next: (data)=>{
+            this.esPredeterminada.set(this.esNombrePredeterminado(data.nombre));
+
             this.obraModel.set({
             nombre: data.nombre,
             cobertura: data.cobertura,
@@ -116,7 +132,12 @@ export class ObraSocialFormulario {
     
     onSubmit(event: Event): void{
       event.preventDefault();
-  
+
+      if(this.esPredeterminada()){
+        this.error.set('La obra social "Sin obra social" es predeterminada y no se puede modificar.');
+        return;
+      }
+
       if(this.obraForm().invalid()){
         this.obraForm().markAsTouched();
         return;
@@ -151,6 +172,11 @@ export class ObraSocialFormulario {
           }
         });
       }
+    }
+
+    /** Indica si el nombre corresponde a la obra social predeterminada. */
+    private esNombrePredeterminado(nombre: string | null | undefined): boolean {
+      return (nombre ?? '').trim().toLowerCase() === NOMBRE_SIN_OBRA_SOCIAL.toLowerCase();
     }
 
 }

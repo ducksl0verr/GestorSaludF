@@ -19,6 +19,10 @@
             @if (quirofanoForm.nombre().invalid() && quirofanoForm.nombre().touched()) {
                 <p class="error">El nombre es obligatorio.</p>
             }
+
+            @if (id !== null) {
+                <p class="ayuda">El nombre no se puede modificar.</p>
+            }
         </div>
 
         @if (id !== null) {

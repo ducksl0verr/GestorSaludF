@@ -53,6 +53,10 @@ button {
     cursor: pointer;
 }
 
+.boton-desocupar {
+    background-color: var(--od-orange);
+}
+
 @media (max-width: 720px) {
     .contenedor {
         padding: 16px 12px;

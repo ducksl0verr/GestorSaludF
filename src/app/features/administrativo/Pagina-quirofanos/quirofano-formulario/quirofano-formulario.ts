@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, readonly, required } from '@angular/forms/signals';
 
 import { QuirofanoService } from '../services/quirofano-service';
 import { QuirofanoNuevo } from '../models/quirofano-nuevo';
@@ -17,6 +17,9 @@ export class QuirofanoFormulario implements OnInit {
 
     id: number | null = null;
 
+    /** Indica si el formulario está en modo edición (el nombre no se modifica). */
+    esEdicion = signal(false);
+
     private route = inject(ActivatedRoute);
     protected base = this.route.snapshot.data['base'];  
 
@@ -27,6 +30,8 @@ export class QuirofanoFormulario implements OnInit {
 
     quirofanoForm = form(this.quirofanoModel, (schema) => {
         required(schema.nombre);
+        // En edición el nombre es de solo lectura.
+        readonly(schema.nombre, { when: () => this.esEdicion() });
     });
 
     constructor(
@@ -39,6 +44,7 @@ export class QuirofanoFormulario implements OnInit {
 
         if (idParametro) {
             this.id = Number(idParametro);
+            this.esEdicion.set(true);
             this.cargarQuirofano(this.id);
         }
     }

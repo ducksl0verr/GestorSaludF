@@ -5,6 +5,12 @@
   @if (error()) {
     <p>{{ error() }}</p>
   }
+
+  @if (esPredeterminada()) {
+    <p class="aviso-predeterminada">
+      La obra social "Sin obra social" es predeterminada y no se puede modificar.
+    </p>
+  }
   <div>
     <label>Nombre</label>
     <input
@@ -127,12 +133,14 @@
         }
       </div>
  
-      <button
-        type="button"
-        (click)="eliminarDomicilio(i)"
-      >
-        Eliminar domicilio
-      </button>
+      @if (!esPredeterminada()) {
+        <button
+          type="button"
+          (click)="eliminarDomicilio(i)"
+        >
+          Eliminar domicilio
+        </button>
+      }
  
     </fieldset>
  
@@ -145,18 +153,22 @@
     }
   }
  
-  <button
-    type="button"
-    (click)="agregarDomicilio()"
-  >
-    Agregar domicilio
-  </button>
+  @if (!esPredeterminada()) {
+    <button
+      type="button"
+      (click)="agregarDomicilio()"
+    >
+      Agregar domicilio
+    </button>
+  }
  
   <hr>
  
-  <button type="submit" [disabled]="cargando()">
-    {{ cargando() ? 'Guardando...' : 'Guardar' }}
-  </button>
+  @if (!esPredeterminada()) {
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Guardando...' : 'Guardar' }}
+    </button>
+  }
 
   <a [routerLink]="[base, 'obrasSociales']">Cancelar</a>
  
