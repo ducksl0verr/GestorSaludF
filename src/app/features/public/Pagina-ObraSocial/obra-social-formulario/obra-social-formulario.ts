@@ -57,10 +57,7 @@ export class ObraSocialFormulario {
         
         required(domicilio.provincia, { message: 'La provincia es obligatoria.' });
               
-<<<<<<< HEAD
         required(domicilio.localidad, { message: 'La localidad es obligatoria.' });
-=======
-        required(domicilio.localidad);
 
         readonly(domicilio.calle, { when: () => this.esPredeterminada() });
         readonly(domicilio.numero, { when: () => this.esPredeterminada() });
@@ -69,7 +66,6 @@ export class ObraSocialFormulario {
         readonly(domicilio.localidad, { when: () => this.esPredeterminada() });
         readonly(domicilio.piso, { when: () => this.esPredeterminada() });
         readonly(domicilio.depto, { when: () => this.esPredeterminada() });
->>>>>>> 9ad520c769d7fda377b23d5bafa95437fbea4ce8
       })
 
     });

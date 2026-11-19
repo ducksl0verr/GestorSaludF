@@ -40,7 +40,6 @@
                     <span class="etiqueta-predeterminada">Predeterminada</span>
                   } @else {
                     <button [routerLink]="[base, 'obrasSociales', 'editar', obra.id]">Editar</button>
-                    <button (click)="borrarObra(obra.id)">Eliminar</button>
                   }
                   
                   @if (esAdmin) {
