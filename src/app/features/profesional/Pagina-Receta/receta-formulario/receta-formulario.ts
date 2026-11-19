@@ -119,8 +119,6 @@ export class RecetaFormulario implements OnInit {
     const idProfesional = this.idProfesional();
 
     if (idProfesional) {
-      // El nombre viene del endpoint de profesionales (VER_PROFESIONAL);
-      // si solo se dio VER_USUARIO, se usa el endpoint general.
       this.usuarioService.getProfesional(idProfesional).subscribe({
         next: (u) => this.nombreProfesional.set(`${u.nombre} ${u.apellido}`.trim()),
         error: () => this.usuarioService.getUsuario(idProfesional).subscribe({

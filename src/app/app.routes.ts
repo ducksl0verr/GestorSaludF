@@ -49,7 +49,7 @@ export const routes: Routes = [
         path:'login', component: Login, canActivate: [publicoGuard]
     },
     {
-        path:'registrar', component: Registrar
+        path:'registrar', component: Registrar, canActivate: [publicoGuard]
     },
     {
         path: 'olvide-contrasena', component: OlvideContrasena,

@@ -6,6 +6,7 @@ import { Proveedor, ProveedorNuevo } from '../model/Proveedor';
 import { TipoProveedor } from '../enums/TipoProveedor';
 import { Contacto } from '../../contacto/contacto';
 import { ProveedorService } from '../Service/proveedor-service';
+import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 
 @Component({
   imports: [CommonModule, RouterModule, FormField],
@@ -130,7 +131,7 @@ export class ProveedorFormulario {
         });
       },
       error: (e)=>{
-        this.error.set(e.error?.message || 'No se pudo cargar el proveedor.')
+        this.error.set(mensajeDeError(e, 'No se pudo cargar el proveedor.'))
       }});
     }
   }
@@ -156,7 +157,7 @@ export class ProveedorFormulario {
           this.router.navigate([this.base, 'proveedores']);
         },
         error: (e)=> {
-          this.error.set(e.error?.message || 'No se pudo guardar el proveedor.');
+          this.error.set(mensajeDeError(e, 'No se pudo guardar el proveedor.'));
           this.cargando.set(false);
         }
       });
@@ -167,7 +168,7 @@ export class ProveedorFormulario {
           this.router.navigate([this.base, 'proveedores']);
         },
         error: (e)=> {
-          this.error.set(e.error?.message || 'No se pudo guardar el usuario.');
+          this.error.set(mensajeDeError(e, 'No se pudo guardar el proveedor.'));
           this.cargando.set(false);
         }
       });

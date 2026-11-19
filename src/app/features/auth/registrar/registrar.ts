@@ -5,6 +5,7 @@ import { email, form, FormField, maxLength, minLength, pattern, required } from 
 import { AuthService } from '../../../core/services/auth-service';
 import { Router, RouterLink } from '@angular/router';
 import { CuentaNueva, CuentaNuevaPedido } from '../../../core/models/CuentaNueva';
+import { mensajeDeError } from '../../../core/utils/mensaje-error';
 
 @Component({
   imports: [CommonModule, FormField, RouterLink],
@@ -13,8 +14,6 @@ import { CuentaNueva, CuentaNuevaPedido } from '../../../core/models/CuentaNueva
   templateUrl: './registrar.html',
 })
 export class Registrar {
-
-  readonly roles = Object.values(Roles);
 
   usuarioModel = signal<CuentaNueva>({
     nombre: '',
@@ -27,7 +26,7 @@ export class Registrar {
       telefono: ''
     },
     password: '',
-    role: Roles.ROLE_PROFESIONAL
+    role: Roles.ROLE_ADMINISTRADOR
   });
 
   usuarioForm= form(this.usuarioModel, (campo)=>{
@@ -80,11 +79,12 @@ export class Registrar {
     this.cargando.set(true);
     this.error.set('');
 
-    const {matricula, ...resto} = this.usuarioModel();
+    const resto = this.usuarioModel();
 
     const cuenta: CuentaNuevaPedido = {
       ...resto,
-      matricula: matricula.trim() || null,
+      role: Roles.ROLE_ADMINISTRADOR,
+      matricula: null,
     };
 
     this.authS.registrar(cuenta).subscribe({
@@ -94,7 +94,7 @@ export class Registrar {
       },
       error: (e)=>{
         this.error.set(
-          e.error?.message || 'Error al registrar el usuario'
+          mensajeDeError(e, 'Error al crear el administrador')
         );
         this.cargando.set(false);
       }

@@ -9,6 +9,7 @@ import { UsuarioFormModel } from '../models/UsuarioFormModel';
 import { esProfesional } from '../models/Profesional';
 import { Observable } from 'rxjs';
 import { CuentaNuevaPedido } from '../../../../core/models/CuentaNueva';
+import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 
 @Component({
   imports: [CommonModule, RouterModule, FormField],
@@ -19,12 +20,16 @@ import { CuentaNuevaPedido } from '../../../../core/models/CuentaNueva';
 export class UsuarioFormulario {
 
   readonly Roles = Roles;
-  readonly roles = Object.values(Roles);
 
-  
   private uService= inject(UsuarioService);
   private router= inject(Router);
   private route = inject(ActivatedRoute);
+
+  // Los administradores se crean desde /registrar; acá solo se crean
+  // administrativos y profesionales.
+  readonly rolesDisponibles: Roles[] = this.route.snapshot.data['esProfesional'] === true
+    ? [Roles.ROLE_PROFESIONAL]
+    : [Roles.ROLE_ADMINISTRATIVO, Roles.ROLE_PROFESIONAL];
 
   private id = this.route.snapshot.paramMap.get('id');
   esEdicion = this.id !==null;
@@ -40,7 +45,7 @@ export class UsuarioFormulario {
     },
     username: '',
     password: '',
-    role: Roles.ROLE_PROFESIONAL
+    role: this.rolesDisponibles[0]
   });
 
   usuarioForm = form(this.model, (campo)=>{
@@ -141,7 +146,7 @@ export class UsuarioFormulario {
     peticion.subscribe({
       next: () => this.router.navigate(this.rutaLista(esProf)),
       error: (e) => {
-        this.error.set(e.error?.message || 'No se pudo guardar el usuario.');
+        this.error.set(mensajeDeError(e, 'No se pudo guardar el usuario.'));
         this.cargando.set(false);
       },
     });

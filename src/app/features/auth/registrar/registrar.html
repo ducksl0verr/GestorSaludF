@@ -1,8 +1,8 @@
 <div class="registro-contenedor">
 
     <div class="registro">
-        <h1>Crear Usuario</h1>
-        <p>Completé los datos para registraer un nuevo usuario.</p>
+        <h1>Crear Administrador</h1>
+        <p>Completá los datos para registrar un nuevo administrador.</p>
 
         <form (submit)="onSubmit($event)" novalidate>
             <div class="formulario">
@@ -48,16 +48,6 @@
                         <small>{{ e.message }}</small>
                     }
                 }
-            </div>
-
-            <div class="formulario">
-                <label for="matricula">Matrícula (opcional)</label>
-                <input
-                id="matricula"
-                type="text"
-                [formField]="usuarioForm.matricula"
-                placeholder="12345"
-                />
             </div>
 
             <fieldset>
@@ -126,15 +116,6 @@
                 }
             </div>
 
-            <div class="formulario">
-                <label for="role">Rol</label>
-                <select id="role" [formField]="usuarioForm.role">
-                @for (r of roles; track r) {
-                    <option [value]="r">{{ r }}</option>
-                }
-                </select>
-            </div>
-
             @if (error()) {
                 <div class="error-message">
                 {{ error() }}
@@ -146,9 +127,9 @@
                 [disabled]="cargando() || usuarioForm().invalid()"
             >
                 @if (cargando()) {
-                Registrando...
+                Creando...
                 } @else {
-                Crear usuario
+                Crear administrador
                 }
             </button>
             <p>¿Ya tenés una cuenta? <a routerLink="/login">Iniciá sesión.</a></p>
