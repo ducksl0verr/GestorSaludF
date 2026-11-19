@@ -7,6 +7,7 @@ import { Obra_Social } from '../../../public/Pagina-ObraSocial/Model/Obra_Social
 import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obra-social-service';
 import { HistoriaClinicaService } from '../../../profesional/Pagina-HistoriaClinica/services/historia-clinica-services';
 import { mensajeDeError } from '../../../../core/utils/mensaje-error';
+import { AuthService } from '../../../../core/services/auth-service';
 
 @Component({
   imports: [RouterLink],
@@ -26,9 +27,11 @@ export class PacienteDetalle implements OnInit {
     errorHistoria = signal('');
     error = signal('');
     private route = inject(ActivatedRoute);
+    private auth = inject(AuthService);
     private historiaClinicaService = inject(HistoriaClinicaService);
-    protected base = this.route.snapshot.data['base'];  
+    protected base = this.route.snapshot.data['base'];
     protected esVistaProfesional = this.base === '/profesional';
+    protected puedeEditar = this.auth.tienePermiso('EDITAR_PACIENTE');
 
 constructor(private pacienteService: PacienteService, private router: Router,private obraSocialService: ObraSocialService,) {}
 

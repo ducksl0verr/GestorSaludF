@@ -5,6 +5,7 @@ import { Paciente } from '../models/paciente';
 import { PacienteService } from '../services/paciente-service';
 import { Router } from '@angular/router';
 import { mensajeDeError } from '../../../../core/utils/mensaje-error';
+import { AuthService } from '../../../../core/services/auth-service';
 
 @Component({
   imports: [CommonModule, RouterModule],
@@ -30,7 +31,9 @@ pacientesFiltrados = computed(() => {
 });
 
 private route = inject(ActivatedRoute);
-protected base = this.route.snapshot.data['base'];  
+private auth = inject(AuthService);
+protected base = this.route.snapshot.data['base'];
+protected puedeEditar = this.auth.tienePermiso('EDITAR_PACIENTE');  
 
 constructor(private servicioPaciente: PacienteService, private router : Router){}
 

@@ -24,7 +24,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Capacidad máxima</th>
                     <th>Pacientes internados</th>
                     <th>Acciones</th>
@@ -34,7 +33,6 @@
             <tbody>
                 @for (sala of salasFiltradas(); track sala.id) {
                     <tr>
-                        <td>{{ sala.id }}</td>
                         <td>{{ sala.capacidad_maxima }}</td>
                         <td>{{ sala.pacientes?.length ?? 0 }}</td>
                         <td>

@@ -106,9 +106,11 @@
             Atras
         </button>
 
-        <button [routerLink]="[base, 'pacientes', 'editar', p.id]">
-            Editar
-        </button>
+        @if (puedeEditar) {
+            <button [routerLink]="[base, 'pacientes', 'editar', p.id]">
+                Editar
+            </button>
+        }
 
         <button (click)="eliminar(p)">
             Eliminar

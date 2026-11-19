@@ -12,7 +12,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Estado</th>
                     <th>Acciones</th>
@@ -22,7 +21,6 @@
             <tbody>
                 @for (quirofano of quirofanos(); track quirofano.id) {
                     <tr>
-                        <td>{{ quirofano.id }}</td>
                         <td>{{ quirofano.nombre }}</td>
 
                         <td>

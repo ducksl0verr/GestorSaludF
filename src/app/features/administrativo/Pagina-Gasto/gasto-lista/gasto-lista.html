@@ -47,7 +47,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Fecha</th>
                     <th>Descripción</th>
                     <th>Monto</th>
@@ -61,7 +60,6 @@
             <tbody>
                 @for (gasto of gastosFiltrados(); track gasto.id) {
                     <tr>
-                        <td>{{ gasto.id }}</td>
                         <td>{{ gasto.fecha | date:'dd/MM/yyyy' }}</td>
                         <td>{{ gasto.descripcion }}</td>
                         <td>{{ gasto.monto }}</td>
