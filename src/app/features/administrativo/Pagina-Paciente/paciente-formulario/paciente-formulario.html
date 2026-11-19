@@ -141,7 +141,7 @@
         <div class="campo">
             <label>Obra social:</label>
             <select [formField]="pacienteForm.id_obraSocial">
-                <option value="0" disabled>Seleccionar obra social</option>
+                <option value="" disabled>Seleccionar obra social</option>
                 @for (obra of obrasSociales(); track obra.id) {
                     <option [value]="obra.id.toString()">
                         {{ obra.nombre }} — {{ obra.cobertura }}

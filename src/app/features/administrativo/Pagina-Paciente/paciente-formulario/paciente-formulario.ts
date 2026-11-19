@@ -4,12 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PacienteService } from '../services/paciente-service';
 import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obra-social-service';
 import { Obra_Social } from '../../../public/Pagina-ObraSocial/Model/Obra_Social';
-import { email, form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
+import { email, form, FormField, maxLength, min, minLength, required, validate } from '@angular/forms/signals';
 import { RouterModule } from '@angular/router';
 import { PacienteNuevo } from '../models/paciente-nuevo';
 import { PacienteActualizar } from '../models/paciente-actualizar';
 import { Paciente } from '../models/paciente';
 import { mensajeDeError } from '../../../../core/utils/mensaje-error';
+
+/**
+ * Modelo del formulario: los <select> nativos de Angular trabajan siempre con
+ * strings, así que la obra social se guarda como texto y se convierte a número
+ * recién al armar el payload.
+ */
+type PacienteFormularioModelo = Omit<PacienteNuevo, 'id_obraSocial'> & { id_obraSocial: string };
 
 @Component({
   imports: [CommonModule, RouterModule, FormField],
@@ -67,13 +74,13 @@ export class PacienteFormulario implements OnInit{
   private escribir(ruta: string, valor: string): void {
     this.pacienteModel.update(model => {
       if (!ruta.includes('.')) {
-        return { ...model, [ruta]: valor } as PacienteNuevo;
+        return { ...model, [ruta]: valor } as PacienteFormularioModelo;
       }
 
       const [padre, hijo] = ruta.split('.');
       const anidado = { ...(model as Record<string, any>)[padre], [hijo]: valor };
 
-      return { ...model, [padre]: anidado } as PacienteNuevo;
+      return { ...model, [padre]: anidado } as PacienteFormularioModelo;
     });
   }
 
@@ -83,7 +90,7 @@ export class PacienteFormulario implements OnInit{
     private router : Router) {}
 
 
-  pacienteModel  = signal<PacienteNuevo>({
+  pacienteModel  = signal<PacienteFormularioModelo>({
     nombre: '',
     apellido: '',
     fecha_nacimiento: '',
@@ -99,7 +106,7 @@ export class PacienteFormulario implements OnInit{
       provincia: '',
       codigo_postal: '',
     },
-     id_obraSocial: 0,
+     id_obraSocial: '',
         contacto: {
           telefono: '',
           email: ''
@@ -150,7 +157,12 @@ export class PacienteFormulario implements OnInit{
     maxLength(campo.domicilio.depto, 50, {message: 'El departamento no puede superar los 50 caracteres'});
 
     required(campo.id_obraSocial, {message: 'Debe seleccionar una obra social'});
-    min(campo.id_obraSocial, 1, {message: 'Debe seleccionar una obra social'});
+    validate(campo.id_obraSocial, ({ value }) => {
+        const id = Number(value());
+        return id > 0
+            ? null
+            : { kind: 'obraSocialInvalida', message: 'Debe seleccionar una obra social' };
+    });
 
     required(campo.contacto.telefono, {message: 'El teléfono es obligatorio'});
     minLength(campo.contacto.telefono, 7, {message: 'El teléfono debe tener al menos 7 caracteres'});
@@ -194,7 +206,7 @@ export class PacienteFormulario implements OnInit{
                         codigo_postal: data.domicilio.codigo_postal,
 
                     },
-                    id_obraSocial: data.id_obraSocial,
+                    id_obraSocial: String(data.id_obraSocial),
                     contacto: {
                         telefono: data.contacto.telefono,
                         email: data.contacto.email,
@@ -246,7 +258,7 @@ guardarPaciente(): void {
 }
 
 
-private buscarDuplicado(pacientes: Paciente[], datos: PacienteNuevo): string {
+private buscarDuplicado(pacientes: Paciente[], datos: PacienteFormularioModelo): string {
 
     const dni = datos.dni.trim();
     const email = datos.contacto.email.trim().toLowerCase();
@@ -275,7 +287,7 @@ private buscarDuplicado(pacientes: Paciente[], datos: PacienteNuevo): string {
 }
 
 
-private enviarPaciente(datos: PacienteNuevo, domicilio: PacienteNuevo['domicilio']): void {
+private enviarPaciente(datos: PacienteFormularioModelo, domicilio: PacienteFormularioModelo['domicilio']): void {
 
     if (this.id) {
 
@@ -286,7 +298,7 @@ private enviarPaciente(datos: PacienteNuevo, domicilio: PacienteNuevo['domicilio
             dni: datos.dni,
             numeroAfiliado: datos.numeroAfiliado,
             domicilio: domicilio,
-            id_obraSocial: datos.id_obraSocial,
+            id_obraSocial: Number(datos.id_obraSocial),
             contacto: datos.contacto
         };
 
@@ -302,7 +314,11 @@ private enviarPaciente(datos: PacienteNuevo, domicilio: PacienteNuevo['domicilio
 
     } else {
 
-        this.servicioPaciente.registrarPaciente({ ...datos, domicilio: domicilio }).subscribe({
+        this.servicioPaciente.registrarPaciente({
+            ...datos,
+            id_obraSocial: Number(datos.id_obraSocial),
+            domicilio: domicilio
+        }).subscribe({
             next: () => {
                 alert('Paciente registrado correctamente');
                 this.router.navigate([this.base, 'pacientes']);
