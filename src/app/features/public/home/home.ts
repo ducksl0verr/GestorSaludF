@@ -27,19 +27,19 @@ export class Home implements OnInit, OnDestroy {
       descripcion: 'Un Gestor de Salud hospitalario de uso interno para poder facilitar y automatizar el trabajo de los profesionales y administrativos.'
     },
     {
-      imagen: 'images/imagenParaNosotros.jpg',
+      imagen: 'images/medico.jpg',
       alt: 'Profesionales de la salud trabajando',
       titulo: 'Para ayudarte a ayudar',
       descripcion: 'Gestioná pacientes, turnos y medicamentos como un profesional de la salud.'
     },
     {
-      imagen: 'images/logo 1.jpg',
+      imagen: 'images/administrativo.jpg',
       alt: 'Herramientas para el área administrativa',
       titulo: 'Menos papeleo, más salud',
       descripcion: 'Contactá proveedores, gestioná turnos, salas, pagos, profesionales y gastos como un administrativo.'
     },
     {
-      imagen: 'images/imagenParaNosotros.jpg',
+      imagen: 'images/administrador.jpg',
       alt: 'Gestión integral del hospital',
       titulo: 'La gestión total del hospital en un click',
       descripcion: 'Contactá proveedores, gestioná pagos, facturas, gastos, obras sociales y usuarios como el administrador.'
