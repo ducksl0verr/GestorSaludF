@@ -26,6 +26,8 @@
     <dd>{{ u.contacto.telefono }}</dd>
   </dl>
 
-  <a [routerLink]="['/admin/usuarios/editar', u.id]">Editar</a>
+  @if (!esProfesional(u)) {
+    <a [routerLink]="['/admin/usuarios/editar', u.id]">Editar</a>
+  }
   <button type="button" (click)="eliminar(u)">Eliminar</button>
 }

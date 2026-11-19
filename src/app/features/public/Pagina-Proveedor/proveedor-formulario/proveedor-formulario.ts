@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { applyEach, email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
+import { applyEach, disabled, email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Proveedor, ProveedorNuevo } from '../model/Proveedor';
 import { TipoProveedor } from '../enums/TipoProveedor';
@@ -16,6 +16,7 @@ import { mensajeDeError } from '../../../../core/utils/mensaje-error';
 })
 export class ProveedorFormulario {
   proveedorId?: number;
+  readonly esEdicion = signal(false);
   readonly TipoProveedor = TipoProveedor;
   private route= inject(ActivatedRoute);
   
@@ -45,6 +46,7 @@ export class ProveedorFormulario {
 
     required(campo.cuil, { message: 'El cuil es obligatorio.' });
     maxLength(campo.cuil, 11, { message: 'El cuil debe contener maximo 11 digitos.' });
+    disabled(campo.cuil, { when: () => this.esEdicion() });
   
     minLength(campo.direccion, 1, { message: 'El proveedor debe tener al menos un domicilio.'});
 
@@ -70,7 +72,8 @@ export class ProveedorFormulario {
       required(domicilio.localidad);
     })
 
-    required(campo.tipo, { message: 'El proveedor debe tener un tipo.' })
+    required(campo.tipo, { message: 'El proveedor debe tener un tipo.' });
+    disabled(campo.tipo, { when: () => this.esEdicion() });
 
   });
 
@@ -114,6 +117,7 @@ export class ProveedorFormulario {
 
     if(id){
       this.proveedorId = Number(id);
+      this.esEdicion.set(true);
 
       this.pService.getProveedor(this.proveedorId)
         .subscribe({

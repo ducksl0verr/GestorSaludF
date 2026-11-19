@@ -5,12 +5,11 @@
         {{ esProfesional ? 'Listado de profesionales' : 'Listado de usuarios' }}
     </p>
 
-    <button
-        [routerLink]="esProfesional
-            ? ['/admin/profesionales/nuevo']
-            : ['/admin/usuarios/nuevo']">
-        Nuevo {{ esProfesional ? 'profesional' : 'usuario' }}
-    </button>
+    @if (!esProfesional) {
+        <button [routerLink]="['/admin/usuarios/nuevo']">
+            Nuevo usuario
+        </button>
+    }
 
     <div class="buscador">
         <label for="buscar-usuario">Buscar</label>
@@ -37,15 +36,17 @@
                     <p>Matrícula: {{ $any(usuario).matricula }}</p>
                 }
 
-                <button
-                    [routerLink]="[
-                        '/admin',
-                        esProfesional ? 'profesionales' : 'usuarios',
-                        'editar',
-                        usuario.id
-                    ]">
-                    Editar
-                </button>
+                @if (!esProfesional) {
+                    <button
+                        [routerLink]="[
+                            '/admin',
+                            'usuarios',
+                            'editar',
+                            usuario.id
+                        ]">
+                        Editar
+                    </button>
+                }
 
                 <button
                     [routerLink]="[
