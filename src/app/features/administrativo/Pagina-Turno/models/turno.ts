@@ -5,8 +5,8 @@ export interface Turno {
     fechaHora: string;
     estadoFacturacionDeTurno: string;
     estadoTurno: EstadoTurno;
-    id_paciente: number;
-    id_tratamiento: number;
-    id_consultorio: number;
-    id_profesional: number;
+    nombrePaciente: string;
+    nombreTratamiento: string;
+    nombreConsultorio: string;
+    nombreProfesional: string;
 }

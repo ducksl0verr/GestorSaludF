@@ -54,6 +54,10 @@
         </span>
     </div>
 
+    @if (mensajeAccion()) {
+        <p class="mensaje">{{ mensajeAccion() }}</p>
+    }
+
     @if (cargando()) {
 
         <p>Cargando turnos...</p>
@@ -72,10 +76,10 @@
                     <th>Fecha y hora</th>
                     <th>Estado del turno</th>
                     <th>Estado de facturación</th>
-                    <th>ID Paciente</th>
-                    <th>ID Tratamiento</th>
-                    <th>ID Consultorio</th>
-                    <th>ID Profesional</th>
+                    <th>Paciente</th>
+                    <th>Tratamiento</th>
+                    <th>Consultorio</th>
+                    <th>Profesional</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -87,14 +91,32 @@
                         <td>{{ turno.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
                         <td>{{ turno.estadoTurno }}</td>
                         <td>{{ turno.estadoFacturacionDeTurno }}</td>
-                        <td>{{ turno.id_paciente }}</td>
-                        <td>{{ turno.id_tratamiento }}</td>
-                        <td>{{ turno.id_consultorio }}</td>
-                        <td>{{ turno.id_profesional }}</td>
+                        <td>{{ turno.nombrePaciente }}</td>
+                        <td>{{ turno.nombreTratamiento }}</td>
+                        <td>{{ turno.nombreConsultorio }}</td>
+                        <td>{{ turno.nombreProfesional }}</td>
                         <td>
-                            <button (click)="editarTurno(turno.id)">
-                                Editar
-                            </button>
+                            @if (esVistaProfesional) {
+                                <!-- El profesional no puede editar: solo cambia el estado. -->
+                                <select
+                                    [disabled]="turno.estadoTurno === 'CANCELADO' || turno.estadoTurno === 'FINALIZADO'"
+                                    (change)="cambiarEstado(turno, $any($event.target).value); $any($event.target).value = ''"
+                                    aria-label="Cambiar estado del turno">
+                                    <option value="" disabled selected>Cambiar estado</option>
+                                    <option value="CANCELADO">CANCELADO</option>
+                                    <option value="FINALIZADO">FINALIZADO</option>
+                                </select>
+                            } @else {
+                                <button [routerLink]="[base, 'turnos', turno.id]">
+                                    Ver ficha
+                                </button>
+                                <button (click)="editarTurno(turno.id)">
+                                    Reprogramar
+                                </button>
+                                <button (click)="eliminarTurno(turno)">
+                                    Eliminar
+                                </button>
+                            }
                         </td>
                     </tr>
                 }

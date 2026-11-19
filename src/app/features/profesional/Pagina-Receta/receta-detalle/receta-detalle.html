@@ -45,6 +45,13 @@
 
       </div>
 
+      @if (r.descripcion) {
+        <div class="dato descripcion-receta">
+          <span>Descripción</span>
+          <p>{{ r.descripcion }}</p>
+        </div>
+      }
+
       <div class="separador"></div>
 
       <h3>Medicamentos recetados</h3>

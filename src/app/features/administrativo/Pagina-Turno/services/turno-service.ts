@@ -4,6 +4,8 @@ import { Turno } from "../models/turno";
 import { TurnoNuevo } from "../models/turno-nuevo";
 import { TurnoActualizar } from "../models/turno-actualizar";
 import { TurnoFacturable } from "../models/turno-facturable";
+import { EstadoTurno } from "../models/estado-turno";
+import { DisponibilidadTurno } from "../models/disponibilidad-turno";
 
 @Injectable({
     providedIn: 'root'
@@ -33,9 +35,27 @@ export class TurnoService {
         return this.http.post<Turno>(this.API_URL, turno);
     }
 
+    cambiarEstadoTurno(id: number, estado: EstadoTurno) {
+        return this.http.patch<Turno>(`${this.API_URL}/${id}/estado`, { estado });
+    }
+
+    verificarDisponibilidad(fechaHora: string,
+                            idProfesional: number,
+                            idConsultorio: number,
+                            idExcluido?: number) {
+        return this.http.get<DisponibilidadTurno>(`${this.API_URL}/disponibilidad`, {
+            params: {
+                fechaHora,
+                idProfesional: idProfesional.toString(),
+                idConsultorio: idConsultorio.toString(),
+                ...(idExcluido ? { idExcluido: idExcluido.toString() } : {})
+            }
+        });
+    }
+
     eliminarTurno(id: number) {
-    return this.http.delete<void>(`${this.API_URL}/${id}`);
-}
+        return this.http.delete<void>(`${this.API_URL}/${id}`);
+    }
 
     getTurnosFacturables(idPaciente: number) {
         return this.http.get<TurnoFacturable[]>(

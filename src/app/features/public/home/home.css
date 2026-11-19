@@ -1,11 +1,204 @@
-#logo {
+.carrusel {
+    position: relative;
+    max-width: 1440px;
+    min-height: 520px;
+    margin: 0 auto;
+    padding: clamp(28px, 4vw, 60px) clamp(20px, 4vw, 52px);
     display: grid;
-    place-items: center;
-    width: 100%;
+    align-items: center;
 }
 
-#logo img {
+.slide {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: clamp(24px, 4vw, 64px);
+    animation: aparecer 0.35s ease-out;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-orange);
+    color: var(--od-white);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0 0 1rem;
+    color: var(--od-teal);
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+p {
+    margin: 0 0 1.75rem;
+    max-width: 620px;
+    color: var(--od-muted);
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.7;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.botones a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 1.4rem;
+    border: 2px solid transparent;
+    border-radius: var(--od-btn-radius);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.botones a:hover {
+    transform: translateY(-2px);
+}
+
+.btn-registrar {
+    background-color: var(--od-teal);
+    color: var(--od-white);
+}
+
+.btn-registrar:hover {
+    background-color: var(--od-teal-dark);
+}
+
+.btn-ingresar {
+    border-color: var(--od-orange) !important;
+    background-color: transparent;
+    color: var(--od-orange);
+}
+
+.btn-ingresar:hover {
+    background-color: var(--od-orange);
+    color: var(--od-white);
+}
+
+.imagen {
+    display: grid;
+    place-items: center;
+}
+
+.imagen img {
     display: block;
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border: 4px solid var(--od-amber);
+    border-radius: var(--od-radius);
+    background-color: var(--od-white);
+    box-shadow: var(--od-shadow);
+}
+
+.flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border: 2px solid var(--od-orange);
+    border-radius: 50%;
+    background-color: var(--od-white);
+    color: var(--od-orange);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--od-shadow-soft);
+}
+
+.flecha:hover {
+    background-color: var(--od-orange-dark);
+    color: var(--od-white);
+}
+
+.anterior {
+    left: clamp(8px, 2vw, 26px);
+}
+
+.siguiente {
+    right: clamp(8px, 2vw, 26px);
+}
+
+.puntos {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    display: flex;
+    gap: 10px;
+    transform: translateX(-50%);
+}
+
+.puntos button {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 2px solid var(--od-teal);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.puntos button.activo {
+    background-color: var(--od-orange);
+    border-color: var(--od-orange);
+    transform: scale(1.25);
+}
+
+@media (max-width: 860px) {
+    .slide {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .botones,
+    p {
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .imagen img {
+        max-height: 280px;
+    }
+
+    .flecha {
+        width: 38px;
+        height: 38px;
+        font-size: 1.4rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide,
+    .botones a,
+    .puntos button {
+        animation: none;
+        transition: none;
+    }
 }

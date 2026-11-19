@@ -1,4 +1,4 @@
-<h2>{{ esEdicion ? 'Editar usuario' : 'Nuevo usuario' }}</h2>
+<h2>{{ esEdicion ? 'Editar usuario' : (rolesDisponibles.length === 1 ? 'Nuevo profesional' : 'Nuevo usuario') }}</h2>
 
 <form (submit)="onSubmit($event)" novalidate>
   <div>
@@ -31,7 +31,7 @@
     <div>
       <label for="role">Rol</label>
       <select id="role" [formField]="usuarioForm.role">
-        @for (r of roles; track r) { <option [value]="r">{{ r }}</option> }
+        @for (r of rolesDisponibles; track r) { <option [value]="r">{{ r }}</option> }
       </select>
     </div>
   }

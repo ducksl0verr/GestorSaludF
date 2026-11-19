@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
-import { FormField, form, required, min, applyEach, disabled } from '@angular/forms/signals';
+import { FormField, form, required, min, maxLength, applyEach, disabled } from '@angular/forms/signals';
 
 import { RecetaService } from '../services/receta-services';
 import { RecetaNueva } from '../model/receta';
@@ -46,6 +46,7 @@ export class RecetaFormulario implements OnInit {
   modelo = signal<RecetaNueva>({
     id_paciente: 0,
     id_profesional: 0,
+    descripcion: '',
     detalles: [
       {
         dosis: '',
@@ -60,6 +61,11 @@ export class RecetaFormulario implements OnInit {
 
     min(schema.id_paciente, 1);
     min(schema.id_profesional, 1);
+
+    // La descripción es opcional, pero no puede superar los 200 caracteres.
+    maxLength(schema.descripcion, 200, {
+      message: 'La descripción no puede superar los 200 caracteres.'
+    });
 
     // Ambos IDs se completan automáticamente: no se pueden editar a mano.
     disabled(schema.id_paciente, { when: () => this.pacientePrecargado() });
@@ -113,8 +119,6 @@ export class RecetaFormulario implements OnInit {
     const idProfesional = this.idProfesional();
 
     if (idProfesional) {
-      // El nombre viene del endpoint de profesionales (VER_PROFESIONAL);
-      // si solo se dio VER_USUARIO, se usa el endpoint general.
       this.usuarioService.getProfesional(idProfesional).subscribe({
         next: (u) => this.nombreProfesional.set(`${u.nombre} ${u.apellido}`.trim()),
         error: () => this.usuarioService.getUsuario(idProfesional).subscribe({

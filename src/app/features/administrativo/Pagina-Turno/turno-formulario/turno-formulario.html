@@ -1,7 +1,7 @@
 
 <div class="contenedor">
 
-    <h2>{{ turnoId() ? 'Editar turno' : 'Registrar turno' }}</h2>
+    <h2>{{ turnoId() ? 'Reprogramar turno' : 'Registrar turno' }}</h2>
 
     @if (error()) {
 
@@ -13,13 +13,27 @@
 
     <form (submit)="$event.preventDefault(); guardarTurno()">
 
-        <!-- FECHA Y HORA -->
+        <!-- FECHA Y HORARIO (SEPARADOS) -->
         <div class="campo">
-            <label>Fecha y hora:</label>
+            <label>Fecha:</label>
             <input
-                type="datetime-local"
-                [formField]="turnoForm.fechaHora"
+                type="date"
+                [min]="fechaMinima"
+                [max]="fechaMaxima"
+                [formField]="turnoForm.fecha"
             >
+            <small>Permitido desde {{ fechaMinima }} hasta {{ fechaMaxima }}</small>
+        </div>
+
+        <div class="campo">
+            <label>Horario:</label>
+            <select [formField]="turnoForm.hora">
+                <option value="" disabled>Seleccionar horario</option>
+                @for (hora of horasDisponibles; track hora) {
+                    <option [value]="hora">{{ hora }}</option>
+                }
+            </select>
+            <small>Horarios disponibles de 08:00 a 20:00</small>
         </div>
 
         @if (!turnoId()) {
@@ -41,9 +55,9 @@
             </div>
 
             <div class="campo">
-                <label>Tratamiento:</label>
+                <label>Tratamiento (opcional):</label>
                 <select [formField]="turnoForm.id_tratamiento">
-                    <option value="0" disabled>Seleccionar tratamiento</option>
+                    <option value="0">Sin tratamiento (consulta)</option>
                     @for (tratamiento of tratamientos(); track tratamiento.id) {
                         <option [value]="tratamiento.id.toString()">
                             {{ tratamiento.nombre }}
@@ -94,9 +108,17 @@
 
         }
 
+        @if (verificando()) {
+            <p class="verificando">Verificando disponibilidad...</p>
+        }
+
+        @if (conflicto()) {
+            <p class="advertencia">{{ conflicto() }}</p>
+        }
+
         <div class="acciones">
-            <button type="submit">
-                {{ turnoId() ? 'Guardar cambios' : 'Registrar turno' }}
+            <button type="submit" [disabled]="!!conflicto() || verificando()">
+                {{ turnoId() ? 'Reprogramar turno' : 'Registrar turno' }}
             </button>
 
             <button type="button" [routerLink]="[base, 'turnos']">
