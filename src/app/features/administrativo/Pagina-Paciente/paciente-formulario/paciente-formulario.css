@@ -1,0 +1,21 @@
+/* Mensajes de error debajo de cada campo */
+.campo .error-campo {
+    color: var(--od-danger);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Borde rojo en los campos inválidos que ya fueron tocados */
+.campo input.ng-invalid.ng-touched,
+.campo select.ng-invalid.ng-touched {
+    border-color: var(--od-danger);
+    box-shadow: 0 0 0 3px rgba(163, 52, 31, 0.12);
+}
+
+/* Aviso cuando el paciente no tiene obra social */
+.ayuda-obra-social {
+    margin-top: -4px;
+    color: var(--od-muted);
+    font-size: 0.88rem;
+}

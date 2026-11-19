@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PacienteService } from '../services/paciente-service';
 import { ObraSocialService } from '../../../public/Pagina-ObraSocial/Service/obra-social-service';
 import { Obra_Social } from '../../../public/Pagina-ObraSocial/Model/Obra_Social';
-import { email, form, FormField, maxLength, min, minLength, required, validate } from '@angular/forms/signals';
+import { email, form, FormField, maxLength, minLength, required, validate } from '@angular/forms/signals';
 import { RouterModule } from '@angular/router';
 import { PacienteNuevo } from '../models/paciente-nuevo';
 import { PacienteActualizar } from '../models/paciente-actualizar';
@@ -17,6 +17,9 @@ import { mensajeDeError } from '../../../../core/utils/mensaje-error';
  * recién al armar el payload.
  */
 type PacienteFormularioModelo = Omit<PacienteNuevo, 'id_obraSocial'> & { id_obraSocial: string };
+
+/** Nombre de la obra social que representa "no tiene cobertura". */
+const NOMBRE_SIN_OBRA_SOCIAL = 'sin obra social';
 
 @Component({
   imports: [CommonModule, RouterModule, FormField],
@@ -31,6 +34,7 @@ export class PacienteFormulario implements OnInit{
   protected base = this.route.snapshot.data['base'];
 
   error = signal('');
+  avisoValidacion = signal('');
 
   obrasSociales = signal<Obra_Social[]>([]);
 
@@ -95,7 +99,7 @@ export class PacienteFormulario implements OnInit{
     apellido: '',
     fecha_nacimiento: '',
     dni: '',
-    numeroAfiliado: 0,
+    numeroAfiliado: null,
     domicilio:
     {
       calle: '',
@@ -114,28 +118,93 @@ export class PacienteFormulario implements OnInit{
   })
 
 
+  /**
+   * True cuando la obra social elegida es la fila "Sin obra social".
+   * En ese caso el número de afiliado no es obligatorio.
+   */
+  esSinObraSocial = computed(() => {
+    const id = this.pacienteModel().id_obraSocial;
+    if (!id) return false;
+
+    const obra = this.obrasSociales().find(o => String(o.id) === id);
+    return this.esSinObraSocialNombre(obra?.nombre);
+  });
+
+  esSinObraSocialNombre(nombre: string | null | undefined): boolean {
+    return (nombre ?? '').trim().toLowerCase() === NOMBRE_SIN_OBRA_SOCIAL;
+  }
+
+
   pacienteForm = form(this.pacienteModel,(campo) => {
 
     required(campo.nombre, {message: 'El nombre es obligatorio'});
     minLength(campo.nombre, 3, {message: 'El nombre debe tener al menos 3 caracteres'});
     maxLength(campo.nombre, 50, {message: 'El nombre no puede superar los 50 caracteres'});
+    validate(campo.nombre, ({ value }) =>
+        value().trim().length > 0
+            ? null
+            : { kind: 'nombreVacio', message: 'El nombre no puede estar vacío' });
 
     required(campo.apellido, {message: 'El apellido es obligatorio'});
     minLength(campo.apellido, 3, {message: 'El apellido debe tener al menos 3 caracteres'});
     maxLength(campo.apellido, 50, {message: 'El apellido no puede superar los 50 caracteres'});
+    validate(campo.apellido, ({ value }) =>
+        value().trim().length > 0
+            ? null
+            : { kind: 'apellidoVacio', message: 'El apellido no puede estar vacío' });
 
     required(campo.fecha_nacimiento, {message: 'La fecha de nacimiento es obligatoria'});
+    validate(campo.fecha_nacimiento, ({ value }) => {
+        const fecha = value();
+        if (!fecha) return null;
+
+        const hoy = new Date();
+        const hoyISO = [
+            hoy.getFullYear(),
+            String(hoy.getMonth() + 1).padStart(2, '0'),
+            String(hoy.getDate()).padStart(2, '0'),
+        ].join('-');
+
+        return fecha > hoyISO
+            ? { kind: 'fechaFutura', message: 'La fecha de nacimiento no puede ser futura' }
+            : null;
+    });
 
     required(campo.dni, {message: 'El DNI es obligatorio'});
     minLength(campo.dni, 7, {message: 'El DNI debe tener al menos 7 caracteres'});
     maxLength(campo.dni, 20, {message: 'El DNI no puede superar los 20 caracteres'});
 
-    required(campo.numeroAfiliado, {message: 'El número de afiliado es obligatorio'});
-    min(campo.numeroAfiliado, 1, {message: 'El número de afiliado debe ser mayor a cero'});
+    validate(campo.numeroAfiliado, ({ value }) => {
+        if (this.esSinObraSocial()) {
+            return null;
+        }
+
+        const numero = value();
+
+        if (numero === null || numero === undefined) {
+            return {
+                kind: 'afiliadoRequerido',
+                message: 'El número de afiliado es obligatorio si el paciente tiene obra social',
+            };
+        }
+
+        if (!Number.isInteger(numero) || numero < 1) {
+            return {
+                kind: 'afiliadoInvalido',
+                message: 'El número de afiliado debe ser un número entero mayor a cero',
+            };
+        }
+
+        return null;
+    });
 
     required(campo.domicilio.calle, {message: 'La calle es obligatoria'});
     minLength(campo.domicilio.calle, 3, {message: 'La calle debe tener al menos 3 caracteres'});
     maxLength(campo.domicilio.calle, 50, {message: 'La calle no puede superar los 50 caracteres'});
+    validate(campo.domicilio.calle, ({ value }) =>
+        value().trim().length > 0
+            ? null
+            : { kind: 'calleVacia', message: 'La calle no puede estar vacía' });
 
     required(campo.domicilio.numero, {message: 'El número es obligatorio'});
     minLength(campo.domicilio.numero, 1, {message: 'El número debe tener al menos 1 carácter'});
@@ -144,10 +213,18 @@ export class PacienteFormulario implements OnInit{
     required(campo.domicilio.localidad, {message: 'La localidad es obligatoria'});
     minLength(campo.domicilio.localidad, 3, {message: 'La localidad debe tener al menos 3 caracteres'});
     maxLength(campo.domicilio.localidad, 50, {message: 'La localidad no puede superar los 50 caracteres'});
+    validate(campo.domicilio.localidad, ({ value }) =>
+        value().trim().length > 0
+            ? null
+            : { kind: 'localidadVacia', message: 'La localidad no puede estar vacía' });
 
     required(campo.domicilio.provincia, {message: 'La provincia es obligatoria'});
     minLength(campo.domicilio.provincia, 3, {message: 'La provincia debe tener al menos 3 caracteres'});
     maxLength(campo.domicilio.provincia, 50, {message: 'La provincia no puede superar los 50 caracteres'});
+    validate(campo.domicilio.provincia, ({ value }) =>
+        value().trim().length > 0
+            ? null
+            : { kind: 'provinciaVacia', message: 'La provincia no puede estar vacía' });
 
     required(campo.domicilio.codigo_postal, {message: 'El código postal es obligatorio'});
     minLength(campo.domicilio.codigo_postal, 4, {message: 'El código postal debe tener al menos 4 caracteres'});
@@ -195,7 +272,7 @@ export class PacienteFormulario implements OnInit{
                     apellido: data.apellido,
                     fecha_nacimiento: data.fecha_nacimiento,
                     dni: data.dni,
-                    numeroAfiliado: data.numeroAfiliado,
+                    numeroAfiliado: data.numeroAfiliado ?? null,
                     domicilio: {
                         calle: data.domicilio.calle,
                         piso: data.domicilio.piso ?? '',
@@ -206,7 +283,7 @@ export class PacienteFormulario implements OnInit{
                         codigo_postal: data.domicilio.codigo_postal,
 
                     },
-                    id_obraSocial: String(data.id_obraSocial),
+                    id_obraSocial: data.id_obraSocial != null ? String(data.id_obraSocial) : '',
                     contacto: {
                         telefono: data.contacto.telefono,
                         email: data.contacto.email,
@@ -227,9 +304,12 @@ guardarPaciente(): void {
 
     if (this.pacienteForm().invalid()) {
         this.pacienteForm().markAsTouched();
+        this.avisoValidacion.set('Revisá los campos marcados en rojo.');
+        this.enfocarPrimerError();
         return;
     }
 
+    this.avisoValidacion.set('');
     this.error.set('');
 
     const datos = this.pacienteModel();
@@ -283,11 +363,31 @@ private buscarDuplicado(pacientes: Paciente[], datos: PacienteFormularioModelo):
         return `Ya existe un paciente con este teléfono: ${datos.contacto.telefono}`;
     }
 
+    if (!this.esSinObraSocial() && datos.numeroAfiliado != null) {
+        const afiliadoRepetido = pacientes.some(p =>
+            p.id !== this.id && p.numeroAfiliado === datos.numeroAfiliado
+        );
+        if (afiliadoRepetido) {
+            return `Ya existe un paciente con este número de afiliado: ${datos.numeroAfiliado}`;
+        }
+    }
+
     return '';
 }
 
 
+private enfocarPrimerError(): void {
+    setTimeout(() => {
+        const campo = document.querySelector<HTMLElement>('.campo .ng-invalid');
+        campo?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        campo?.focus();
+    });
+}
+
+
 private enviarPaciente(datos: PacienteFormularioModelo, domicilio: PacienteFormularioModelo['domicilio']): void {
+
+    const numeroAfiliado = this.esSinObraSocial() ? null : datos.numeroAfiliado;
 
     if (this.id) {
 
@@ -296,7 +396,7 @@ private enviarPaciente(datos: PacienteFormularioModelo, domicilio: PacienteFormu
             apellido: datos.apellido,
             fecha_nacimiento: datos.fecha_nacimiento,
             dni: datos.dni,
-            numeroAfiliado: datos.numeroAfiliado,
+            numeroAfiliado: numeroAfiliado,
             domicilio: domicilio,
             id_obraSocial: Number(datos.id_obraSocial),
             contacto: datos.contacto
@@ -316,6 +416,7 @@ private enviarPaciente(datos: PacienteFormularioModelo, domicilio: PacienteFormu
 
         this.servicioPaciente.registrarPaciente({
             ...datos,
+            numeroAfiliado: numeroAfiliado,
             id_obraSocial: Number(datos.id_obraSocial),
             domicilio: domicilio
         }).subscribe({

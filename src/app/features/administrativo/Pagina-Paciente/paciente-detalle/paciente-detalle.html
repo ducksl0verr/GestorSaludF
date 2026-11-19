@@ -15,7 +15,7 @@
             <p><strong>Apellido:</strong> {{ p.apellido }}</p>
             <p><strong>DNI:</strong> {{ p.dni }}</p>
             <p><strong>Fecha de nacimiento:</strong> {{ p.fecha_nacimiento }}</p>
-            <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado }}</p>
+            <p><strong>Número de afiliado:</strong> {{ p.numeroAfiliado ?? 'No informado' }}</p>
         </section>
 
         @if (esVistaProfesional) {
@@ -89,7 +89,9 @@
         <section>
     <h3>Obra social</h3>
 
-    @if (obraSocial(); as obra) {
+    @if (esSinObraSocial()) {
+        <p>Sin obra social.</p>
+    } @else if (obraSocial(); as obra) {
         <p><strong>Nombre:</strong> {{ obra.nombre }}</p>
         <p><strong>Cobertura:</strong> {{ obra.cobertura }}</p>
     } @else {
