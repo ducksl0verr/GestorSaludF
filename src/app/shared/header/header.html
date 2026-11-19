@@ -7,15 +7,22 @@
                 <img src="images/us.png" alt="Nosotros">
                 <span class="etiqueta-icono">Nosotros</span>
             </a>
-            <a routerLink="/registrar" class="icono" aria-label="Crear Administrador" title="Crear Administrador">
-                <img id="curita" src="images/curita.png" alt="Crear Administrador">
-                <span class="etiqueta-icono">Crear Administrador</span>
-            </a>
             
+                <a routerLink="/registrar" class="icono" aria-label="Crear Administrador" title="Crear Administrador">
+                    <img id="curita" src="images/curita.png" alt="Crear Administrador">
+                    <span class="etiqueta-icono">Crear Administrador</span>
+                </a>
+            @if (estaAutenticado()) {
+                <a routerLink="/perfil" class="icono" aria-label="Mi perfil" title="Mi perfil">
+                    <img src="images/image.png" alt="Mi perfil">
+                    <span class="etiqueta-icono">Mi perfil</span>
+                </a>
+            } @else {
             <a routerLink="/login" class="icono" aria-label="Iniciar Sesión" title="Iniciar Sesión">
                 <img src="images/image.png" alt="Iniciar Sesión">
                 <span class="etiqueta-icono">Iniciar Sesión</span>
             </a>
+            }
         </div>
     </nav>
 </header>

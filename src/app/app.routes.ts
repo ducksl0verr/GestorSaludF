@@ -60,6 +60,11 @@ export const routes: Routes = [
         component: RestablecerContrasena
     },
     {
+        path: 'perfil',
+        loadComponent: () => import('./features/admin/Pagina-Usuarios/perfil/perfil').then(m => m.Perfil),
+        canActivate: [authGuard]
+    },
+    {
         path: 'admin', 
         loadComponent: ()=> import('./layouts/admin-layout/admin-layout').then((m)=> m.AdminLayout),
         canActivate: [authGuard, roleGuard],

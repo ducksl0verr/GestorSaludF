@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth-service';
 
 @Component({
   imports: [RouterLink],
@@ -7,4 +8,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.css',
   templateUrl: './header.html',
 })
-export class Header {}
+export class Header {
+  private auth = inject(AuthService);
+
+  estaAutenticado(): boolean {
+    return this.auth.estaAutenticado();
+  }
+}

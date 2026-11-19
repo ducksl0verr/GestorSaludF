@@ -1,0 +1,50 @@
+<section class="perfil">
+  <h2>Mi perfil</h2>
+
+  @if (cargando()) {
+    <p>Cargando perfil...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (usuario(); as u) {
+    <dl class="perfil-datos">
+      <div class="dato">
+        <dt>Nombre</dt>
+        <dd>{{ u.nombre }}</dd>
+      </div>
+
+      <div class="dato">
+        <dt>Apellido</dt>
+        <dd>{{ u.apellido }}</dd>
+      </div>
+
+      <div class="dato">
+        <dt>DNI</dt>
+        <dd>{{ u.dni }}</dd>
+      </div>
+
+      <div class="dato">
+        <dt>Rol</dt>
+        <dd>{{ u.role }}</dd>
+      </div>
+
+      @if (esProfesional(u)) {
+        <div class="dato">
+          <dt>Matrícula</dt>
+          <dd>{{ u.matricula }}</dd>
+        </div>
+      }
+
+      <div class="dato">
+        <dt>Email</dt>
+        <dd>{{ u.contacto.email }}</dd>
+      </div>
+
+      <div class="dato">
+        <dt>Teléfono</dt>
+        <dd>{{ u.contacto.telefono }}</dd>
+      </div>
+    </dl>
+
+    <a class="volver" [routerLink]="inicioUrl">Volver al inicio</a>
+  }
+</section>
