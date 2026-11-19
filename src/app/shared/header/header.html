@@ -1,8 +1,17 @@
 <header>
     <nav>
-        <p routerLink="/" id="nombre">Oh, Doctor!</p>
-        <img src="images/us.png" routerLink="/nosotros">
-        <img src="images/curita.png" routerLink="/registrar">
-        <img src="images/image.png" routerLink="/login">
+        <a routerLink="/" id="nombre">Oh, Doctor!</a>
+
+        <div class="iconos">
+            <a routerLink="/nosotros" class="icono" aria-label="Nosotros" title="Nosotros">
+                <img src="images/us.png" alt="Nosotros">
+            </a>
+            <a routerLink="/registrar" class="icono" aria-label="Registrar usuario nuevo" title="Registrar usuario nuevo">
+                <img src="images/curita.png" alt="Registrar usuario nuevo">
+            </a>
+            <a routerLink="/login" class="icono" aria-label="Iniciar sesión" title="Iniciar sesión">
+                <img src="images/image.png" alt="Iniciar sesión">
+            </a>
+        </div>
     </nav>
 </header>

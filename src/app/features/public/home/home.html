@@ -1,5 +1,42 @@
-<div id="logo">
-    <img src="images/logo 1.jpg"
-    alt="Dibujito"> <!--La imagen se tiene que cambiar, hice esto rápido
-    para que se entienda qué va a haber xd-->
-</div>
+<section class="carrusel" aria-label="Novedades de Oh, Doctor!">
+
+  @for (slide of slides; track slide.titulo; let i = $index) {
+    @if (i === indice()) {
+      <article class="slide">
+
+        <div class="contenido">
+          <span class="etiqueta">Oh, Doctor!</span>
+          <h1>{{ slide.titulo }}</h1>
+          <p>{{ slide.descripcion }}</p>
+
+          <div class="botones">
+            <a routerLink="/registrar" class="btn-registrar">Registrar usuario nuevo</a>
+            <a routerLink="/login" class="btn-ingresar">Iniciar sesión</a>
+          </div>
+        </div>
+
+        <div class="imagen">
+          <img [src]="slide.imagen" [alt]="slide.alt">
+        </div>
+
+      </article>
+    }
+  }
+
+  @if (slides.length > 1) {
+    <button type="button" class="flecha anterior" (click)="anterior()" aria-label="Slide anterior">&#8249;</button>
+    <button type="button" class="flecha siguiente" (click)="siguiente()" aria-label="Slide siguiente">&#8250;</button>
+
+    <div class="puntos">
+      @for (slide of slides; track slide.titulo; let i = $index) {
+        <button
+          type="button"
+          [class.activo]="i === indice()"
+          [attr.aria-label]="'Ir al slide ' + (i + 1)"
+          (click)="irA(i)">
+        </button>
+      }
+    </div>
+  }
+
+</section>

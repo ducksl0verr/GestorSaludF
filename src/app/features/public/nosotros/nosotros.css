@@ -1,16 +1,58 @@
-img{
-    height: 400px;
-    width: 1540px;
-    border: 4px solid #e0a526;
+#main {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 56px) clamp(20px, 4vw, 52px);
 }
 
-.linea{
-    background-color: #8fbdb8;
-    color:#8fbdb8;
+#imagen img {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 32vw, 420px);
+    object-fit: cover;
+    border: 4px solid var(--od-amber);
+    border-radius: var(--od-radius);
+    box-shadow: var(--od-shadow);
+}
 
+#texto {
+    padding-top: clamp(28px, 4vw, 52px);
+}
+
+#texto section {
+    margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-orange);
+    color: var(--od-white);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+h2 {
+    margin: 0 0 0.8rem;
+    color: var(--od-teal);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.15;
+}
+
+.linea {
+    width: 90px;
     height: 6px;
+    margin-bottom: 1.25rem;
+    border-radius: var(--od-btn-radius);
+    background-color: var(--od-aqua);
 }
 
-#texto{
-    padding: 30px;
+p {
+    max-width: 1000px;
+    margin: 0 0 1rem;
+    color: var(--od-text);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.8;
 }
