@@ -8,13 +8,69 @@
 
     <form (submit)="$event.preventDefault(); guardar()">
 
+        @if (id === null) {
+            <div class="campo">
+                <label for="idPaciente">Paciente:</label>
+
+                <select
+                    id="idPaciente"
+                    [formField]="pagoForm.idPaciente"
+                    (change)="seleccionarPaciente($event)">
+                    <option value="0" disabled>Seleccionar paciente</option>
+                    @for (paciente of pacientes(); track paciente.id) {
+                        <option [value]="paciente.id.toString()">
+                            {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
+                        </option>
+                    }
+                </select>
+
+                @if (pagoForm.idPaciente().invalid() && pagoForm.idPaciente().touched()) {
+                    <p class="error">Debe seleccionar un paciente.</p>
+                }
+            </div>
+
+            <section>
+                <h3>Turnos por pagar</h3>
+
+                @for (turno of turnosFacturables(); track turno.id_turno) {
+                    <label>
+                        <input
+                            type="checkbox"
+                            [checked]="pagoModel().idsTurnos.includes(turno.id_turno)"
+                            (change)="agregarTurno(turno.id_turno, $event)">
+
+                        {{ turno.fechaHora }} - {{ turno.tratamiento }} - ${{ turno.monto }}
+                    </label>
+                } @empty {
+                    <p>
+                        @if (pagoModel().idPaciente !== '0') {
+                            No hay turnos por pagar para el paciente seleccionado.
+                        } @else {
+                            Seleccione un paciente para ver sus turnos por pagar.
+                        }
+                    </p>
+                }
+
+                @if (pagoForm.idsTurnos().invalid() && pagoForm.idsTurnos().touched()) {
+                    <p class="error">Debe seleccionar al menos un turno para pagar.</p>
+                }
+            </section>
+        }
+
         <div class="campo">
             <label for="monto">Monto:</label>
 
             <input
                 id="monto"
                 type="number"
+                step="0.01"
                 [formField]="pagoForm.monto">
+
+            @if (id === null) {
+                <button type="button" (click)="actualizarMonto()">
+                    Usar total de los turnos seleccionados (${{ totalSeleccionado() }})
+                </button>
+            }
 
             @if (pagoForm.monto().invalid() && pagoForm.monto().touched()) {
                 <p class="error">El monto debe ser mayor a cero.</p>
@@ -22,34 +78,20 @@
         </div>
 
         <div class="campo">
-            <label for="fecha">Fecha y hora:</label>
+            @if (id === null) {
+                <p><strong>Fecha y hora:</strong> {{ pagoModel().fecha.replace('T', ' ') }}</p>
+                <small>Se registra automáticamente con la fecha y hora actuales.</small>
+            } @else {
+                <label for="fecha">Fecha y hora:</label>
 
-            <input
-                id="fecha"
-                type="datetime-local"
-                [formField]="pagoForm.fecha">
+                <input
+                    id="fecha"
+                    type="datetime-local"
+                    [formField]="pagoForm.fecha">
 
-            @if (pagoForm.fecha().invalid() && pagoForm.fecha().touched()) {
-                <p class="error">La fecha es obligatoria.</p>
-            }
-        </div>
-
-        <div class="campo">
-            <label>Pacientes:</label>
-
-            @for (paciente of pacientes(); track paciente.id) {
-                <label>
-                    <input
-                        type="checkbox"
-                        [checked]="pagoModel().idsPacientes.includes(paciente.id)"
-                        (change)="agregarPaciente(paciente.id, $event)">
-
-                    {{ paciente.nombre }} {{ paciente.apellido }} - DNI {{ paciente.dni }}
-                </label>
-            }
-
-            @if (pagoForm.idsPacientes().invalid() && pagoForm.idsPacientes().touched()) {
-                <p class="error">Debe seleccionar al menos un paciente.</p>
+                @if (pagoForm.fecha().invalid() && pagoForm.fecha().touched()) {
+                    <p class="error">La fecha es obligatoria.</p>
+                }
             }
         </div>
 
