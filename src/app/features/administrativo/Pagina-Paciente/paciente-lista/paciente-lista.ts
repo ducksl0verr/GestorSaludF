@@ -33,7 +33,8 @@ pacientesFiltrados = computed(() => {
 private route = inject(ActivatedRoute);
 private auth = inject(AuthService);
 protected base = this.route.snapshot.data['base'];
-protected puedeEditar = this.auth.tienePermiso('EDITAR_PACIENTE');  
+protected puedeEditar = this.auth.tienePermiso('EDITAR_PACIENTE');
+protected puedeEliminar = this.auth.tienePermiso('ELIMINAR_PACIENTE');
 
 constructor(private servicioPaciente: PacienteService, private router : Router){}
 

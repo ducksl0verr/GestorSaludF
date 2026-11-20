@@ -112,9 +112,11 @@
             </button>
         }
 
-        <button (click)="eliminar(p)">
-            Eliminar
-        </button>
+        @if (puedeEliminar) {
+            <button (click)="eliminar(p)">
+                Eliminar
+            </button>
+        }
 
     } @else {
         <p>No se encontró el paciente.</p>

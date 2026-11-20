@@ -32,6 +32,7 @@ export class PacienteDetalle implements OnInit {
     protected base = this.route.snapshot.data['base'];
     protected esVistaProfesional = this.base === '/profesional';
     protected puedeEditar = this.auth.tienePermiso('EDITAR_PACIENTE');
+    protected puedeEliminar = this.auth.tienePermiso('ELIMINAR_PACIENTE');
 
 constructor(private pacienteService: PacienteService, private router: Router,private obraSocialService: ObraSocialService,) {}
 

@@ -14,7 +14,9 @@
                     Precio: {{ tr.precio }}
                 </p>
                 <button [routerLink]="[base, 'tratamientos', 'editar', tr.id]">Editar</button>
-                <button (click)="borrarTratamiento(tr.id)">Eliminar</button>
+                @if (puedeEliminar) {
+                    <button (click)="borrarTratamiento(tr.id)">Eliminar</button>
+                }
             </li>
         }
     </ul>

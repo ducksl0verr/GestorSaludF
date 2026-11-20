@@ -3,6 +3,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Tratamiento } from '../Model/Tratamiento';
 import { TratamientoService } from '../Service/tratamiento-service';
+import { AuthService } from '../../../../core/services/auth-service';
+import { Roles } from '../../../auth/enums/Roles';
 
 @Component({
   imports: [RouterModule, CommonModule],
@@ -16,6 +18,8 @@ export class TratamientoLista {
   
   private route = inject(ActivatedRoute);
   protected base = this.route.snapshot.data['base'];   //Esta cosa es para poder tener rutas dinamicas
+  private auth = inject(AuthService);
+  protected puedeEliminar = this.auth.getRol() !== Roles.ROLE_PROFESIONAL;
 
   constructor(
       private tService: TratamientoService
